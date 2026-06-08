@@ -138,7 +138,7 @@
         .external-link { font-size: 0.75rem; font-weight: 600; color: #000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; align-self: center; margin-top: auto; }
 
         /* WEDDING PARTY TREE ARCHITECTURE */
-        .tree-container { max-width: 1100px; margin: 0 auto; text-align: center; }
+        .tree-container { max-width: 1100px; margin: 0 auto; text-align: center; position: relative; }
         
         /* Member Card Base */
         .party-member { display: inline-flex; flex-direction: column; align-items: center; margin: 15px; vertical-align: top; width: 160px; }
@@ -153,7 +153,7 @@
         .tree-crown { margin-bottom: 3rem; position: relative; }
         .tree-crown::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
         
-        .tree-split { display: flex; justify-content: space-around; gap: 40px; position: relative; }
+        .tree-split { display: flex; justify-content: space-around; gap: 40px; position: relative; margin-bottom: 2rem; }
         .tree-column { width: 50%; position: relative; }
         .tree-column::before { content: ''; display: block; width: 60%; height: 1px; background-color: #E0E0E0; position: absolute; top: -1px; }
         .groom-side::before { right: 0; }
@@ -165,20 +165,21 @@
         .family-tier { margin-bottom: 2.5rem; position: relative; }
         .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
 
-        .attendants-tier { margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; }
-        .attendants-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; width: 100%; height: 30px; clear: both; display: flex; justify-content: center; align-items: center; margin-top: 15px; }
-        .tree-column .attendants-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
+        .attendants-tier { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; }
 
-        .hosts-tier { display: flex; justify-content: center; }
+        /* SHARED CORE HOSTS BLOCK STYLING */
+        .hosts-section-wrapper { margin-top: 4rem; position: relative; border-top: 1px solid #E0E0E0; padding-top: 3rem; }
+        .hosts-section-wrapper::before { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); }
+        .hosts-tier-heading { font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: 3px; text-transform: uppercase; color: #000000; margin-bottom: 1.5rem; }
 
         @media (max-width: 768px) { 
-            .tree-split { flex-direction: column; gap: 50px; }
+            .tree-split { flex-direction: column; gap: 50px; margin-bottom: 0; }
             .tree-column { width: 100%; }
-            .tree-column::before, .tree-crown::after, .side-heading::after, .family-tier::after, .tree-column .attendants-tier::after { display: none; }
+            .tree-column::before, .tree-crown::after, .side-heading::after, .family-tier::after, .hosts-section-wrapper::before { display: none; }
             .party-member { width: 130px; margin: 10px; }
             .circle-avatar { width: 75px; height: 75px; }
             .member-name { font-size: 0.85rem; }
-            .attendants-tier { margin-bottom: 0; }
+            .hosts-section-wrapper { margin-top: 3rem; padding-top: 2rem; }
         }
         
         /* SPOTIFY CONTAINER STYLING */
@@ -467,14 +468,6 @@
                             <div class="member-role">Groomsman</div>
                         </div>
                     </div>
-
-                    <div class="hosts-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Kirshen Pillay</div>
-                            <div class="member-role">Wedding Host</div>
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="tree-column bride-side">
@@ -520,17 +513,23 @@
                             <div class="member-role">Bridesmaid</div>
                         </div>
                     </div>
-
-                    <div class="hosts-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Jay Pillay</div>
-                            <div class="member-role">Wedding Host</div>
-                        </div>
-                    </div>
                 </div>
-                
             </div>
+
+            <div class="hosts-section-wrapper">
+                <h4 class="hosts-tier-heading">Our Hosts</h4>
+                <div class="party-member">
+                    <div class="circle-avatar"><img src="" alt=""></div>
+                    <div class="member-name">Kirshen Pillay</div>
+                    <div class="member-role">Wedding Host</div>
+                </div>
+                <div class="party-member">
+                    <div class="circle-avatar"><img src="" alt=""></div>
+                    <div class="member-name">Jay Pillay</div>
+                    <div class="member-role">Wedding Host</div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -562,7 +561,7 @@
                     <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
                     <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
                     <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
+                    <tr><td><strong>R20 000.000</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
                 </tbody>
             </table>
 
