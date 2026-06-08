@@ -55,20 +55,13 @@
         .text-white .italic { color: #CCCCCC; }
         .dress-code { text-align: center; letter-spacing: 1px; margin-bottom: 3rem; font-size: 0.95rem; text-transform: uppercase; }
 
-        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 2rem; }
-        @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 2.2rem; } }
-        .details-card { border: 1px solid #E0E0E0; padding: 40px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
-        .details-card h3 { font-size: 1.2rem; margin-bottom: 1.5rem; }
-
-        .venue-main { font-weight: 600; margin-bottom: 5px; }
-        .venue-name { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-        .venue-address { font-size: 0.9rem; color: #555; margin-bottom: 1.5rem; line-height: 1.4; }
-        .location-link { display: inline-block; font-size: 0.8rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; margin-top: auto; align-self: center; transition: all 0.3s ease; }
+        /* VENUE ONLY SPECIFIC DESIGN */
+        .venue-full-card { border: 1px solid #E0E0E0; max-width: 600px; margin: 0 auto; padding: 50px 40px; text-align: center; }
+        .venue-main { font-weight: 600; margin-bottom: 8px; font-size: 1.1rem; }
+        .venue-name { font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+        .venue-address { font-size: 0.95rem; color: #555; margin-bottom: 2rem; line-height: 1.5; }
+        .location-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; }
         .location-link:hover { color: #888888; border-color: #888888; }
-
-        .timeline-list { list-style: none; text-align: left; max-width: 300px; margin: 0 auto; }
-        .timeline-list li { margin-bottom: 15px; font-size: 0.9rem; }
-        .timeline-list li span { font-weight: 600; margin-right: 15px; font-family: 'Cinzel', serif; }
 
         /* ACCOMMODATION STYLING */
         .accommodation-container { max-width: 600px; margin: 3rem auto 0 auto; border: 1px solid #000000; padding: 40px; text-align: center; }
@@ -130,28 +123,20 @@
     </header>
 
     <section id="details" class="section containment bg-white">
-        <h2>THE DETAILS</h2>
+        <h2>VENUE DETAILS</h2>
         <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
         
-        <div class="details-grid">
-            <div class="details-card">
-                <h3>WHEN &amp; WHERE</h3>
-                <p class="venue-main">Sunday, 25 April 2027</p>
-                <p class="venue-name">Gecko Ridge Wedding Venue</p>
-                <p class="venue-address">70 Gecko Ridge Road, Mooiplaas,<br>Pretoria, 0065</p>
-                <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="location-link">View Location on Google Maps →</a>
-            </div>
-            
-            <div id="timeline" class="details-card">
-                <h3>THE TIMELINE</h3>
-                <ul class="timeline-list">
-                    <li><span>14:00</span> Arrival &amp; Welcome</li>
-                    <li><span>14:30</span> The Ceremony</li>
-                    <li><span>16:00</span> Canapés &amp; Drinks</li>
-                    <li><span>18:00</span> Reception Dinner</li>
-                </ul>
-            </div>
+        <div class="venue-full-card">
+            <p class="venue-main">Sunday, 25 April 2027</p>
+            <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
+            <p class="venue-address">70 Gecko Ridge Road, Mooiplaas,<br>Pretoria, 0065</p>
+            <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="location-link">View Location on Google Maps →</a>
         </div>
+    </section>
+
+    <section id="timeline" class="section containment bg-light-grey">
+        <h2>WEDDING DAY TIMELINE</h2>
+        <p class="center-text italic">Our official itinerary is currently being structured with love to ensure a spectacular celebration. The fine-tuned sequence of events will be revealed right here closer to our special day.</p>
     </section>
 
     <section id="rsvp" class="section containment bg-black text-white">
@@ -189,7 +174,7 @@
     </section>
 
     <section id="registry" class="section containment bg-light-grey">
-        <h2>SOWING INTO OUR LIVES</h2>
+        <h2>GIFT REGISTRY</h2>
         <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates will be added here shortly.</p>
         <div class="registry-placeholder">
             <p><em>Our formal gift registry is currently being curated with love and will be live here soon.</em></p>
