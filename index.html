@@ -6,7 +6,7 @@
     <title>Jarrod &amp; Telicia | 25.04.2027</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght=300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         /* RESET & BASE */
@@ -69,6 +69,15 @@
         .timeline-list { list-style: none; text-align: left; max-width: 300px; margin: 0 auto; }
         .timeline-list li { margin-bottom: 15px; font-size: 0.9rem; }
         .timeline-list li span { font-weight: 600; margin-right: 15px; font-family: 'Cinzel', serif; }
+
+        /* ACCOMMODATION STYLING */
+        .accommodation-container { max-width: 600px; margin: 3rem auto 0 auto; border: 1px solid #000000; padding: 40px; text-align: center; }
+        .accommodation-container h3 { font-size: 1.3rem; margin-bottom: 5px; }
+        .badge-onsite { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; background-color: #000000; color: #FFFFFF; padding: 4px 12px; margin-bottom: 1.5rem; }
+        .accommodation-details { font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
+        .contact-box { border-top: 1px solid #E0E0E0; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; }
+        .contact-box a { color: #000000; font-weight: 600; text-decoration: none; transition: color 0.3s ease; }
+        .contact-box a:hover { color: #888888; }
 
         /* BUTTONS */
         .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
@@ -162,7 +171,21 @@
 
     <section id="accommodation" class="section containment bg-white">
         <h2>ACCOMMODATION</h2>
-        <p class="center-text">For our out-of-town loved ones, curated local boutique stays and reservation guides are being compiled to ensure your comfort.</p>
+        <p class="center-text">To ensure your total comfort and safety on our celebration night, luxury boutique lodging is available directly on the property grounds.</p>
+        
+        <div class="accommodation-container">
+            <h3>GECKO RIDGE GUESTHOUSE</h3>
+            <div class="badge-onsite">On-Site Accommodation</div>
+            <p class="accommodation-details">
+                A selection of elegant rooms and suites are available exclusively for wedding attendees. We highly recommend booking well in advance to secure your stay directly at the venue grounds.
+            </p>
+            <div class="contact-box">
+                <p><strong>Reservations &amp; Enquiries:</strong></p>
+                <p>Tel: <a href="tel:+27825582319">082 558 2319</a></p>
+                <p>Email: <a href="mailto:info@geckoridge.co.za">info@geckoridge.co.za</a></p>
+                <p class="italic" style="font-size: 0.8rem; margin-top: 5px;">Kindly mention the <strong>Jarrod &amp; Telicia Wedding</strong> when finalizing your reservation.</p>
+            </div>
+        </div>
     </section>
 
     <section id="registry" class="section containment bg-light-grey">
