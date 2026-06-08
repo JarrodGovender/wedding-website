@@ -160,8 +160,6 @@
         
         .family-tier { display: flex; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; position: relative; }
         .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); }
-        
-        /* Using a precise grid sequence layout to anchor matching rows across sides */
         .attendants-tier { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); justify-items: center; justify-content: center; gap: 15px; position: relative; }
 
         /* SHARED CORE HOSTS BLOCK STYLING */
@@ -446,17 +444,20 @@
                 <div class="tree-column groom-side">
                     <div class="side-heading">The Groom's Lineage</div>
                     
+                    <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Nithian</div>
+                            <div class="member-role">Father</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Jerelene</div>
+                            <div class="member-role">Mother</div>
+                        </div>
+                    </div>
+                    
                     <div class="family-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Nithian Govender</div>
-                            <div class="member-role">Father of the Groom</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Jerelene Govender</div>
-                            <div class="member-role">Mother of the Groom</div>
-                        </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Drystan Govender</div>
@@ -501,17 +502,20 @@
                 <div class="tree-column bride-side">
                     <div class="side-heading">The Bride's Lineage</div>
                     
+                    <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Seelan</div>
+                            <div class="member-role">Father</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Teena</div>
+                            <div class="member-role">Mother</div>
+                        </div>
+                    </div>
+                    
                     <div class="family-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Seelan Govender</div>
-                            <div class="member-role">Father of the Bride</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Teena Govender</div>
-                            <div class="member-role">Mother of the Bride</div>
-                        </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Theesen Govender</div>
@@ -622,7 +626,7 @@
                     <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
                     <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
                     <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.000</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
+                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
                 </tbody>
             </table>
 
