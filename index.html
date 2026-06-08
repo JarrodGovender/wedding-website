@@ -136,6 +136,45 @@
         .external-distance { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #777; margin-bottom: 12px; }
         .external-desc { font-size: 0.85rem; color: #555; margin-bottom: 1.5rem; line-height: 1.4; }
         .external-link { font-size: 0.75rem; font-weight: 600; color: #000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; align-self: center; margin-top: auto; }
+
+        /* WEDDING PARTY TREE ARCHITECTURE */
+        .tree-container { max-width: 1100px; margin: 0 auto; text-align: center; }
+        
+        /* Member Card Base */
+        .party-member { display: inline-flex; flex-direction: column; align-items: center; margin: 15px; vertical-align: top; width: 160px; }
+        .circle-avatar { width: 85px; height: 85px; border-radius: 50%; background-color: #EBF0F1; border: 1px solid #D0D3D4; margin-bottom: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease; position: relative; }
+        .circle-avatar::before { content: 'PHOTO'; }
+        .circle-avatar img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        .member-name { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; text-transform: uppercase; }
+        .member-role { font-size: 0.75rem; color: #7F8C8D; text-transform: uppercase; letter-spacing: 1px; }
+        .text-white .member-role { color: #BDC3C7; }
+
+        /* Tree Structural Branches */
+        .tree-crown { margin-bottom: 3rem; position: relative; }
+        .tree-crown::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
+        
+        .tree-split { display: flex; justify-content: space-around; gap: 40px; position: relative; }
+        .tree-column { width: 50%; position: relative; }
+        .tree-column::before { content: ''; display: block; width: 60%; height: 1px; background-color: #E0E0E0; position: absolute; top: -1px; }
+        .groom-side::before { right: 0; }
+        .bride-side::before { left: 0; }
+        
+        .side-heading { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; color: #7F8C8D; margin-bottom: 1.5rem; position: relative; }
+        .side-heading::after { content: ''; display: block; width: 2px; height: 20px; background-color: #E0E0E0; margin: 10px auto 0 auto; }
+        
+        .family-tier { margin-bottom: 2.5rem; position: relative; }
+        .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
+        
+        .attendants-tier { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+        @media (max-width: 768px) { 
+            .tree-split { flex-direction: column; gap: 50px; }
+            .tree-column { width: 100%; }
+            .tree-column::before, .tree-crown::after, .side-heading::after, .family-tier::after { display: none; }
+            .party-member { width: 130px; margin: 10px; }
+            .circle-avatar { width: 75px; height: 75px; }
+            .member-name { font-size: 0.85rem; }
+        }
         
         @media (max-width: 768px) { .external-grid { grid-template-columns: 1fr; } }
 
@@ -186,6 +225,7 @@
             <a href="#dresscode" onclick="toggleMenu()">Dress Code</a>
             <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
             <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
+            <a href="#party" onclick="toggleMenu()">Wedding Party</a>
             <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
             <a href="#bartab" onclick="toggleMenu()">Bar Tab</a>
             <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
@@ -220,7 +260,7 @@
 
     <header id="home" class="hero">
         <div class="hero-content">
-            <h1>JARROD & Telicia</h1>
+            <h1>JARROD &amp; TELICIA</h1>
             <p class="subtitle">SAVE THE DATE</p>
             <div class="date-badge">25 . 04 . 2027</div>
             
@@ -243,6 +283,8 @@
 
     <section id="details" class="section containment bg-light-grey">
         <h2>VENUE DETAILS</h2>
+        <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
+        
         <div class="venue-full-card" style="background-color: #FFFFFF;">
             <p class="venue-main">Sunday, 25 April 2027</p>
             <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
@@ -286,7 +328,7 @@
                 <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
             </div>
 
-            <div class="table-title">Riverview Hall Rooms & Rates (On-Site)</div>
+            <div class="table-title">Riverview Hall Rooms &amp; Rates (On-Site)</div>
             <table class="room-table">
                 <thead>
                     <tr>
@@ -310,7 +352,7 @@
             </table>
 
             <div class="room-notes">
-                <strong>Booking Parameters & Inclusions:</strong>
+                <strong>Booking Parameters &amp; Inclusions:</strong>
                 <ul>
                     <li>All room allocations natively include complimentary breakfast for guests.</li>
                     <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
@@ -356,7 +398,121 @@
         </div>
     </section>
 
-    <section id="registry" class="section containment bg-white">
+    <section id="party" class="section containment bg-white">
+        <h2>MEET THE WEDDING PARTY</h2>
+        <p class="center-text">Introducing the remarkable family members and cherished inner circle standing alongside us as we lock in our forever.</p>
+        
+        <div class="tree-container">
+            <div class="tree-crown">
+                <div class="party-member">
+                    <div class="circle-avatar"><img src="" alt=""></div>
+                    <div class="member-name">Jarrod</div>
+                    <div class="member-role">The Groom</div>
+                </div>
+                <div class="party-member">
+                    <div class="circle-avatar"><img src="" alt=""></div>
+                    <div class="member-name">Telicia</div>
+                    <div class="member-role">The Bride</div>
+                </div>
+            </div>
+            
+            <div class="tree-split">
+                
+                <div class="tree-column groom-side">
+                    <div class="side-heading">The Groom's Lineage</div>
+                    
+                    <div class="family-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groom's Father</div>
+                            <div class="member-role">Father of the Groom</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groom's Mother</div>
+                            <div class="member-role">Mother of the Groom</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groom's Sibling</div>
+                            <div class="member-role">Groom's Sibling</div>
+                        </div>
+                    </div>
+                    
+                    <div class="attendants-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Best Man</div>
+                            <div class="member-role">Best Man</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groomsman 1</div>
+                            <div class="member-role">Groomsman</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groomsman 2</div>
+                            <div class="member-role">Groomsman</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Groomsman 3</div>
+                            <div class="member-role">Groomsman</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tree-column bride-side">
+                    <div class="side-heading">The Bride's Lineage</div>
+                    
+                    <div class="family-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bride's Father</div>
+                            <div class="member-role">Father of the Bride</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bride's Mother</div>
+                            <div class="member-role">Mother of the Bride</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bride's Sibling</div>
+                            <div class="member-role">Bride's Sibling</div>
+                        </div>
+                    </div>
+                    
+                    <div class="attendants-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Maid of Honour</div>
+                            <div class="member-role">Maid of Honour</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bridesmaid 1</div>
+                            <div class="member-role">Bridesmaid</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bridesmaid 2</div>
+                            <div class="member-role">Bridesmaid</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Bridesmaid 3</div>
+                            <div class="member-role">Bridesmaid</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="registry" class="section containment bg-light-grey">
         <h2>GIFT REGISTRY</h2>
         <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates will be added here shortly.</p>
         <div class="registry-placeholder">
@@ -384,7 +540,7 @@
                     <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
                     <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
                     <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
+                    <tr><td><strong>R20 000.000</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
                 </tbody>
             </table>
 
