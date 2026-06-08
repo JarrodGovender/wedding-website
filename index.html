@@ -165,24 +165,22 @@
         .family-tier { margin-bottom: 2.5rem; position: relative; }
         .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
 
-        .hosts-tier { margin-bottom: 2.5rem; position: relative; }
-        .hosts-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
-        
-        .attendants-tier { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .attendants-tier { margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; }
+        .attendants-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; width: 100%; height: 30px; clear: both; display: flex; justify-content: center; align-items: center; margin-top: 15px; }
+        .tree-column .attendants-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
+
+        .hosts-tier { display: flex; justify-content: center; }
 
         @media (max-width: 768px) { 
             .tree-split { flex-direction: column; gap: 50px; }
             .tree-column { width: 100%; }
-            .tree-column::before, .tree-crown::after, .side-heading::after, .family-tier::after, .hosts-tier::after { display: none; }
+            .tree-column::before, .tree-crown::after, .side-heading::after, .family-tier::after, .tree-column .attendants-tier::after { display: none; }
             .party-member { width: 130px; margin: 10px; }
             .circle-avatar { width: 75px; height: 75px; }
             .member-name { font-size: 0.85rem; }
+            .attendants-tier { margin-bottom: 0; }
         }
         
-        @media (max-width: 768px) { .external-grid { grid-template-columns: 1fr; } }
-
-        .accommodation-action, .bartab-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
-
         /* SPOTIFY CONTAINER STYLING */
         .spotify-wrapper { max-width: 500px; margin: 0 auto; border: 1px solid #E0E0E0; padding: 15px; background-color: #F9F9F9; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 
@@ -441,14 +439,6 @@
                             <div class="member-role">Groom's Sibling</div>
                         </div>
                     </div>
-
-                    <div class="hosts-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Kirshen Pillay</div>
-                            <div class="member-role">Wedding Host</div>
-                        </div>
-                    </div>
                     
                     <div class="attendants-tier">
                         <div class="party-member">
@@ -477,6 +467,14 @@
                             <div class="member-role">Groomsman</div>
                         </div>
                     </div>
+
+                    <div class="hosts-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Kirshen Pillay</div>
+                            <div class="member-role">Wedding Host</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="tree-column bride-side">
@@ -497,14 +495,6 @@
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Bride's Sibling</div>
                             <div class="member-role">Bride's Sibling</div>
-                        </div>
-                    </div>
-
-                    <div class="hosts-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Jay Pillay</div>
-                            <div class="member-role">Wedding Host</div>
                         </div>
                     </div>
                     
@@ -528,6 +518,14 @@
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Bridesmaid 3</div>
                             <div class="member-role">Bridesmaid</div>
+                        </div>
+                    </div>
+
+                    <div class="hosts-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Jay Pillay</div>
+                            <div class="member-role">Wedding Host</div>
                         </div>
                     </div>
                 </div>
@@ -564,7 +562,7 @@
                     <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
                     <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
                     <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.000</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
+                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
                 </tbody>
             </table>
 
@@ -651,7 +649,6 @@
             document.getElementById("sidebarMenu").classList.toggle("open");
         }
 
-        // CONTROL APPARATUS FOR DRESS CODE INSPO MODAL OVERLAY
         function toggleInspoModal() {
             document.getElementById("inspoModal").classList.toggle("active");
         }
