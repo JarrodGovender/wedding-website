@@ -89,6 +89,16 @@
         .close-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #FFFFFF; font-size: 2rem; cursor: pointer; z-index: 2100; }
         .rsvp-iframe { width: 100%; height: 100%; border: none; }
 
+        /* INTERACTIVE FAQ ACCORDION STYLING */
+        .faq-wrapper { max-width: 750px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid #E0E0E0; padding: 20px 0; }
+        .faq-question { font-family: 'Cinzel', serif; font-size: 1.05rem; letter-spacing: 1px; width: 100%; text-align: left; background: none; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 10px 0; font-weight: 400; transition: color 0.3s ease; }
+        .faq-question:hover { color: #888888; }
+        .faq-icon { font-size: 1.2rem; font-weight: 300; transition: transform 0.3s ease; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1); padding-right: 30px; color: #555555; font-size: 0.95rem; }
+        .faq-item.active .faq-answer { max-height: 200px; margin-top: 15px; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
         /* REGISTRY & PLACEHOLDERS */
         .registry-placeholder { text-align: center; margin-top: 2rem; color: #777777; font-size: 0.9rem; }
     </style>
@@ -206,7 +216,37 @@
 
     <section id="faq" class="section containment bg-white">
         <h2>FAQ</h2>
-        <p class="center-text">Have questions regarding transport, kids, or coordinates? Our comprehensive interactive event guide will populate right here shortly.</p>
+        <p class="center-text">Find answers to immediate questions regarding our celebration details below.</p>
+        
+        <div class="faq-wrapper">
+            <div class="faq-item">
+                <button class="faq-question">Can I bring a plus-one?<span class="faq-icon">+</span></button>
+                <div class="faq-answer">
+                    <p>Due to capacity limitations at our venue, we are only able to accommodate the specific names listed on your digital RSVP configuration. Thank you for your understanding.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Are children invited?<span class="faq-icon">+</span></button>
+                <div class="faq-answer">
+                    <p>We love your little ones, but our wedding will be an adult-only celebration. We hope you can use this night to let your hair down and celebrate elegantly with us.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Is there secure parking at Gecko Ridge?<span class="faq-icon">+</span></button>
+                <div class="faq-answer">
+                    <p>Yes. The venue offers completely free, secure, guarded private parking inside the estate parameters for all vehicles attending the celebration.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">By when should I submit my RSVP?<span class="faq-icon">+</span></button>
+                <div class="faq-answer">
+                    <p>To help us finalize catering, floor layouts, and seating logistics with the coordinators, we kindly request all responses be submitted closer to the time. Official deadlines will be posted here soon.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <a href="#home" class="home-floating-btn" title="Back to Home" aria-label="Scroll to home">&#8593;</a>
@@ -219,6 +259,14 @@
         function toggleModal() {
             document.getElementById("rsvpModal").classList.toggle("active");
         }
+
+        // FAQ ACCORDION LOGIC
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('active');
+            });
+        });
 
         const targetDate = new Date("April 25, 2027 14:00:00").getTime();
         const countdownInterval = setInterval(function() {
