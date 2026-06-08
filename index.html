@@ -176,6 +176,17 @@
         .copy-btn { background-color: #000000; color: #FFFFFF; border: 1px solid #000000; padding: 6px 14px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
         .copy-btn:hover { background-color: #FFFFFF; color: #000000; }
 
+        /* CONCIERGE TRAVEL GUIDE GRID SYSTEM */
+        .guide-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 1.5rem; }
+        .guide-column-box { background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 30px 25px; text-align: left; }
+        .guide-column-box h3 { font-family: 'Cinzel', serif; font-size: 1.15rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; text-align: left; border-bottom: 1px solid #000000; padding-bottom: 5px; color: #000000; }
+        .guide-item-entry { margin-bottom: 1.5rem; }
+        .guide-item-entry:last-of-type { margin-bottom: 0; }
+        .guide-spot-title { font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; display: block; }
+        .guide-spot-desc { font-size: 0.85rem; color: #555555; line-height: 1.5; }
+
+        @media (max-width: 992px) { .guide-container { grid-template-columns: 1fr; gap: 20px; } }
+
         @media (max-width: 768px) { 
             .tree-split { flex-direction: column; gap: 50px; margin-bottom: 0; }
             .tree-column { width: 100%; }
@@ -241,6 +252,7 @@
             <a href="#bartab" onclick="toggleMenu()">Bar Tab</a>
             <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
             <a href="#songs" onclick="toggleMenu()">Song Requests</a>
+            <a href="#guide" onclick="toggleMenu()">Local Guide</a>
             <a href="#faq" onclick="toggleMenu()">FAQ</a>
         </div>
     </nav>
@@ -558,7 +570,7 @@
             </div>
             <div class="registry-row">
                 <span class="registry-label">Account Nickname</span>
-                <span class="registry-value">J&amp;T Wedding 2027</span>
+                <span class="registry-value">J&T Wedding 2027</span>
             </div>
             <div class="registry-row">
                 <span class="registry-label">Account Type</span>
@@ -636,7 +648,50 @@
         </div>
     </section>
 
-    <section id="faq" class="section containment bg-light-grey">
+    <section id="guide" class="section containment bg-light-grey">
+        <h2>LOCAL GUIDE</h2>
+        <p class="center-text">Since Freedom Day follows on Tuesday, we highly recommend extending your stay and exploring these top-tier spots in the Pretoria East area during your long weekend.</p>
+        
+        <div class="guide-container">
+            <div class="guide-column-box">
+                <h3>Cafés &amp; Breakfast</h3>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">The Greenhouse Café</span>
+                    <p class="guide-spot-desc">A stunning, architecturally minimalist glasshouse setting nearby. Renowned for curated artisanal breakfasts, high-end coffee, and immersive views of the valley landscape.</p>
+                </div>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">Rosemary Hill Café</span>
+                    <p class="guide-spot-desc">A beautiful organic country kitchen located just minutes from our venue estate. Exceptional freshly baked goods, light lunches, and premium coffee parameters.</p>
+                </div>
+            </div>
+
+            <div class="guide-column-box">
+                <h3>Leisure &amp; Trails</h3>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">Rosemary Hill Trails</span>
+                    <p class="guide-spot-desc">Boasts over 30km of perfectly manicured, scenic paths for morning trail walks, jogging, or mountain biking winding through beautiful farmland and forests.</p>
+                </div>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">Silver Lakes Golf Club</span>
+                    <p class="guide-spot-desc">A premier championship golf destination nearby. Features an immaculate Peter Matkovich-designed course, comprehensive practice facilities, and a fine lakeside clubhouse layout.</p>
+                </div>
+            </div>
+
+            <div class="guide-column-box">
+                <h3>Premium Dining</h3>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">Fermier Restaurant</span>
+                    <p class="guide-spot-desc">A highly celebrated fine-dining culinary theater in Pretoria East. Features an exceptional sustainable multi-course tasting menu focused entirely on organic farming pipelines.</p>
+                </div>
+                <div class="guide-item-entry">
+                    <span class="guide-spot-title">Blos Café</span>
+                    <p class="guide-spot-desc">A massive, beautifully designed modern industrial space. Perfect for a relaxed Monday lunch, offering a comprehensive grill selection, craft beers, and wine cellars.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section containment bg-white">
         <h2>FAQ</h2>
         <p class="center-text">Find answers to immediate questions regarding our celebration details below.</p>
         
