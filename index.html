@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarrod & Telicia | 25.04.2027</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for Editorial Serif and Clean Sans-Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>JARROD & TELICIA</h1>
+            <p class="subtitle">SAVE THE DATE</p>
+            <div class="date-badge">25 . 04 . 2027</div>
+            
+            <!-- COUNTDOWN -->
+            <div id="countdown" class="countdown-container">
+                <div class="time-block"><span id="days">00</span><p>Days</p></div>
+                <div class="time-block"><span id="hours">00</span><p>Hours</p></div>
+                <div class="time-block"><span id="minutes">00</span><p>Mins</p></div>
+                <div class="time-block"><span id="seconds">00</span><p>Secs</p></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROGRAMME & LOCATION -->
+    <section class="section containment bg-white">
+        <h2>THE DETAILS</h2>
+        <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
+        
+        <div class="details-grid">
+            <div class="details-card">
+                <h3>WHEN & WHERE</h3>
+                <p>Sunday, 25 April 2027</p>
+                <p>[Insert Venue Name Here]</p>
+                <p>[Insert Venue Address Here]</p>
+            </div>
+            <div class="details-card">
+                <h3>THE TIMELINE</h3>
+                <ul class="timeline-list">
+                    <li><span>14:00</span> Arrival & Welcome</li>
+                    <li><span>14:30</span> The Ceremony</li>
+                    <li><span>16:00</span> Canapés & Drinks</li>
+                    <li><span>18:00</span> Reception Dinner</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP & BAR TAB -->
+    <section class="section containment bg-black text-white">
+        <h2>REGISTRATION & BAR</h2>
+        <p class="center-text">To help us finalize arrangements, please confirm your attendance and menu preferences below.</p>
+        
+        <div class="action-buttons">
+            <!-- Replace # with your free Tally.so or Google Form link -->
+            <a href="#" target="_blank" class="btn btn-white">RSVP & SELECT MENU</a>
+            <!-- Replace # with the venue's direct bar payment link -->
+            <a href="#" target="_blank" class="btn btn-outline-white">PURCHASE BAR VOUCHERS</a>
+        </div>
+    </section>
+
+    <!-- CONTRIBUTIONS & REGISTRY -->
+    <section class="section containment bg-white">
+        <h2>SOWING INTO OUR LIVES</h2>
+        <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our details are below:</p>
+        
+        <div class="bank-card">
+            <p><strong>Bank:</strong> [Your Bank Name]</p>
+            <p><strong>Account Number:</strong> [Your Account Number]</p>
+            <p><strong>Branch Code:</strong> [Your Branch Code]</p>
+            <p><strong>Reference:</strong> Your Name & Surname</p>
+        </div>
+
+        <div class="registry-placeholder">
+            <p><em>Our formal gift registry is currently being curated with love and will be live here soon.</em></p>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN SCRIPT -->
+    <script>
+        const targetDate = new Date("April 25, 2027 14:00:00").getTime();
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+            document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+            document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+            document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+
+            if (difference < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "<p class='celebrate'>The Big Day is Here!</p>";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
