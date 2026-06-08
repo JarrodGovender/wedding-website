@@ -11,7 +11,26 @@
 </head>
 <body>
 
-    <header class="hero">
+    <button class="menu-trigger" onclick="toggleMenu()" aria-label="Toggle Menu">
+        <span class="menu-line"></span>
+        <span class="menu-line"></span>
+    </button>
+
+    <nav id="sidebarMenu" class="sidebar">
+        <button class="close-trigger" onclick="toggleMenu()">&times;</button>
+        <div class="sidebar-links">
+            <a href="#home" onclick="toggleMenu()">Home</a>
+            <a href="#details" onclick="toggleMenu()">Venue Details</a>
+            <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
+            <a href="#rsvp" onclick="toggleMenu()">RSVP Links</a>
+            <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
+            <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
+            <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
+            <a href="#faq" onclick="toggleMenu()">FAQ</a>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
         <div class="hero-content">
             <h1>JARROD & TELICIA</h1>
             <p class="subtitle">SAVE THE DATE</p>
@@ -26,7 +45,7 @@
         </div>
     </header>
 
-    <section class="section containment bg-white">
+    <section id="details" class="section containment bg-white">
         <h2>THE DETAILS</h2>
         <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
         
@@ -38,7 +57,8 @@
                 <p class="venue-address">Click below for full directions and spatial details.</p>
                 <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="location-link">View Location on Google Maps →</a>
             </div>
-            <div class="details-card">
+            
+            <div id="timeline" class="details-card">
                 <h3>THE TIMELINE</h3>
                 <ul class="timeline-list">
                     <li><span>14:00</span> Arrival & Welcome</li>
@@ -50,7 +70,7 @@
         </div>
     </section>
 
-    <section class="section containment bg-black text-white">
+    <section id="rsvp" class="section containment bg-black text-white">
         <h2>REGISTRATION & BAR</h2>
         <p class="center-text">To help us finalize arrangements, please confirm your attendance and menu preferences below.</p>
         
@@ -58,9 +78,19 @@
             <a href="#" target="_blank" class="btn btn-white">RSVP & SELECT MENU</a>
             <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="btn btn-outline-white">PURCHASE BAR VOUCHERS</a>
         </div>
+
+        <div id="menu" class="menu-preview-block">
+            <h3>THE MENU PREVIEW</h3>
+            <p><em>Curated elegant dining options will be displayed here closer to the time. Options will cater for all individual dietary preferences.</em></p>
+        </div>
     </section>
 
-    <section class="section containment bg-white">
+    <section id="accommodation" class="section containment bg-white">
+        <h2>ACCOMMODATION</h2>
+        <p class="center-text">For our out-of-town loved ones, curated local boutique stays and reservation guides are being compiled to ensure your comfort.</p>
+    </section>
+
+    <section id="registry" class="section containment bg-light-grey">
         <h2>SOWING INTO OUR LIVES</h2>
         <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates will be added here shortly.</p>
         
@@ -69,9 +99,20 @@
         </div>
     </section>
 
-    <script>
-        const targetDate = new Date("April 25, 2027 14:00:00").getTime();
+    <section id="faq" class="section containment bg-white">
+        <h2>FAQ</h2>
+        <p class="center-text">Have questions regarding transport, kids, or coordinates? Our comprehensive interactive event guide will populate right here shortly.</p>
+    </section>
 
+    <script>
+        // SIDEBAR TOGGLE FUNCTION
+        function toggleMenu() {
+            const menu = document.getElementById("sidebarMenu");
+            menu.classList.toggle("open");
+        }
+
+        // COUNTDOWN TIMER
+        const targetDate = new Date("April 25, 2027 14:00:00").getTime();
         const countdownInterval = setInterval(function() {
             const now = new Date().getTime();
             const difference = targetDate - now;
