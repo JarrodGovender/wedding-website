@@ -90,6 +90,9 @@
 
         .accommodation-action, .bartab-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
 
+        /* SPOTIFY CONTAINER STYLING */
+        .spotify-wrapper { max-width: 500px; margin: 0 auto; border: 1px solid #E0E0E0; padding: 15px; background-color: #F9F9F9; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
         /* BUTTONS */
         .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
         .btn { display: inline-block; padding: 15px 35px; text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; font-weight: 600; transition: all 0.3s ease; text-transform: uppercase; border: none; cursor: pointer; text-align: center; }
@@ -293,7 +296,7 @@
                     <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
                     <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
                     <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.000</strong> Bar Voucher</td><td>R14 000.00</td><td>Save R6 000.00</td></tr>
+                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R14 000.00</td><td>Save R6 000.00</td></tr>
                 </tbody>
             </table>
 
@@ -323,9 +326,10 @@
     <section id="songs" class="section containment bg-white">
         <h2>SONG REQUESTS</h2>
         <div class="center-text" style="max-width: 650px;">
-            <p style="margin-bottom: 1.5rem;">We want our dance floor moving all night long, and we want to hear the music you love. We've set up a collaborative Spotify wedding playlist where you can add your favorite celebration tracks directly.</p>
-            <div class="action-buttons" style="margin-top: 0;">
-                <a href="#" target="_blank" class="btn btn-black">Open Spotify Playlist</a>
+            <p style="margin-bottom: 2rem;">We want our dance floor moving all night long, and we want to hear the music you love. Use our interactive collaborative player below to review tracks and add your favorite celebration anthems directly to the lineup.</p>
+            
+            <div class="spotify-wrapper">
+                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7MTsrrmZyARUtQZhYAxF3A?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
         </div>
     </section>
