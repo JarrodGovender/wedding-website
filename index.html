@@ -63,14 +63,23 @@
         .location-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; }
         .location-link:hover { color: #888888; border-color: #888888; }
 
-        /* ACCOMMODATION STYLING */
-        .accommodation-container { max-width: 600px; margin: 3rem auto 0 auto; border: 1px solid #000000; padding: 40px; text-align: center; }
-        .accommodation-container h3 { font-size: 1.3rem; margin-bottom: 5px; }
-        .badge-onsite { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; background-color: #000000; color: #FFFFFF; padding: 4px 12px; margin-bottom: 1.5rem; }
-        .accommodation-details { font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.6; }
-        .contact-box { border-top: 1px solid #E0E0E0; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 8px; font-size: 0.9rem; }
-        .contact-box a { color: #000000; font-weight: 600; text-decoration: none; transition: color 0.3s ease; }
-        .contact-box a:hover { color: #888888; }
+        /* ADVANCED ACCOMMODATION LAYOUT */
+        .accommodation-wrapper { max-width: 800px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; }
+        .policy-box { border-left: 3px solid #000000; padding-left: 20px; margin-bottom: 2.5rem; font-size: 0.9rem; color: #333333; }
+        .policy-box p { margin-bottom: 10px; }
+        .policy-box strong { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 5px; color: #000000; }
+        
+        .table-title { font-family: 'Cinzel', serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; text-align: left; border-bottom: 1px solid #000000; padding-bottom: 5px; }
+        .room-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
+        .room-table th { background-color: #000000; color: #FFFFFF; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 12px; font-weight: 400; }
+        .room-table td { padding: 12px; border-bottom: 1px solid #E0E0E0; text-align: left; }
+        .room-table tr:hover { background-color: #F9F9F9; }
+        
+        .room-notes { font-size: 0.8rem; color: #666666; margin-bottom: 2.5rem; line-height: 1.5; }
+        .room-notes ul { list-style-type: square; padding-left: 15px; }
+        .room-notes li { margin-bottom: 5px; }
+
+        .accommodation-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
 
         /* BUTTONS */
         .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
@@ -174,19 +183,97 @@
 
     <section id="accommodation" class="section containment bg-light-grey">
         <h2>ACCOMMODATION</h2>
-        <p class="center-text">To ensure your total comfort and safety on our celebration night, luxury boutique lodging is available directly on the property grounds.</p>
+        <p class="center-text">To ensure your comfort and convenience, luxury lodging is available on-site at the estate. Please review our venue-specific booking allocations below.</p>
         
-        <div class="accommodation-container" style="background-color: #FFFFFF;">
-            <h3>GECKO RIDGE GUESTHOUSE</h3>
-            <div class="badge-onsite">On-Site Accommodation</div>
-            <p class="accommodation-details">
-                A selection of elegant rooms and suites are available exclusively for wedding attendees. We highly recommend booking well in advance to secure your stay directly at the venue grounds.
-            </p>
-            <div class="contact-box">
-                <p><strong>Reservations &amp; Enquiries:</strong></p>
-                <p>Tel: <a href="tel:+27825582319">082 558 2319</a></p>
-                <p>Email: <a href="mailto:info@geckoridge.co.za">info@geckoridge.co.za</a></p>
-                <p class="italic" style="font-size: 0.8rem; margin-top: 5px;">Kindly mention the <strong>Jarrod &amp; Telicia Wedding</strong> when finalizing your reservation.</p>
+        <div class="accommodation-wrapper">
+            <div class="policy-box">
+                <strong>Important Lodging Allocation Policy:</strong>
+                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests[cite: 2].</p>
+                <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue</strong>[cite: 2]. Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy[cite: 2].</p>
+                <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators[cite: 2].</em></p>
+            </div>
+
+            <div class="table-title">Riverview Hall Rooms &amp; Rates</div>
+            <table class="room-table">
+                <thead>
+                    <tr>
+                        <th>Room Selection</th>
+                        <th>Type / Size</th>
+                        <th>Sleeps</th>
+                        <th>Standard Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Room 4</td>
+                        <td>4 Sleeper Room</td>
+                        <td>4 Guests</td>
+                        <td>R2 750.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 5</td>
+                        <td>4 Sleeper Room</td>
+                        <td>4 Guests</td>
+                        <td>R2 750.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 6</td>
+                        <td>4 Sleeper Room</td>
+                        <td>4 Guests</td>
+                        <td>R2 750.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 7</td>
+                        <td>Queen Suite</td>
+                        <td>2 Guests</td>
+                        <td>R1 450.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 8</td>
+                        <td>Queen Suite</td>
+                        <td>2 Guests</td>
+                        <td>R1 450.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 9</td>
+                        <td>Queen Suite</td>
+                        <td>2 Guests</td>
+                        <td>R1 450.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 10</td>
+                        <td>Queen Suite</td>
+                        <td>2 Guests</td>
+                        <td>R1 450.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 11</td>
+                        <td>Queen Suite</td>
+                        <td>2 Guests</td>
+                        <td>R1 450.00</td>
+                    </tr>
+                    <tr>
+                        <td>Room 12</td>
+                        <td>Log Cabin</td>
+                        <td>4 Guests</td>
+                        <td>R2 250.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="room-notes">
+                <strong>Booking Parameters &amp; Inclusions:</strong>
+                <ul>
+                    <li>All room allocations natively include complimentary breakfast for guests.</li>
+                    <li>Extra stretchers (including bedding &amp; breakfast) can be requested at R375.00, limited to specific rooms and availability.</li>
+                    <li>Standard terms and conditions apply via the venue's core booking mechanism[cite: 4].</li>
+                    <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
+                </ul>
+            </div>
+
+            <div class="accommodation-action">
+                <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">To reserve your room, please click below to access the official estate accommodation portal:</p>
+                <a href="https://geckoridgevenue.co.za/accommodation/" target="_blank" class="btn btn-black">Book On-Site Accommodation</a>
             </div>
         </div>
     </section>
