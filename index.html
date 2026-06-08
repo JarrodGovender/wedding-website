@@ -105,14 +105,11 @@
         /* STYLE OVERLAY MODAL */
         .inspo-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px; }
         .inspo-modal.active { opacity: 1; pointer-events: auto; }
-        .inspo-container { background-color: #FFFFFF; width: 100%; max-width: 700px; max-height: 85vh; padding: 50px 40px; position: relative; overflow-y: auto; text-align: center; color: #000000; }
+        .inspo-container { background-color: #FFFFFF; width: 100%; max-width: 900px; max-height: 90vh; padding: 40px; position: relative; overflow-y: auto; text-align: center; color: #000000; }
         .close-inspo-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #000000; font-size: 2.2rem; cursor: pointer; }
-        
-        .inspo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 2rem; }
-        .inspo-card { border: 1px solid #E0E0E0; padding: 30px 20px; background-color: #F9F9F9; }
-        .inspo-card h4 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 5px; }
-        .inspo-card p { font-size: 0.85rem; color: #444; text-align: left; margin-bottom: 8px; line-height: 1.5; }
-        @media (max-width: 768px) { .inspo-grid { grid-template-columns: 1fr; gap: 20px; } .inspo-container { padding: 40px 20px; } }
+        .inspo-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 2rem; }
+        .inspo-image-grid img { width: 100%; height: auto; border: 1px solid #E0E0E0; }
+        @media (max-width: 768px) { .inspo-image-grid { grid-template-columns: 1fr; gap: 20px; } .inspo-container { padding: 30px 15px; } }
 
         /* ADVANCED ACCOMMODATION & TABLES */
         .accommodation-wrapper, .bartab-wrapper { max-width: 850px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; color: #000000; }
@@ -264,19 +261,9 @@
             <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Formal — Vogue Aesthetic</p>
             <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #D32F2F;">Strict Policy Notice: Wearing white is completely forbidden for all guests.</p>
             
-            <div class="inspo-grid">
-                <div class="inspo-card">
-                    <h4>Gentlemen</h4>
-                    <p>• <strong>The Standard:</strong> High-fashion evening tailoring. Sharp black suits, dark luxury dinner jackets, or premium classic tuxedos.</p>
-                    <p>• <strong>Shirts:</strong> Crisp, solid white formal dress shirts are fully permitted under suits/jackets.</p>
-                    <p>• <strong>Details:</strong> Silk pocket squares, minimalist cufflinks, leather dress shoes. No light-colored or casual trousers.</p>
-                </div>
-                <div class="inspo-card">
-                    <h4>Ladies</h4>
-                    <p>• <strong>The Standard:</strong> High-fashion high-end aesthetic. Elegant floor-length formal gowns or avant-garde high-fashion cocktail wear.</p>
-                    <p>• <strong>Colors:</strong> Rich colors, jewel tones, or solid black are highly encouraged.</p>
-                    <p>• <strong>Strict Ban:</strong> Gowns or dresses featuring white, cream, ivory, beige, or light vanilla shades are strictly prohibited.</p>
-                </div>
+            <div class="inspo-image-grid">
+                <img src="IMAGE_URL_1" alt="Black Tie Guide">
+                <img src="IMAGE_URL_2" alt="Formal Dress Code Guide">
             </div>
         </div>
     </div>
