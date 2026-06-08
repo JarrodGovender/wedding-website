@@ -160,6 +160,8 @@
         
         .family-tier { display: flex; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; position: relative; }
         .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); }
+        
+        /* Using a precise grid sequence layout to anchor matching rows across sides */
         .attendants-tier { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); justify-items: center; justify-content: center; gap: 15px; position: relative; }
 
         /* SHARED CORE HOSTS BLOCK STYLING */
@@ -465,8 +467,13 @@
                     <div class="attendants-tier">
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Kai</div>
+                            <div class="member-role">Ring Bearer</div>
+                        </div>
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Drystan Govender</div>
-                            <div class="member-role">Sibling & Groomsman</div>
+                            <div class="member-role">Sibling & Best Man</div>
                         </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
@@ -513,6 +520,11 @@
                     </div>
                     
                     <div class="attendants-tier">
+                        <div class="party-member">
+                            <div class="circle-avatar"><img src="" alt=""></div>
+                            <div class="member-name">Neriah</div>
+                            <div class="member-role">Flower Girl</div>
+                        </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Caitlin Ishwarduth</div>
@@ -615,7 +627,7 @@
             </table>
 
             <div class="bartab-notes">
-                export const snippet = `Voucher Management Instructions:`;
+                <strong>Voucher Management Instructions:</strong>
                 <ul>
                     <li>Vouchers are issued securely via Quicket and can be processed effortlessly at the bar counters.</li>
                     <li>Advanced booking allows our coordinators to track inventory pipelines and avoid service bottlenecks.</li>
