@@ -24,7 +24,7 @@
         .menu-line { display: block; width: 30px; height: 1px; background-color: #FFFFFF; mix-blend-mode: difference; transition: all 0.3s ease; }
         .sidebar { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background-color: #000000; z-index: 999; padding: 100px 40px; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); box-shadow: -5px 0 25px rgba(0,0,0,0.5); }
         .sidebar.open { right: 0; }
-        .close-trigger { position: absolute; top: 25px; right: 35px; background: transparent; border: none; color: #FFFFFF; font-size: 2.5rem; font-weight: 300; cursor: pointer; }
+        .close-trigger { position: absolute; top: 25px; right: 35px; background: transparent; border: none; color: #FFFFFF; font-size: 2.5rem; font-weight: 300; cursor: pointer; z-index: 1001; }
         .sidebar-links { display: flex; flex-direction: column; gap: 25px; margin-top: 40px; }
         .sidebar-links a { color: #FFFFFF; text-decoration: none; font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s ease; }
         .sidebar-links a:hover { color: #888888; padding-left: 8px; }
@@ -55,7 +55,7 @@
         .text-white .italic { color: #CCCCCC; }
         .dress-code { text-align: center; letter-spacing: 1px; margin-bottom: 3rem; font-size: 0.95rem; text-transform: uppercase; }
 
-        /* VENUE FULL CARD */
+        /* VENUE CARD */
         .venue-full-card { border: 1px solid #E0E0E0; max-width: 600px; margin: 0 auto; padding: 50px 40px; text-align: center; }
         .venue-main { font-weight: 600; margin-bottom: 8px; font-size: 1.1rem; }
         .venue-name { font-family: 'Cinzel', serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
@@ -79,6 +79,8 @@
         .btn-white:hover { background-color: #000000; color: #FFFFFF; }
         .btn-outline-white { background-color: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; }
         .btn-outline-white:hover { background-color: #FFFFFF; color: #000000; }
+        .btn-black { background-color: #000000; color: #FFFFFF; border: 1px solid #000000; }
+        .btn-black:hover { background-color: #FFFFFF; color: #000000; }
 
         /* RSVP MODAL OVERLAY */
         .rsvp-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px; }
@@ -87,9 +89,7 @@
         .close-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #FFFFFF; font-size: 2rem; cursor: pointer; z-index: 2100; }
         .rsvp-iframe { width: 100%; height: 100%; border: none; }
 
-        /* PLACEHOLDERS */
-        .menu-preview-block { margin-top: 4rem; text-align: center; border-top: 1px solid #333; padding-top: 3rem; }
-        .menu-preview-block h3 { font-size: 1.1rem; margin-bottom: 1rem; color: #FFF; letter-spacing: 2px;}
+        /* REGISTRY & PLACEHOLDERS */
         .registry-placeholder { text-align: center; margin-top: 2rem; color: #777777; font-size: 0.9rem; }
     </style>
 </head>
@@ -104,12 +104,13 @@
         <button class="close-trigger" onclick="toggleMenu()">&times;</button>
         <div class="sidebar-links">
             <a href="#home" onclick="toggleMenu()">Home</a>
+            <a href="#rsvp" onclick="toggleMenu()">RSVP Link</a>
             <a href="#details" onclick="toggleMenu()">Venue Details</a>
             <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
-            <a href="#rsvp" onclick="toggleMenu()">RSVP Links</a>
-            <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
             <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
             <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
+            <a href="#bartab" onclick="toggleMenu()">Bar Tab</a>
+            <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
             <a href="#faq" onclick="toggleMenu()">FAQ</a>
         </div>
     </nav>
@@ -117,7 +118,7 @@
     <div id="rsvpModal" class="rsvp-modal">
         <div class="modal-container">
             <button class="close-modal" onclick="toggleModal()">&times;</button>
-            <iframe src="https://tally.so/r/MeVMrk&transparentBackground=1&dynamicHeight=1" class="rsvp-iframe" title="Wedding RSVP"></iframe>
+            <iframe src="https://tally.so/embed/w2Yv1o?hideTitle=1&transparentBackground=1&dynamicHeight=1" class="rsvp-iframe" title="Wedding RSVP"></iframe>
         </div>
     </div>
 
@@ -136,11 +137,19 @@
         </div>
     </header>
 
-    <section id="details" class="section containment bg-white">
+    <section id="rsvp" class="section containment bg-white">
+        <h2>RSVP LINK</h2>
+        <p class="center-text">Please let us know if you will be celebrating with us. Kindly submit your response by clicking below.</p>
+        <div class="action-buttons" style="margin-top: 0;">
+            <button onclick="toggleModal()" class="btn btn-black">RSVP &amp; SELECT MENU</button>
+        </div>
+    </section>
+
+    <section id="details" class="section containment bg-light-grey">
         <h2>VENUE DETAILS</h2>
         <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
         
-        <div class="venue-full-card">
+        <div class="venue-full-card" style="background-color: #FFFFFF;">
             <p class="venue-main">Sunday, 25 April 2027</p>
             <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
             <p class="venue-address">70 Gecko Ridge Road, Mooiplaas,<br>Pretoria, 0065</p>
@@ -148,31 +157,16 @@
         </div>
     </section>
 
-    <section id="timeline" class="section containment bg-light-grey">
+    <section id="timeline" class="section containment bg-white">
         <h2>WEDDING DAY TIMELINE</h2>
         <p class="center-text italic">Our official itinerary is currently being structured with love to ensure a spectacular celebration. The fine-tuned sequence of events will be revealed right here closer to our special day.</p>
     </section>
 
-    <section id="rsvp" class="section containment bg-black text-white">
-        <h2>REGISTRATION &amp; BAR</h2>
-        <p class="center-text">To help us finalize arrangements, please confirm your attendance and menu preferences below.</p>
-        
-        <div class="action-buttons">
-            <button onclick="toggleModal()" class="btn btn-white">RSVP &amp; SELECT MENU</button>
-            <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="btn btn-outline-white">PURCHASE BAR VOUCHERS</a>
-        </div>
-
-        <div id="menu" class="menu-preview-block">
-            <h3>THE MENU PREVIEW</h3>
-            <p><em>Curated elegant dining options will be displayed here closer to the time. Options will cater for all individual dietary preferences.</em></p>
-        </div>
-    </section>
-
-    <section id="accommodation" class="section containment bg-white">
+    <section id="accommodation" class="section containment bg-light-grey">
         <h2>ACCOMMODATION</h2>
         <p class="center-text">To ensure your total comfort and safety on our celebration night, luxury boutique lodging is available directly on the property grounds.</p>
         
-        <div class="accommodation-container">
+        <div class="accommodation-container" style="background-color: #FFFFFF;">
             <h3>GECKO RIDGE GUESTHOUSE</h3>
             <div class="badge-onsite">On-Site Accommodation</div>
             <p class="accommodation-details">
@@ -187,11 +181,26 @@
         </div>
     </section>
 
-    <section id="registry" class="section containment bg-light-grey">
+    <section id="registry" class="section containment bg-white">
         <h2>GIFT REGISTRY</h2>
         <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates will be added here shortly.</p>
         <div class="registry-placeholder">
             <p><em>Our formal gift registry is currently being curated with love and will be live here soon.</em></p>
+        </div>
+    </section>
+
+    <section id="bartab" class="section containment bg-black text-white">
+        <h2>BAR TAB</h2>
+        <p class="center-text">To keep transactions fluid on the night, physical beverage tokens can be pre-purchased directly through the venue's dedicated hosting portal below.</p>
+        <div class="action-buttons" style="margin-top: 0;">
+            <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="btn btn-white">PURCHASE BAR VOUCHERS</a>
+        </div>
+    </section>
+
+    <section id="menu" class="section containment bg-light-grey">
+        <h2>MENU SELECTION</h2>
+        <div class="center-text">
+            <p><em>Curated elegant dining options will be displayed here closer to the time. Options will cater for all individual dietary preferences.</em></p>
         </div>
     </section>
 
