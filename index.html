@@ -89,9 +89,9 @@
         .center-text { text-align: center; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto; }
         .italic { font-style: italic; color: #666666; }
         .text-white .italic { color: #CCCCCC; }
-        .dress-code { text-align: center; letter-spacing: 1px; margin-bottom: 1rem; font-size: 0.95rem; text-transform: uppercase; }
+        .dress-code-subtitle { text-align: center; letter-spacing: 2px; font-size: 1rem; text-transform: uppercase; font-weight: 600; margin-bottom: 1rem; }
         
-        .inspo-trigger { display: inline-block; font-size: 0.8rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3rem; cursor: pointer; transition: color 0.3s ease; }
+        .inspo-trigger { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #FFFFFF; text-decoration: none; border-bottom: 1px solid #FFFFFF; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: color 0.3s ease; }
         .inspo-trigger:hover { color: #888888; border-color: #888888; }
 
         /* VENUE CARD */
@@ -111,7 +111,7 @@
         .inspo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 2rem; }
         .inspo-card { border: 1px solid #E0E0E0; padding: 30px 20px; background-color: #F9F9F9; }
         .inspo-card h4 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 5px; }
-        .inspo-card p { font-size: 0.85rem; color: #444; text-align: left; margin-bottom: 8px; }
+        .inspo-card p { font-size: 0.85rem; color: #444; text-align: left; margin-bottom: 8px; line-height: 1.5; }
         @media (max-width: 768px) { .inspo-grid { grid-template-columns: 1fr; gap: 20px; } .inspo-container { padding: 40px 20px; } }
 
         /* ADVANCED ACCOMMODATION & TABLES */
@@ -183,6 +183,7 @@
             <a href="#home" onclick="toggleMenu()">Home</a>
             <a href="#rsvp" onclick="toggleMenu()">RSVP Link</a>
             <a href="#details" onclick="toggleMenu()">Venue Details</a>
+            <a href="#dresscode" onclick="toggleMenu()">Dress Code</a>
             <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
             <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
             <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
@@ -197,21 +198,21 @@
         <div class="inspo-container">
             <button class="close-inspo-modal" onclick="toggleInspoModal()">×</button>
             <h3 style="font-size: 1.6rem; margin-bottom: 10px;">DRESS CODE INSPO</h3>
-            <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Black Tie Optional — Black &amp; White Theme</p>
-            <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto;">To curate an ultra-clean, elegant, cohesive visual narrative for our celebration memories, we kindly request our loved ones honor our monochrome palette.</p>
+            <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Formal — Vogue Aesthetic</p>
+            <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #D32F2F;">Strict Policy Notice: Wearing white is completely forbidden for all guests.</p>
             
             <div class="inspo-grid">
                 <div class="inspo-card">
                     <h4>Gentlemen</h4>
-                    <p>• A classic black tuxedo or a sharp black formal suit coupled with a crisp white dress shirt.</p>
-                    <p>• Paired with a formal black bow tie or clean black necktie alignment.</p>
-                    <p>• Completed with black formal leather dress shoes.</p>
+                    <p>• <strong>The Standard:</strong> High-fashion evening tailoring. Sharp black suits, dark luxury dinner jackets, or premium classic tuxedos.</p>
+                    <p>• <strong>Shirts:</strong> Crisp, solid white formal dress shirts are fully permitted under suits/jackets.</p>
+                    <p>• <strong>Details:</strong> Silk pocket squares, minimalist cufflinks, leather dress shoes. No light-colored or casual trousers.</p>
                 </div>
                 <div class="inspo-card">
                     <h4>Ladies</h4>
-                    <p>• Sophisticated floor-length formal gowns or chic evening cocktail dresses.</p>
-                    <p>• Attire color scheme parameters are restricted strictly to solid black or solid white options.</p>
-                    <p>• Completed with elegant formal evening footwear accessories.</p>
+                    <p>• <strong>The Standard:</strong> High-fashion high-end aesthetic. Elegant floor-length formal gowns or avant-garde high-fashion cocktail wear.</p>
+                    <p>• <strong>Colors:</strong> Rich colors, jewel tones, or solid black are highly encouraged.</p>
+                    <p>• <strong>Strict Ban:</strong> Gowns or dresses featuring white, cream, ivory, beige, or light vanilla shades are strictly prohibited.</p>
                 </div>
             </div>
         </div>
@@ -219,7 +220,7 @@
 
     <header id="home" class="hero">
         <div class="hero-content">
-            <h1>JARROD &amp; TELICIA</h1>
+            <h1>JARROD & Telicia</h1>
             <p class="subtitle">SAVE THE DATE</p>
             <div class="date-badge">25 . 04 . 2027</div>
             
@@ -240,12 +241,8 @@
         </div>
     </section>
 
-    <section id="details" class="section containment bg-light-grey" style="text-align: center;">
+    <section id="details" class="section containment bg-light-grey">
         <h2>VENUE DETAILS</h2>
-        <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
-        
-        <div class="inspo-trigger" onclick="toggleInspoModal()">View Dress Code Inspiration →</div>
-        
         <div class="venue-full-card" style="background-color: #FFFFFF;">
             <p class="venue-main">Sunday, 25 April 2027</p>
             <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
@@ -257,6 +254,18 @@
                 <p>Yes, it's a Sunday—but don't panic. Tuesday 27 April is a public holiday (Freedom Day). If you put in for leave on Monday the 26th, you score a glorious 4-day long weekend. Consider this your official sign to take the day off and celebrate properly with us.</p>
             </div>
         </div>
+    </section>
+
+    <section id="dresscode" class="section containment bg-black text-white" style="text-align: center;">
+        <h2>DRESS CODE</h2>
+        <p class="dress-code-subtitle">FORMAL — VOGUE INSPIRED</p>
+        <p class="center-text italic" style="max-width: 600px; margin-bottom: 1.5rem;">
+            Our vision for the celebration is a high-fashion, high-energy editorial evening. We kindly request our guests step into their finest formal looks down the red carpet.
+        </p>
+        <p class="center-text" style="max-width: 600px; color: #FFCDD2; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 2rem;">
+            Please Note: Guests are strictly forbidden from wearing any white, cream, or ivory attire (except for traditional men's white dress shirts beneath suits).
+        </p>
+        <div class="inspo-trigger" onclick="toggleInspoModal()">Open Vogue Style Guide →</div>
     </section>
 
     <section id="timeline" class="section containment bg-white">
@@ -277,7 +286,7 @@
                 <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
             </div>
 
-            <div class="table-title">Riverview Hall Rooms &amp; Rates (On-Site)</div>
+            <div class="table-title">Riverview Hall Rooms & Rates (On-Site)</div>
             <table class="room-table">
                 <thead>
                     <tr>
@@ -301,7 +310,7 @@
             </table>
 
             <div class="room-notes">
-                <strong>Booking Parameters &amp; Inclusions:</strong>
+                <strong>Booking Parameters & Inclusions:</strong>
                 <ul>
                     <li>All room allocations natively include complimentary breakfast for guests.</li>
                     <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
