@@ -1,0 +1,201 @@
+/* RESET & BASE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFFFFF;
+    color: #000000;
+    line-height: 1.6;
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3 {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 3px;
+    font-weight: 400;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    margin: 10px auto 0 auto;
+}
+
+/* HERO SECTION */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #222;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 6px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 5px;
+    color: #888888;
+    margin-bottom: 2rem;
+}
+
+.date-badge {
+    display: inline-block;
+    border: 1px solid #FFFFFF;
+    padding: 8px 24px;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    margin-bottom: 3rem;
+}
+
+/* COUNTDOWN */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.time-block span {
+    font-size: 2.5rem;
+    font-weight: 300;
+    display: block;
+}
+
+.time-block p {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888888;
+    margin-top: 5px;
+}
+
+/* STRUCTURE */
+.section {
+    padding: 5rem 10%;
+}
+
+.containment {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bg-white { background-color: #FFFFFF; color: #000000; }
+.bg-black { background-color: #000000; color: #FFFFFF; }
+.text-white { color: #FFFFFF; }
+
+.center-text { text-align: center; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto; }
+.italic { font-style: italic; color: #555555; }
+.text-white .italic { color: #CCCCCC; }
+
+.dress-code {
+    text-align: center;
+    letter-spacing: 1px;
+    margin-bottom: 3rem;
+    font-size: 0.95rem;
+}
+
+/* GRIDS & CARDS */
+.details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .details-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.2rem; }
+}
+
+.details-card {
+    border: 1px solid #E0E0E0;
+    padding: 40px;
+    text-align: center;
+}
+
+.details-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-list {
+    list-style: none;
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.timeline-list li {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.timeline-list li span {
+    font-weight: 600;
+    margin-right: 15px;
+    font-family: 'Cinzel', serif;
+}
+
+/* BUTTONS */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 35px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.btn-white { background-color: #FFFFFF; color: #000000; }
+.btn-white:hover { background-color: #000000; color: #FFFFFF; border: 1px solid #FFFFFF; }
+
+.btn-outline-white { background-color: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; }
+.btn-outline-white:hover { background-color: #FFFFFF; color: #000000; }
+
+/* BANKING & REGISTRY */
+.bank-card {
+    max-width: 450px;
+    margin: 2rem auto;
+    border: 1px solid #000000;
+    padding: 30px;
+    font-size: 0.95rem;
+}
+
+.registry-placeholder {
+    text-align: center;
+    margin-top: 3rem;
+    color: #777777;
+    font-size: 0.9rem;
+}
