@@ -64,7 +64,7 @@
         .location-link:hover { color: #888888; border-color: #888888; }
 
         /* ADVANCED ACCOMMODATION LAYOUT */
-        .accommodation-wrapper { max-width: 800px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; }
+        .accommodation-wrapper { max-width: 850px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; }
         .policy-box { border-left: 3px solid #000000; padding-left: 20px; margin-bottom: 2.5rem; font-size: 0.9rem; color: #333333; }
         .policy-box p { margin-bottom: 10px; }
         .policy-box strong { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 5px; color: #000000; }
@@ -73,11 +73,20 @@
         .room-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
         .room-table th { background-color: #000000; color: #FFFFFF; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 12px; font-weight: 400; }
         .room-table td { padding: 12px; border-bottom: 1px solid #E0E0E0; text-align: left; }
-        .room-table tr:hover { background-color: #F9F9F9; }
         
-        .room-notes { font-size: 0.8rem; color: #666666; margin-bottom: 2.5rem; line-height: 1.5; }
+        .room-notes { font-size: 0.8rem; color: #666666; margin-bottom: 3rem; line-height: 1.5; }
         .room-notes ul { list-style-type: square; padding-left: 15px; }
         .room-notes li { margin-bottom: 5px; }
+
+        /* EXTERNAL REC GRID */
+        .external-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 1.5rem; }
+        .external-card { border: 1px solid #E0E0E0; padding: 25px 20px; text-align: center; background-color: #F9F9F9; display: flex; flex-direction: column; justify-content: space-between; }
+        .external-card h4 { font-family: 'Cinzel', serif; font-size: 0.95rem; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+        .external-distance { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #777; margin-bottom: 12px; }
+        .external-desc { font-size: 0.85rem; color: #555; margin-bottom: 1.5rem; line-height: 1.4; }
+        .external-link { font-size: 0.75rem; font-weight: 600; color: #000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; align-self: center; margin-top: auto; }
+        
+        @media (max-width: 768px) { .external-grid { grid-template-columns: 1fr; } }
 
         .accommodation-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
 
@@ -177,23 +186,23 @@
     </section>
 
     <section id="timeline" class="section containment bg-white">
-        <h2>WEDDING DAY TIMELINE</h2>
+        <h2>REDDING DAY TIMELINE</h2>
         <p class="center-text italic">Our official itinerary is currently being structured with love to ensure a spectacular celebration. The fine-tuned sequence of events will be revealed right here closer to our special day.</p>
     </section>
 
     <section id="accommodation" class="section containment bg-light-grey">
         <h2>ACCOMMODATION</h2>
-        <p class="center-text">To ensure your comfort and convenience, luxury lodging is available on-site at the estate. Please review our venue-specific booking allocations below.</p>
+        <p class="center-text">To ensure your comfort and convenience, luxury lodging is available both on-site at the estate and within the immediate surrounding area.</p>
         
         <div class="accommodation-wrapper">
             <div class="policy-box">
                 <strong>Important Lodging Allocation Policy:</strong>
-                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests[cite: 2].</p>
-                <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue</strong>[cite: 2]. Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy[cite: 2].</p>
-                <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators[cite: 2].</em></p>
+                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests.</p>
+                <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue</strong>. Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy.</p>
+                <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
             </div>
 
-            <div class="table-title">Riverview Hall Rooms &amp; Rates</div>
+            <div class="table-title">Riverview Hall Rooms &amp; Rates (On-Site)</div>
             <table class="room-table">
                 <thead>
                     <tr>
@@ -204,60 +213,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Room 4</td>
-                        <td>4 Sleeper Room</td>
-                        <td>4 Guests</td>
-                        <td>R2 750.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 5</td>
-                        <td>4 Sleeper Room</td>
-                        <td>4 Guests</td>
-                        <td>R2 750.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 6</td>
-                        <td>4 Sleeper Room</td>
-                        <td>4 Guests</td>
-                        <td>R2 750.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 7</td>
-                        <td>Queen Suite</td>
-                        <td>2 Guests</td>
-                        <td>R1 450.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 8</td>
-                        <td>Queen Suite</td>
-                        <td>2 Guests</td>
-                        <td>R1 450.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 9</td>
-                        <td>Queen Suite</td>
-                        <td>2 Guests</td>
-                        <td>R1 450.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 10</td>
-                        <td>Queen Suite</td>
-                        <td>2 Guests</td>
-                        <td>R1 450.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 11</td>
-                        <td>Queen Suite</td>
-                        <td>2 Guests</td>
-                        <td>R1 450.00</td>
-                    </tr>
-                    <tr>
-                        <td>Room 12</td>
-                        <td>Log Cabin</td>
-                        <td>4 Guests</td>
-                        <td>R2 250.00</td>
-                    </tr>
+                    <tr><td>Room 4</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                    <tr><td>Room 5</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                    <tr><td>Room 6</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                    <tr><td>Room 7</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                    <tr><td>Room 8</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                    <tr><td>Room 9</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                    <tr><td>Room 10</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                    <tr><td>Room 11</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                    <tr><td>Room 12</td><td>Log Cabin</td><td>4 Guests</td><td>R2 250.00</td></tr>
                 </tbody>
             </table>
 
@@ -265,15 +229,45 @@
                 <strong>Booking Parameters &amp; Inclusions:</strong>
                 <ul>
                     <li>All room allocations natively include complimentary breakfast for guests.</li>
-                    <li>Extra stretchers (including bedding &amp; breakfast) can be requested at R375.00, limited to specific rooms and availability.</li>
-                    <li>Standard terms and conditions apply via the venue's core booking mechanism[cite: 4].</li>
                     <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
                 </ul>
             </div>
 
-            <div class="accommodation-action">
-                <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">To reserve your room, please click below to access the official estate accommodation portal:</p>
+            <div class="accommodation-action" style="margin-bottom: 3rem;">
+                <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">To reserve an on-site suite, please click below to access the official estate portal:</p>
                 <a href="https://geckoridgevenue.co.za/accommodation/" target="_blank" class="btn btn-black">Book On-Site Accommodation</a>
+            </div>
+
+            <div class="table-title">Alternative Accommodations Nearby</div>
+            <p style="font-size: 0.85rem; color: #555; margin-bottom: 1rem;">As on-site space is highly selective, we highly recommend these nearby premium stays located just minutes from the venue:</p>
+            
+            <div class="external-grid">
+                <div class="external-card">
+                    <div>
+                        <h4>Guesthouse @ 56</h4>
+                        <div class="external-distance">~ 1.5 km away</div>
+                        <p class="external-desc">An elegant country guesthouse right in Mooiplaas. Highly rated, stylish self-catering double rooms with a relaxed atmosphere.</p>
+                    </div>
+                    <a href="http://www.guesthouse56.com/" target="_blank" class="external-link">View Website →</a>
+                </div>
+
+                <div class="external-card">
+                    <div>
+                        <h4>Rosemary Hill</h4>
+                        <div class="external-distance">~ 4.8 km away</div>
+                        <p class="external-desc">A beautiful, well-known 4-star country estate nearby offering exceptional boutique lodging, beautiful rooms, and gardens.</p>
+                    </div>
+                    <a href="https://www.rosemaryhill.co.za/" target="_blank" class="external-link">View Website →</a>
+                </div>
+
+                <div class="external-card">
+                    <div>
+                        <h4>The Lakes Lodge</h4>
+                        <div class="external-distance">~ 7.2 km away</div>
+                        <p class="external-desc">A highly rated 4-star boutique lodge nearby in Silver Lakes, offering sleek, modern suites and exceptional luxury finishes.</p>
+                    </div>
+                    <a href="https://www.thelakeslodge.co.za/" target="_blank" class="external-link">View Website →</a>
+                </div>
             </div>
         </div>
     </section>
