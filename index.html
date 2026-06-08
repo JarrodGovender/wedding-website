@@ -37,7 +37,7 @@
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #000000; color: #FFFFFF; text-align: center; padding: 20px; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 10px; letter-spacing: 6px; }
         .subtitle { font-size: 0.9rem; letter-spacing: 5px; color: #888888; margin-bottom: 2rem; }
-        .date-badge { inline-block; border: 1px solid #FFFFFF; padding: 8px 24px; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 3rem; display: inline-block; }
+        .date-badge { border: 1px solid #FFFFFF; padding: 8px 24px; font-size: 1.1rem; letter-spacing: 3px; margin-bottom: 3rem; display: inline-block; }
 
         /* COUNTDOWN */
         .countdown-container { display: flex; justify-content: center; gap: 25px; }
@@ -63,20 +63,20 @@
         .location-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; }
         .location-link:hover { color: #888888; border-color: #888888; }
 
-        /* ADVANCED ACCOMMODATION LAYOUT */
-        .accommodation-wrapper { max-width: 850px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; }
-        .policy-box { border-left: 3px solid #000000; padding-left: 20px; margin-bottom: 2.5rem; font-size: 0.9rem; color: #333333; }
+        /* ADVANCED ACCOMMODATION & TABLES */
+        .accommodation-wrapper, .bartab-wrapper { max-width: 850px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; color: #000000; }
+        .policy-box { border-left: 3px solid #000000; padding-left: 20px; margin-bottom: 2.5rem; font-size: 0.9rem; color: #333333; text-align: left; }
         .policy-box p { margin-bottom: 10px; }
         .policy-box strong { text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 5px; color: #000000; }
         
         .table-title { font-family: 'Cinzel', serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; text-align: left; border-bottom: 1px solid #000000; padding-bottom: 5px; }
-        .room-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
-        .room-table th { background-color: #000000; color: #FFFFFF; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 12px; font-weight: 400; }
-        .room-table td { padding: 12px; border-bottom: 1px solid #E0E0E0; text-align: left; }
+        .room-table, .voucher-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
+        .room-table th, .voucher-table th { background-color: #000000; color: #FFFFFF; font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 12px; font-weight: 400; }
+        .room-table td, .voucher-table td { padding: 12px; border-bottom: 1px solid #E0E0E0; text-align: left; }
         
-        .room-notes { font-size: 0.8rem; color: #666666; margin-bottom: 3rem; line-height: 1.5; }
-        .room-notes ul { list-style-type: square; padding-left: 15px; }
-        .room-notes li { margin-bottom: 5px; }
+        .room-notes, .bartab-notes { font-size: 0.8rem; color: #666666; margin-bottom: 3rem; line-height: 1.5; text-align: left; }
+        .room-notes ul, .bartab-notes ul { list-style-type: square; padding-left: 15px; }
+        .room-notes li, .bartab-notes li { margin-bottom: 5px; }
 
         /* EXTERNAL REC GRID */
         .external-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 1.5rem; }
@@ -88,7 +88,7 @@
         
         @media (max-width: 768px) { .external-grid { grid-template-columns: 1fr; } }
 
-        .accommodation-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
+        .accommodation-action, .bartab-action { text-align: center; border-top: 1px solid #E0E0E0; padding-top: 2rem; }
 
         /* BUTTONS */
         .action-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 2rem; }
@@ -240,7 +240,7 @@
             </div>
 
             <div class="table-title">Alternative Accommodations Nearby</div>
-            <p style="font-size: 0.85rem; color: #555; margin-bottom: 1rem;">As on-site space is highly limited, we highly recommend these nearby premium stays located just minutes from the venue:</p>
+            <p style="font-size: 0.85rem; color: #555; margin-bottom: 1rem;">As on-site space is highly selective, we highly recommend these nearby premium stays located just minutes from the venue:</p>
             
             <div class="external-grid">
                 <div class="external-card">
@@ -283,9 +283,41 @@
 
     <section id="bartab" class="section containment bg-black text-white">
         <h2>BAR TAB</h2>
-        <p class="center-text">To keep transactions fluid on the night, physical beverage tokens can be pre-purchased directly through the venue's dedicated hosting portal below.</p>
-        <div class="action-buttons" style="margin-top: 0;">
-            <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="btn btn-white">PURCHASE BAR VOUCHERS</a>
+        <p class="center-text">To keep transactions fluid on the night, physical beverage tokens can be pre-purchased early. The venue offers significant tier discounts for advanced online voucher orders.</p>
+        
+        <div class="bartab-wrapper">
+            <div class="table-title" style="color:#000000; border-color:#000000;">Pre-Paid Voucher Discount Matrix</div>
+            <table class="voucher-table" style="color:#000000;">
+                <thead>
+                    <tr>
+                        <th>Voucher Value</th>
+                        <th>Your Pre-Paid Cost</th>
+                        <th>Total Cash Saving</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>R500.00</strong> Bar Voucher</td><td>R450.00</td><td>Save R50.00</td></tr>
+                    <tr><td><strong>R1 000.00</strong> Bar Voucher</td><td>R850.00</td><td>Save R150.00</td></tr>
+                    <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
+                    <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
+                    <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
+                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R14 000.00</td><td>Save R6 000.00</td></tr>
+                </tbody>
+            </table>
+
+            <div class="bartab-notes">
+                <strong>Voucher Management Instructions:</strong>
+                <ul>
+                    <li>Vouchers are issued securely via Quicket and can be processed effortlessly at the bar counters.</li>
+                    <li>Advanced booking allows our coordinators to track inventory pipelines and avoid service bottlenecks.</li>
+                    <li>Pre-purchasing is optional, but highly recommended to bypass standard payment terminal queues on the evening.</li>
+                </ul>
+            </div>
+
+            <div class="bartab-action">
+                <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color:#000000;">Click below to purchase your discounted tokens securely on the Quicket portal:</p>
+                <a href="https://www.quicket.co.za/events/345651-discount-bar-voucher-from-r500-r20-000#/" target="_blank" class="btn btn-black">Purchase Bar Vouchers</a>
+            </div>
         </div>
     </section>
 
