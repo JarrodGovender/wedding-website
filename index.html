@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarrod & Telicia | 25.04.2027</title>
+    <title>Jarrod &amp; Telicia | 25.04.2027</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -28,6 +28,10 @@
         .sidebar-links { display: flex; flex-direction: column; gap: 25px; margin-top: 40px; }
         .sidebar-links a { color: #FFFFFF; text-decoration: none; font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s ease; }
         .sidebar-links a:hover { color: #888888; padding-left: 8px; }
+
+        /* FLOATING HOME BUTTON */
+        .home-floating-btn { position: fixed; bottom: 30px; right: 30px; z-index: 1000; width: 45px; height: 45px; background-color: #000000; border: 1px solid #FFFFFF; color: #FFFFFF; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; cursor: pointer; opacity: 0.8; }
+        .home-floating-btn:hover { background-color: #FFFFFF; color: #000000; border-color: #000000; opacity: 1; transform: translateY(-3px); }
 
         /* HERO SECTION */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #000000; color: #FFFFFF; text-align: center; padding: 20px; }
@@ -172,6 +176,8 @@
         <h2>FAQ</h2>
         <p class="center-text">Have questions regarding transport, kids, or coordinates? Our comprehensive interactive event guide will populate right here shortly.</p>
     </section>
+
+    <a href="#home" class="home-floating-btn" title="Back to Home" aria-label="Scroll to home">&#8593;</a>
 
     <script>
         function toggleMenu() {
