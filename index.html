@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarrod &amp; Telicia | 25.04.2027</title>
+    <title>Jarrod & Telicia | 25.04.2027</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -139,8 +139,6 @@
 
         /* WEDDING PARTY TREE ARCHITECTURE WITH ROW ALIGNMENT GUARANTEES */
         .tree-container { max-width: 1100px; margin: 0 auto; text-align: center; position: relative; }
-        
-        /* Member Card Base */
         .party-member { display: inline-flex; flex-direction: column; align-items: center; margin: 15px; vertical-align: top; width: 160px; }
         .circle-avatar { width: 85px; height: 85px; border-radius: 50%; background-color: #EBF0F1; border: 1px solid #D0D3D4; margin-bottom: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease; position: relative; }
         .circle-avatar::before { content: 'PHOTO'; }
@@ -149,10 +147,8 @@
         .member-role { font-size: 0.75rem; color: #7F8C8D; text-transform: uppercase; letter-spacing: 1px; min-height: 36px; display: flex; align-items: flex-start; justify-content: center; text-align: center; }
         .text-white .member-role { color: #BDC3C7; }
 
-        /* Tree Structural Branches */
         .tree-crown { margin-bottom: 3rem; position: relative; }
         .tree-crown::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; margin: 15px auto 0 auto; }
-        
         .tree-split { display: flex; justify-content: space-around; gap: 40px; position: relative; margin-bottom: 2rem; }
         .tree-column { width: 50%; position: relative; }
         .tree-column::before { content: ''; display: block; width: 60%; height: 1px; background-color: #E0E0E0; position: absolute; top: -1px; }
@@ -162,17 +158,23 @@
         .side-heading { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; color: #7F8C8D; margin-bottom: 1.5rem; position: relative; }
         .side-heading::after { content: ''; display: block; width: 2px; height: 20px; background-color: #E0E0E0; margin: 10px auto 0 auto; }
         
-        /* Flex Grid Systems to align children components side-by-side cleanly */
         .family-tier { display: flex; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; position: relative; }
         .family-tier::after { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); }
-
-        /* Uniform alignment for individual lineup indices */
         .attendants-tier { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); justify-items: center; justify-content: center; gap: 15px; position: relative; }
 
         /* SHARED CORE HOSTS BLOCK STYLING */
         .hosts-section-wrapper { margin-top: 4rem; position: relative; border-top: 1px solid #E0E0E0; padding-top: 3rem; }
         .hosts-section-wrapper::before { content: ''; display: block; width: 2px; height: 30px; background-color: #E0E0E0; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); }
         .hosts-tier-heading { font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: 3px; text-transform: uppercase; color: #000000; margin-bottom: 1.5rem; }
+
+        /* INTERACTIVE REGISTRY MATRIX HOUSING CARD */
+        .registry-card { max-width: 600px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; text-align: left; }
+        .registry-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #E0E0E0; padding: 12px 0; font-size: 0.95rem; }
+        .registry-row:last-of-type { border-bottom: none; }
+        .registry-label { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: 600; color: #555555; }
+        .registry-value { font-family: 'Cinzel', serif; font-weight: 600; color: #000000; letter-spacing: 0.5px; }
+        .copy-btn { background-color: #000000; color: #FFFFFF; border: 1px solid #000000; padding: 6px 14px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+        .copy-btn:hover { background-color: #FFFFFF; color: #000000; }
 
         @media (max-width: 768px) { 
             .tree-split { flex-direction: column; gap: 50px; margin-bottom: 0; }
@@ -184,6 +186,9 @@
             .member-role { font-size: 0.72rem; min-height: auto; }
             .hosts-section-wrapper { margin-top: 3rem; padding-top: 2rem; }
             .attendants-tier { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .registry-card { padding: 30px 20px; }
+            .registry-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .copy-btn { width: 100%; text-align: center; margin-top: 5px; }
         }
         
         /* SPOTIFY CONTAINER STYLING */
@@ -266,7 +271,7 @@
 
     <header id="home" class="hero">
         <div class="hero-content">
-            <h1>JARROD &amp; TELICIA</h1>
+            <h1>JARROD & TELICIA</h1>
             <p class="subtitle">SAVE THE DATE</p>
             <div class="date-badge">25 . 04 . 2027</div>
             
@@ -328,13 +333,13 @@
         <div class="accommodation-wrapper">
             <div class="policy-box">
                 <strong>Important Lodging Allocation Policy:</strong>
-                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests[cite: 1, 2].</p>
+                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests.</p>
                 <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue.</strong></p>
                 <p>• Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy.</p>
                 <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
             </div>
 
-            <div class="table-title">Riverview Hall Rooms &amp; Rates (On-Site)</div>
+            <div class="table-title">Riverview Hall Rooms & Rates (On-Site)</div>
             <table class="room-table">
                 <thead>
                     <tr>
@@ -358,10 +363,10 @@
             </table>
 
             <div class="room-notes">
-                <strong>Booking Parameters &amp; Inclusions:</strong>
+                <strong>Booking Parameters & Inclusions:</strong>
                 <ul>
-                    <li>All room allocations natively include complimentary breakfast for guests[cite: 3].</li>
-                    <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking[cite: 3, 5].</em></li>
+                    <li>All room allocations natively include complimentary breakfast for guests.</li>
+                    <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
                 </ul>
             </div>
 
@@ -449,7 +454,7 @@
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
                             <div class="member-name">Drystan Govender</div>
-                            <div class="member-role">Sibling &amp; Groomsman</div>
+                            <div class="member-role">Sibling & Groomsman</div>
                         </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
@@ -518,7 +523,7 @@
                         </div>
                         <div class="party-member">
                             <div class="circle-avatar"><img src="" alt=""></div>
-                    		<div class="member-name">Jada Naidoo</div>
+                            <div class="member-name">Jada Naidoo</div>
                             <div class="member-role">Bridesmaid</div>
                         </div>
                     </div>
@@ -544,9 +549,32 @@
 
     <section id="registry" class="section containment bg-light-grey">
         <h2>GIFT REGISTRY</h2>
-        <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates will be added here shortly.</p>
-        <div class="registry-placeholder">
-            <p><em>Our formal gift registry is currently being curated with love and will be live here soon.</em></p>
+        <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates are detailed below.</p>
+        
+        <div class="registry-card">
+            <div class="registry-row">
+                <span class="registry-label">Bank Entity</span>
+                <span class="registry-value">Discovery Bank</span>
+            </div>
+            <div class="registry-row">
+                <span class="registry-label">Account Nickname</span>
+                <span class="registry-value">J&amp;T Wedding 2027</span>
+            </div>
+            <div class="registry-row">
+                <span class="registry-label">Account Type</span>
+                <span class="registry-value">24 Hour Notice Savings Account</span>
+            </div>
+            <div class="registry-row">
+                <span class="registry-label">Universal Branch Code</span>
+                <span class="registry-value">679000</span>
+            </div>
+            <div class="registry-row">
+                <span class="registry-label">Account Number</span>
+                <div>
+                    <span id="accountNumber" class="registry-value" style="margin-right: 15px;">14517847793</span>
+                    <button onclick="copyAccountToClipboard()" id="clipboardBtn" class="copy-btn">Copy Number</button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -659,6 +687,25 @@
 
         function toggleInspoModal() {
             document.getElementById("inspoModal").classList.toggle("active");
+        }
+
+        // AUTOMATED CLIPBOARD MACRO CONTROLS
+        function copyAccountToClipboard() {
+            const numString = "14517847793";
+            navigator.clipboard.writeText(numString).then(() => {
+                const btn = document.getElementById("clipboardBtn");
+                btn.innerText = "Copied ✓";
+                btn.style.backgroundColor = "#27AE60";
+                btn.style.borderColor = "#27AE60";
+                
+                setTimeout(() => {
+                    btn.innerText = "Copy Number";
+                    btn.style.backgroundColor = "#000000";
+                    btn.style.borderColor = "#000000";
+                }, 2000);
+            }).catch(err => {
+                console.error("Clipboard routing exception: ", err);
+            });
         }
 
         // FAQ ACCORDION LOGIC
