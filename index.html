@@ -100,13 +100,6 @@
         .btn-black { background-color: #000000; color: #FFFFFF; border: 1px solid #000000; }
         .btn-black:hover { background-color: #FFFFFF; color: #000000; }
 
-        /* RSVP MODAL OVERLAY */
-        .rsvp-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px; }
-        .rsvp-modal.active { opacity: 1; pointer-events: auto; }
-        .modal-container { background-color: #111111; border: 1px solid #333333; width: 100%; max-width: 600px; height: 80vh; position: relative; display: flex; flex-direction: column; }
-        .close-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #FFFFFF; font-size: 2rem; cursor: pointer; z-index: 2100; }
-        .rsvp-iframe { width: 100%; height: 100%; border: none; }
-
         /* INTERACTIVE FAQ ACCORDION STYLING */
         .faq-wrapper { max-width: 750px; margin: 0 auto; }
         .faq-item { border-bottom: 1px solid #E0E0E0; padding: 20px 0; }
@@ -143,13 +136,6 @@
         </div>
     </nav>
 
-    <div id="rsvpModal" class="rsvp-modal">
-        <div class="modal-container">
-            <button class="close-modal" onclick="toggleModal()">&times;</button>
-            <iframe src="https://tally.so/embed/w2Yv1o?hideTitle=1&transparentBackground=1&dynamicHeight=1" class="rsvp-iframe" title="Wedding RSVP"></iframe>
-        </div>
-    </div>
-
     <header id="home" class="hero">
         <div class="hero-content">
             <h1>JARROD &amp; TELICIA</h1>
@@ -167,9 +153,9 @@
 
     <section id="rsvp" class="section containment bg-white">
         <h2>RSVP LINK</h2>
-        <p class="center-text">Please let us know if you will be celebrating with us. Kindly submit your response by clicking below.</p>
-        <div class="action-buttons" style="margin-top: 0;">
-            <button onclick="toggleModal()" class="btn btn-black">RSVP &amp; SELECT MENU</button>
+        <div class="center-text" style="max-width: 650px;">
+            <p style="font-size: 1.1rem; font-weight: 400; margin-bottom: 15px; font-family: 'Cinzel', serif; letter-spacing: 1px;">By Private Invitation Only</p>
+            <p>To preserve absolute intimacy for our special day, our digital RSVP configuration is handled privately. Personalized confirmation and menu selection access links will be sent out directly via message or email to our invited loved ones closer to the time.</p>
         </div>
     </section>
 
@@ -346,6 +332,13 @@
             </div>
 
             <div class="faq-item">
+                <button class="faq-question">By when and how should I submit my RSVP?<span class="faq-icon">+</span></button>
+                <div class="faq-answer">
+                    <p>To maintain complete hospitality synchronization, we will not host a public RSVP button layout. Instead, our invited family and friends will receive unique, personalized private tracking form links via text or email closer to the official deadline date.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
                 <button class="faq-question">Can I bring a plus-one?<span class="faq-icon">+</span></button>
                 <div class="faq-answer">
                     <p>Due to capacity limitations at our venue, we are only able to accommodate the specific names listed on your digital RSVP configuration. Thank you for your understanding.</p>
@@ -365,13 +358,6 @@
                     <p>Yes. The venue offers completely free, secure, guarded private parking inside the estate parameters for all vehicles attending the celebration.</p>
                 </div>
             </div>
-
-            <div class="faq-item">
-                <button class="faq-question">By when should I submit my RSVP?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>To help us finalize catering, floor layouts, and seating logistics with the coordinators, we kindly request all responses be submitted closer to the time. Official deadlines will be posted here soon.</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -380,10 +366,6 @@
     <script>
         function toggleMenu() {
             document.getElementById("sidebarMenu").classList.toggle("open");
-        }
-
-        function toggleModal() {
-            document.getElementById("rsvpModal").classList.toggle("active");
         }
 
         // FAQ ACCORDION LOGIC
