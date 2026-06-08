@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarrod &amp; Telicia | 25.04.2027</title>
+    <title>Jarrod & Telicia | 25.04.2027</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -89,7 +89,10 @@
         .center-text { text-align: center; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto; }
         .italic { font-style: italic; color: #666666; }
         .text-white .italic { color: #CCCCCC; }
-        .dress-code { text-align: center; letter-spacing: 1px; margin-bottom: 3rem; font-size: 0.95rem; text-transform: uppercase; }
+        .dress-code { text-align: center; letter-spacing: 1px; margin-bottom: 1rem; font-size: 0.95rem; text-transform: uppercase; }
+        
+        .inspo-trigger { display: inline-block; font-size: 0.8rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3rem; cursor: pointer; transition: color 0.3s ease; }
+        .inspo-trigger:hover { color: #888888; border-color: #888888; }
 
         /* VENUE CARD */
         .venue-full-card { border: 1px solid #E0E0E0; max-width: 600px; margin: 0 auto; padding: 50px 40px; text-align: center; }
@@ -98,6 +101,18 @@
         .venue-address { font-size: 0.95rem; color: #555; margin-bottom: 2rem; line-height: 1.5; }
         .location-link { display: inline-block; font-size: 0.85rem; font-weight: 600; color: #000000; text-decoration: none; border-bottom: 1px solid #000; padding-bottom: 3px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; }
         .location-link:hover { color: #888888; border-color: #888888; }
+
+        /* STYLE OVERLAY MODAL */
+        .inspo-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px; }
+        .inspo-modal.active { opacity: 1; pointer-events: auto; }
+        .inspo-container { background-color: #FFFFFF; width: 100%; max-width: 700px; max-height: 85vh; padding: 50px 40px; position: relative; overflow-y: auto; text-align: center; color: #000000; }
+        .close-inspo-modal { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #000000; font-size: 2.2rem; cursor: pointer; }
+        
+        .inspo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 2rem; }
+        .inspo-card { border: 1px solid #E0E0E0; padding: 30px 20px; background-color: #F9F9F9; }
+        .inspo-card h4 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #000; padding-bottom: 5px; }
+        .inspo-card p { font-size: 0.85rem; color: #444; text-align: left; margin-bottom: 8px; }
+        @media (max-width: 768px) { .inspo-grid { grid-template-columns: 1fr; gap: 20px; } .inspo-container { padding: 40px 20px; } }
 
         /* ADVANCED ACCOMMODATION & TABLES */
         .accommodation-wrapper, .bartab-wrapper { max-width: 850px; margin: 0 auto; background-color: #FFFFFF; border: 1px solid #E0E0E0; padding: 40px; color: #000000; }
@@ -178,6 +193,30 @@
         </div>
     </nav>
 
+    <div id="inspoModal" class="inspo-modal">
+        <div class="inspo-container">
+            <button class="close-inspo-modal" onclick="toggleInspoModal()">×</button>
+            <h3 style="font-size: 1.6rem; margin-bottom: 10px;">DRESS CODE INSPO</h3>
+            <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Black Tie Optional — Black &amp; White Theme</p>
+            <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto;">To curate an ultra-clean, elegant, cohesive visual narrative for our celebration memories, we kindly request our loved ones honor our monochrome palette.</p>
+            
+            <div class="inspo-grid">
+                <div class="inspo-card">
+                    <h4>Gentlemen</h4>
+                    <p>• A classic black tuxedo or a sharp black formal suit coupled with a crisp white dress shirt.</p>
+                    <p>• Paired with a formal black bow tie or clean black necktie alignment.</p>
+                    <p>• Completed with black formal leather dress shoes.</p>
+                </div>
+                <div class="inspo-card">
+                    <h4>Ladies</h4>
+                    <p>• Sophisticated floor-length formal gowns or chic evening cocktail dresses.</p>
+                    <p>• Attire color scheme parameters are restricted strictly to solid black or solid white options.</p>
+                    <p>• Completed with elegant formal evening footwear accessories.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header id="home" class="hero">
         <div class="hero-content">
             <h1>JARROD &amp; TELICIA</h1>
@@ -201,9 +240,11 @@
         </div>
     </section>
 
-    <section id="details" class="section containment bg-light-grey">
+    <section id="details" class="section containment bg-light-grey" style="text-align: center;">
         <h2>VENUE DETAILS</h2>
         <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
+        
+        <div class="inspo-trigger" onclick="toggleInspoModal()">View Dress Code Inspiration →</div>
         
         <div class="venue-full-card" style="background-color: #FFFFFF;">
             <p class="venue-main">Sunday, 25 April 2027</p>
@@ -419,6 +460,10 @@
     <script>
         function toggleMenu() {
             document.getElementById("sidebarMenu").classList.toggle("open");
+        }
+
+        function toggleInspoModal() {
+            document.getElementById("inspoModal").classList.toggle("active");
         }
 
         // FAQ ACCORDION LOGIC
