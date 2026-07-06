@@ -15,15 +15,19 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; background-color: #FFFFFF; color: #000000; line-height: 1.6; }
 
-        /* DEVELOPMENT LOCK MODE CSS */
+        /* DEVELOPMENT LOCK MODE CSS (HARDENED) */
+        body.locked-mode {
+            overflow: hidden !important; /* Physically disables the browser scrollbar entirely */
+            height: 100vh !important;
+        }
         body.locked-mode section,
         body.locked-mode .menu-box-container,
         body.locked-mode nav,
-        body.locked-mode .home-floating-btn {
+        body.locked-mode .home-floating-btn,
+        body.locked-mode .inspo-modal {
             display: none !important;
-        }
-        body.locked-mode .hero {
-            height: 100vh !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
 
         /* TYPOGRAPHY */
@@ -234,6 +238,8 @@
         .faq-item.active .faq-icon { transform: rotate(45deg); }
     </style>
 </head>
+
+<!-- THE CLASS 'locked-mode' ON THIS BODY TAG IS WHAT ACTIVATES THE LOCK -->
 <body class="locked-mode">
 
     <!-- VISIBLE FIXED MENU CONTAINER BOX -->
@@ -784,8 +790,6 @@
             </div>
         </div>
     </section>
-
-    <a href="#home" class="home-floating-btn" title="Back to Home" aria-label="Scroll to home">↑</a>
 
     <script>
         // DEVELOPER UNLOCK SCRIPT
