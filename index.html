@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow"> <!-- Tells Google not to index the site while in dev mode -->
-    <title>Jarrod & Telicia | 25.04.2027</title>
+    <meta name="robots" content="noindex, nofollow"> <title>Jarrod & Telicia | 25.04.2027</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
@@ -14,21 +13,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Montserrat', sans-serif; background-color: #FFFFFF; color: #000000; line-height: 1.6; }
-
-        /* DEVELOPMENT LOCK MODE CSS (HARDENED) */
-        body.locked-mode {
-            overflow: hidden !important; /* Physically disables the browser scrollbar entirely */
-            height: 100vh !important;
-        }
-        body.locked-mode section,
-        body.locked-mode .menu-box-container,
-        body.locked-mode nav,
-        body.locked-mode .home-floating-btn,
-        body.locked-mode .inspo-modal {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-        }
 
         /* TYPOGRAPHY */
         h1, h2, h3 { font-family: 'Cinzel', serif; letter-spacing: 3px; font-weight: 400; text-align: center; }
@@ -238,54 +222,8 @@
         .faq-item.active .faq-icon { transform: rotate(45deg); }
     </style>
 </head>
+<body>
 
-<!-- THE CLASS 'locked-mode' ON THIS BODY TAG IS WHAT ACTIVATES THE LOCK -->
-<body class="locked-mode">
-
-    <!-- VISIBLE FIXED MENU CONTAINER BOX -->
-    <div class="menu-box-container">
-        <button class="menu-trigger" onclick="toggleMenu()" aria-label="Toggle Menu">
-            <span class="menu-line"></span>
-            <span class="menu-line"></span>
-        </button>
-    </div>
-
-    <!-- SIDEBAR SLIDE NAVIGATION -->
-    <nav id="sidebarMenu" class="sidebar">
-        <button class="close-trigger" onclick="toggleMenu()">×</button>
-        <div class="sidebar-links">
-            <a href="#home" onclick="toggleMenu()">Home</a>
-            <a href="#rsvp" onclick="toggleMenu()">RSVP Link</a>
-            <a href="#details" onclick="toggleMenu()">Venue Details</a>
-            <a href="#dresscode" onclick="toggleMenu()">Dress Code</a>
-            <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
-            <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
-            <a href="#party" onclick="toggleMenu()">Wedding Party</a>
-            <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
-            <a href="#bartab" onclick="toggleMenu()">Bar Tab</a>
-            <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
-            <a href="#songs" onclick="toggleMenu()">Song Requests</a>
-            <a href="#guide" onclick="toggleMenu()">Local Guide</a>
-            <a href="#faq" onclick="toggleMenu()">FAQ</a>
-        </div>
-    </nav>
-
-    <!-- INTERACTIVE DRESS CODE INSPO OVERLAY MODAL -->
-    <div id="inspoModal" class="inspo-modal">
-        <div class="inspo-container">
-            <button class="close-inspo-modal" onclick="toggleInspoModal()">×</button>
-            <h3 style="font-size: 1.6rem; margin-bottom: 10px;">DRESS CODE INSPO</h3>
-            <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Formal — Vogue Aesthetic</p>
-            <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #D32F2F;">Strict Policy Notice: Wearing white is completely forbidden for all guests.</p>
-            
-            <div class="inspo-image-grid">
-                <img src="BLACK TIE.jpg" alt="Black Tie Guide">
-                <img src="FORMAL.jpg" alt="Formal Dress Code Guide">
-            </div>
-        </div>
-    </div>
-
-    <!-- 1. HOME SECTION -->
     <header id="home" class="hero">
         <div class="hero-content">
             <h1>JARROD & TELICIA</h1>
@@ -301,503 +239,524 @@
         </div>
     </header>
 
-    <!-- 2. RSVP LINK SECTION -->
-    <section id="rsvp" class="section containment bg-white">
-        <h2>RSVP LINK</h2>
-        <div class="center-text" style="max-width: 650px;">
-            <p style="font-size: 1.1rem; font-weight: 400; margin-bottom: 15px; font-family: 'Cinzel', serif; letter-spacing: 1px;">By Private Invitation Only</p>
-            <p>To preserve absolute intimacy for our special day, our digital RSVP configuration is handled privately. Personalized confirmation and menu selection access links will be sent out directly via message or email to our invited loved ones closer to the time.</p>
+    <div id="development-lock-container" style="display: none;">
+
+        <div class="menu-box-container">
+            <button class="menu-trigger" onclick="toggleMenu()" aria-label="Toggle Menu">
+                <span class="menu-line"></span>
+                <span class="menu-line"></span>
+            </button>
         </div>
-    </section>
 
-    <!-- 3. VENUE DETAILS SECTION -->
-    <section id="details" class="section containment bg-light-grey">
-        <h2>VENUE DETAILS</h2>
-        <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
-        
-        <div class="venue-full-card" style="background-color: #FFFFFF;">
-            <p class="venue-main">Sunday, 25 April 2027</p>
-            <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
-            <p class="venue-address">70 Gecko Ridge Road, Mooiplaas,<br>Pretoria, 0065</p>
-            <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="location-link">View Location on Google Maps →</a>
-            
-            <div style="margin-top: 2rem; border-top: 1px dashed #E0E0E0; padding-top: 1.5rem; font-size: 0.85rem; color: #000; text-align: center;">
-                <p style="text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px;">A Quick Note on Monday Morning:</p>
-                <p>Yes, it's a Sunday—but don't panic. Tuesday 27 April is a public holiday (Freedom Day). If you put in for leave on Monday the 26th, you score a glorious 4-day long weekend. Consider this your official sign to take the day off and celebrate properly with us.</p>
+        <nav id="sidebarMenu" class="sidebar">
+            <button class="close-trigger" onclick="toggleMenu()">×</button>
+            <div class="sidebar-links">
+                <a href="#home" onclick="toggleMenu()">Home</a>
+                <a href="#rsvp" onclick="toggleMenu()">RSVP Link</a>
+                <a href="#details" onclick="toggleMenu()">Venue Details</a>
+                <a href="#dresscode" onclick="toggleMenu()">Dress Code</a>
+                <a href="#timeline" onclick="toggleMenu()">Wedding Day Timeline</a>
+                <a href="#accommodation" onclick="toggleMenu()">Accommodation</a>
+                <a href="#party" onclick="toggleMenu()">Wedding Party</a>
+                <a href="#registry" onclick="toggleMenu()">Gift Registry</a>
+                <a href="#bartab" onclick="toggleMenu()">Bar Tab</a>
+                <a href="#menu" onclick="toggleMenu()">Menu Selection</a>
+                <a href="#songs" onclick="toggleMenu()">Song Requests</a>
+                <a href="#guide" onclick="toggleMenu()">Local Guide</a>
+                <a href="#faq" onclick="toggleMenu()">FAQ</a>
             </div>
-        </div>
-    </section>
+        </nav>
 
-    <!-- 4. DRESS CODE SECTION -->
-    <section id="dresscode" class="section containment bg-black text-white" style="text-align: center;">
-        <h2>DRESS CODE</h2>
-        <p class="dress-code-subtitle">FORMAL — VOGUE INSPIRED</p>
-        <p class="center-text italic" style="max-width: 600px; margin-bottom: 1.5rem;">
-            Our vision for the celebration is a high-fashion, high-energy editorial evening. We kindly request our guests step into their finest formal looks down the red carpet.
-        </p>
-        <p class="center-text" style="max-width: 600px; color: #FFCDD2; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 2rem;">
-            Please Note: Guests are strictly forbidden from wearing any white, cream, or ivory attire (except for traditional men's white dress shirts beneath suits).
-        </p>
-        <div class="inspo-trigger" onclick="toggleInspoModal()">Open Vogue Style Guide →</div>
-    </section>
-
-    <!-- 5. WEDDING DAY TIMELINE SECTION -->
-    <section id="timeline" class="section containment bg-white">
-        <h2>WEDDING DAY TIMELINE</h2>
-        <p class="center-text italic">Our official itinerary is currently being structured with love to ensure a spectacular celebration. The fine-tuned sequence of events will be revealed right here closer to our special day.</p>
-    </section>
-
-    <!-- 6. ACCOMMODATION SECTION -->
-    <section id="accommodation" class="section containment bg-light-grey">
-        <h2>ACCOMMODATION</h2>
-        <p class="center-text">To ensure your comfort and convenience, luxury lodging is available both on-site at the estate and within the immediate surrounding area.</p>
-        
-        <div class="accommodation-wrapper">
-            <div class="policy-box">
-                <strong>Important Lodging Allocation Policy:</strong>
-                <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests.</p>
-                <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue.</strong></p>
-                <p>• Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy.</p>
-                <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
-            </div>
-
-            <div class="table-title">Riverview Hall Rooms & Rates (On-Site)</div>
-            <table class="room-table">
-                <thead>
-                    <tr>
-                        <th>Room Selection</th>
-                        <th>Type / Size</th>
-                        <th>Sleeps</th>
-                        <th>Standard Rate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Room 4</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
-                    <tr><td>Room 5</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
-                    <tr><td>Room 6</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
-                    <tr><td>Room 7</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
-                    <tr><td>Room 8</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
-                    <tr><td>Room 9</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
-                    <tr><td>Room 10</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
-                    <tr><td>Room 11</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
-                    <tr><td>Room 12</td><td>Log Cabin</td><td>4 Guests</td><td>R2 250.00</td></tr>
-                </tbody>
-            </table>
-
-            <div class="room-notes">
-                <strong>Booking Parameters & Inclusions:</strong>
-                <ul>
-                    <li>All room allocations natively include complimentary breakfast for guests.</li>
-                    <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
-                </ul>
-            </div>
-
-            <div class="accommodation-action" style="margin-bottom: 3rem;">
-                <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">To reserve an on-site suite, please click below to access the official estate portal:</p>
-                <a href="https://geckoridgevenue.co.za/accommodation/" target="_blank" class="btn btn-black">Book On-Site Accommodation</a>
-            </div>
-
-            <div class="table-title">Alternative Accommodations Nearby</div>
-            <p style="font-size: 0.85rem; color: #555; margin-bottom: 1rem;">As on-site space is highly selective, we highly recommend these nearby premium stays located just minutes from the venue:</p>
-            
-            <div class="external-grid">
-                <div class="external-card">
-                    <div>
-                        <h4>Guesthouse @ 56</h4>
-                        <div class="external-distance">~ 1.5 km away</div>
-                        <p class="external-desc">An elegant country guesthouse right in Mooiplaas. Highly rated, stylish self-catering double rooms with a relaxed atmosphere.</p>
-                    </div>
-                    <a href="http://www.guesthouse56.com/" target="_blank" class="external-link">View Website →</a>
-                </div>
-
-                <div class="external-card">
-                    <div>
-                        <h4>Rosemary Hill</h4>
-                        <div class="external-distance">~ 4.8 km away</div>
-                        <p class="external-desc">A beautiful, well-known 4-star country estate nearby offering exceptional boutique lodging, beautiful rooms, and gardens.</p>
-                    </div>
-                    <a href="https://www.rosemaryhill.co.za/" target="_blank" class="external-link">View Website →</a>
-                </div>
-
-                <div class="external-card">
-                    <div>
-                        <h4>The Lakes Lodge</h4>
-                        <div class="external-distance">~ 7.2 km away</div>
-                        <p class="external-desc">A highly rated 4-star boutique lodge nearby in Silver Lakes, offering sleek, modern suites and exceptional luxury finishes.</p>
-                    </div>
-                    <a href="https://www.thelakeslodge.co.za/" target="_blank" class="external-link">View Website →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. MEET THE WEDDING PARTY SECTION -->
-    <section id="party" class="section containment bg-white">
-        <h2>MEET THE WEDDING PARTY</h2>
-        <p class="center-text">Introducing the remarkable family members and cherished inner circle standing alongside us as we lock in our forever.</p>
-        
-        <div class="tree-container">
-            <!-- TIER 1: BRIDE & GROOM CROWN -->
-            <div class="tree-crown">
-                <div class="party-member">
-                    <div class="circle-avatar"><img src="" alt=""></div>
-                    <div class="member-name">Jarrod Govender</div>
-                    <div class="member-role">The Groom</div>
-                </div>
-                <div class="party-member">
-                    <div class="circle-avatar"><img src="" alt=""></div>
-                    <div class="member-name">Telicia Govender</div>
-                    <div class="member-role">The Bride</div>
-                </div>
-            </div>
-            
-            <!-- LINEAGE MATES SPLIT GRID -->
-            <div class="tree-split">
+        <div id="inspoModal" class="inspo-modal">
+            <div class="inspo-container">
+                <button class="close-inspo-modal" onclick="toggleInspoModal()">×</button>
+                <h3 style="font-size: 1.6rem; margin-bottom: 10px;">DRESS CODE INSPO</h3>
+                <p class="italic" style="font-size: 0.9rem; color: #666; margin-bottom: 1.5rem;">Formal — Vogue Aesthetic</p>
+                <p style="font-size: 0.9rem; max-width: 550px; margin: 0 auto 1.5rem auto; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #D32F2F;">Strict Policy Notice: Wearing white is completely forbidden for all guests.</p>
                 
-                <!-- GROOM'S LINEAGE COLUMN -->
-                <div class="tree-column groom-side">
-                    <div class="side-heading">The Groom's Lineage</div>
-                    
-                    <!-- Parents Side-by-Side -->
-                    <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Nithian</div>
-                            <div class="member-role">Father</div>
+                <div class="inspo-image-grid">
+                    <img src="BLACK TIE.jpg" alt="Black Tie Guide">
+                    <img src="FORMAL.jpg" alt="Formal Dress Code Guide">
+                </div>
+            </div>
+        </div>
+
+        <section id="rsvp" class="section containment bg-white">
+            <h2>RSVP LINK</h2>
+            <div class="center-text" style="max-width: 650px;">
+                <p style="font-size: 1.1rem; font-weight: 400; margin-bottom: 15px; font-family: 'Cinzel', serif; letter-spacing: 1px;">By Private Invitation Only</p>
+                <p>To preserve absolute intimacy for our special day, our digital RSVP configuration is handled privately. Personalized confirmation and menu selection access links will be sent out directly via message or email to our invited loved ones closer to the time.</p>
+            </div>
+        </section>
+
+        <section id="details" class="section containment bg-light-grey">
+            <h2>VENUE DETAILS</h2>
+            <p class="dress-code"><strong>DRESS CODE:</strong> Black Tie Optional. We kindly request our guests join us in our elegant black and white theme.</p>
+            
+            <div class="venue-full-card" style="background-color: #FFFFFF;">
+                <p class="venue-main">Sunday, 25 April 2027</p>
+                <h3 class="venue-name">Gecko Ridge Wedding Venue</h3>
+                <p class="venue-address">70 Gecko Ridge Road, Mooiplaas,<br>Pretoria, 0065</p>
+                <a href="https://share.google/MaF1275fAR2zON1dq" target="_blank" class="location-link">View Location on Google Maps →</a>
+                
+                <div style="margin-top: 2rem; border-top: 1px dashed #E0E0E0; padding-top: 1.5rem; font-size: 0.85rem; color: #000; text-align: center;">
+                    <p style="text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px;">A Quick Note on Monday Morning:</p>
+                    <p>Yes, it's a Sunday—but don't panic. Tuesday 27 April is a public holiday (Freedom Day). If you put in for leave on Monday the 26th, you score a glorious 4-day long weekend. Consider this your official sign to take the day off and celebrate properly with us.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dresscode" class="section containment bg-black text-white" style="text-align: center;">
+            <h2>DRESS CODE</h2>
+            <p class="dress-code-subtitle">FORMAL — VOGUE INSPIRED</p>
+            <p class="center-text italic" style="max-width: 600px; margin-bottom: 1.5rem;">
+                Our vision for the celebration is a high-fashion, high-energy editorial evening. We kindly request our guests step into their finest formal looks down the red carpet.
+            </p>
+            <p class="center-text" style="max-width: 600px; color: #FFCDD2; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 2rem;">
+                Please Note: Guests are strictly forbidden from wearing any white, cream, or ivory attire (except for traditional men's white dress shirts beneath suits).
+            </p>
+            <div class="inspo-trigger" onclick="toggleInspoModal()">Open Vogue Style Guide →</div>
+        </section>
+
+        <section id="timeline" class="section containment bg-white">
+            <h2>WEDDING DAY TIMELINE</h2>
+            <p class="center-text italic">Our official itinerary is currently being structured with love to ensure a spectacular celebration. The fine-tuned sequence of events will be revealed right here closer to our special day.</p>
+        </section>
+
+        <section id="accommodation" class="section containment bg-light-grey">
+            <h2>ACCOMMODATION</h2>
+            <p class="center-text">To ensure your comfort and convenience, luxury lodging is available both on-site at the estate and within the immediate surrounding area.</p>
+            
+            <div class="accommodation-wrapper">
+                <div class="policy-box">
+                    <strong>Important Lodging Allocation Policy:</strong>
+                    <p>• Our wedding festivities are hosted at the <strong>River Venue</strong>. Accommodations have been partitioned by estate management to ensure availability for our guests.</p>
+                    <p>• <strong>Kindly note that you may only book accommodation allocated to the River Venue.</strong></p>
+                    <p>• Room allocations linked to the Forest Venue will remain locked until 3 months prior to the wedding date, subject to vacancy.</p>
+                    <p>• <em>Note: Any guest reservations submitted for Forest Venue suites before the 3-month open release period will automatically be canceled by the venue administrators.</em></p>
+                </div>
+
+                <div class="table-title">Riverview Hall Rooms & Rates (On-Site)</div>
+                <table class="room-table">
+                    <thead>
+                        <tr>
+                            <th>Room Selection</th>
+                            <th>Type / Size</th>
+                            <th>Sleeps</th>
+                            <th>Standard Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Room 4</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                        <tr><td>Room 5</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                        <tr><td>Room 6</td><td>4 Sleeper Room</td><td>4 Guests</td><td>R2 750.00</td></tr>
+                        <tr><td>Room 7</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                        <tr><td>Room 8</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                        <tr><td>Room 9</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                        <tr><td>Room 10</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                        <tr><td>Room 11</td><td>Queen Suite</td><td>2 Guests</td><td>R1 450.00</td></tr>
+                        <tr><td>Room 12</td><td>Log Cabin</td><td>4 Guests</td><td>R2 250.00</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="room-notes">
+                    <strong>Booking Parameters & Inclusions:</strong>
+                    <ul>
+                        <li>All room allocations natively include complimentary breakfast for guests.</li>
+                        <li><em>Please note: The Bridal Suite (Room 13) and The Farm House are privately reserved for the bridal party and are unavailable for general booking.</em></li>
+                    </ul>
+                </div>
+
+                <div class="accommodation-action" style="margin-bottom: 3rem;">
+                    <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">To reserve an on-site suite, please click below to access the official estate portal:</p>
+                    <a href="https://geckoridgevenue.co.za/accommodation/" target="_blank" class="btn btn-black">Book On-Site Accommodation</a>
+                </div>
+
+                <div class="table-title">Alternative Accommodations Nearby</div>
+                <p style="font-size: 0.85rem; color: #555; margin-bottom: 1rem;">As on-site space is highly selective, we highly recommend these nearby premium stays located just minutes from the venue:</p>
+                
+                <div class="external-grid">
+                    <div class="external-card">
+                        <div>
+                            <h4>Guesthouse @ 56</h4>
+                            <div class="external-distance">~ 1.5 km away</div>
+                            <p class="external-desc">An elegant country guesthouse right in Mooiplaas. Highly rated, stylish self-catering double rooms with a relaxed atmosphere.</p>
                         </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Jerelene</div>
-                            <div class="member-role">Mother</div>
-                        </div>
+                        <a href="http://www.guesthouse56.com/" target="_blank" class="external-link">View Website →</a>
                     </div>
-                    
-                    <!-- Sibling -->
-                    <div class="family-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Drystan Govender</div>
-                            <div class="member-role">Groom's Sibling</div>
+
+                    <div class="external-card">
+                        <div>
+                            <h4>Rosemary Hill</h4>
+                            <div class="external-distance">~ 4.8 km away</div>
+                            <p class="external-desc">A beautiful, well-known 4-star country estate nearby offering exceptional boutique lodging, beautiful rooms, and gardens.</p>
                         </div>
+                        <a href="https://www.rosemaryhill.co.za/" target="_blank" class="external-link">View Website →</a>
                     </div>
-                    
-                    <!-- Groomsmen Lineup -->
-                    <div class="attendants-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Kai</div>
-                            <div class="member-role">Ring Bearer</div>
+
+                    <div class="external-card">
+                        <div>
+                            <h4>The Lakes Lodge</h4>
+                            <div class="external-distance">~ 7.2 km away</div>
+                            <p class="external-desc">A highly rated 4-star boutique lodge nearby in Silver Lakes, offering sleek, modern suites and exceptional luxury finishes.</p>
                         </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Drystan Govender</div>
-                            <div class="member-role">Sibling & Best Man</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Justin Paul</div>
-                            <div class="member-role">Groomsman</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Sheldon Singh</div>
-                            <div class="member-role">Groomsman</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Alistair Naidoo</div>
-                            <div class="member-role">Groomsman</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Rahim Moti</div>
-                            <div class="member-role">Groomsman</div>
-                        </div>
+                        <a href="https://www.thelakeslodge.co.za/" target="_blank" class="external-link">View Website →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="party" class="section containment bg-white">
+            <h2>MEET THE WEDDING PARTY</h2>
+            <p class="center-text">Introducing the remarkable family members and cherished inner circle standing alongside us as we lock in our forever.</p>
+            
+            <div class="tree-container">
+                <div class="tree-crown">
+                    <div class="party-member">
+                        <div class="circle-avatar"><img src="" alt=""></div>
+                        <div class="member-name">Jarrod Govender</div>
+                        <div class="member-role">The Groom</div>
+                    </div>
+                    <div class="party-member">
+                        <div class="circle-avatar"><img src="" alt=""></div>
+                        <div class="member-name">Telicia Govender</div>
+                        <div class="member-role">The Bride</div>
                     </div>
                 </div>
                 
-                <!-- BRIDE'S LINEAGE COLUMN -->
-                <div class="tree-column bride-side">
-                    <div class="side-heading">The Bride's Lineage</div>
+                <div class="tree-split">
                     
-                    <!-- Parents Side-by-Side -->
-                    <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Seelan</div>
-                            <div class="member-role">Father</div>
+                    <div class="tree-column groom-side">
+                        <div class="side-heading">The Groom's Lineage</div>
+                        
+                        <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Nithian</div>
+                                <div class="member-role">Father</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Jerelene</div>
+                                <div class="member-role">Mother</div>
+                            </div>
                         </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Teena</div>
-                            <div class="member-role">Mother</div>
+                        
+                        <div class="family-tier">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Drystan Govender</div>
+                                <div class="member-role">Groom's Sibling</div>
+                            </div>
+                        </div>
+                        
+                        <div class="attendants-tier">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Kai</div>
+                                <div class="member-role">Ring Bearer</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Drystan Govender</div>
+                                <div class="member-role">Sibling & Best Man</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Justin Paul</div>
+                                <div class="member-role">Groomsman</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Sheldon Singh</div>
+                                <div class="member-role">Groomsman</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Alistair Naidoo</div>
+                                <div class="member-role">Groomsman</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Rahim Moti</div>
+                                <div class="member-role">Groomsman</div>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Sibling -->
-                    <div class="family-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Theesen Govender</div>
-                            <div class="member-role">Bride's Sibling</div>
+                    <div class="tree-column bride-side">
+                        <div class="side-heading">The Bride's Lineage</div>
+                        
+                        <div class="family-tier" style="display: flex; justify-content: center; gap: 10px;">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Seelan</div>
+                                <div class="member-role">Father</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Teena</div>
+                                <div class="member-role">Mother</div>
+                            </div>
+                        </div>
+                        
+                        <div class="family-tier">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Theesen Govender</div>
+                                <div class="member-role">Bride's Sibling</div>
+                            </div>
+                        </div>
+                        
+                        <div class="attendants-tier">
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Neriah</div>
+                                <div class="member-role">Flower Girl</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Caitlin Ishwarduth</div>
+                                <div class="member-role">Maid of Honour</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Danae Govender</div>
+                                <div class="member-role">Bridesmaid</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Noelene Singh</div>
+                                <div class="member-role">Bridesmaid</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Crystel Ruthnum</div>
+                                <div class="member-role">Bridesmaid</div>
+                            </div>
+                            <div class="party-member">
+                                <div class="circle-avatar"><img src="" alt=""></div>
+                                <div class="member-name">Jada Naidoo</div>
+                                <div class="member-role">Bridesmaid</div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Bridesmaids Lineup -->
-                    <div class="attendants-tier">
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Neriah</div>
-                            <div class="member-role">Flower Girl</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Caitlin Ishwarduth</div>
-                            <div class="member-role">Maid of Honour</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Danae Govender</div>
-                            <div class="member-role">Bridesmaid</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Noelene Singh</div>
-                            <div class="member-role">Bridesmaid</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Crystel Ruthnum</div>
-                            <div class="member-role">Bridesmaid</div>
-                        </div>
-                        <div class="party-member">
-                            <div class="circle-avatar"><img src="" alt=""></div>
-                            <div class="member-name">Jada Naidoo</div>
-                            <div class="member-role">Bridesmaid</div>
-                        </div>
+                </div>
+
+                <div class="hosts-section-wrapper">
+                    <h4 class="hosts-tier-heading">Our Hosts</h4>
+                    <div class="party-member">
+                        <div class="circle-avatar"><img src="" alt=""></div>
+                        <div class="member-name">Kirshen Pillay</div>
+                        <div class="member-role">Wedding Host</div>
+                    </div>
+                    <div class="party-member">
+                        <div class="circle-avatar"><img src="" alt=""></div>
+                        <div class="member-name">Jay Pillay</div>
+                        <div class="member-role">Wedding Host</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- DEDICATED OUR HOSTS TIER -->
-            <div class="hosts-section-wrapper">
-                <h4 class="hosts-tier-heading">Our Hosts</h4>
-                <div class="party-member">
-                    <div class="circle-avatar"><img src="" alt=""></div>
-                    <div class="member-name">Kirshen Pillay</div>
-                    <div class="member-role">Wedding Host</div>
-                </div>
-                <div class="party-member">
-                    <div class="circle-avatar"><img src="" alt=""></div>
-                    <div class="member-name">Jay Pillay</div>
-                    <div class="member-role">Wedding Host</div>
-                </div>
             </div>
+        </section>
 
-        </div>
-    </section>
-
-    <!-- 8. GIFT REGISTRY SECTION -->
-    <section id="registry" class="section containment bg-light-grey">
-        <h2>GIFT REGISTRY</h2>
-        <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates are detailed below.</p>
-        
-        <div class="registry-card">
-            <div class="registry-row">
-                <span class="registry-label">Bank Entity</span>
-                <span class="registry-value">Discovery Bank</span>
-            </div>
-            <div class="registry-row">
-                <span class="registry-label">Account Nickname</span>
-                <span class="registry-value">J&T Wedding 2027</span>
-            </div>
-            <div class="registry-row">
-                <span class="registry-label">Account Type</span>
-                <span class="registry-value">24 Hour Notice Savings Account</span>
-            </div>
-            <div class="registry-row">
-                <span class="registry-label">Universal Branch Code</span>
-                <span class="registry-value">679000</span>
-            </div>
-            <div class="registry-row">
-                <span class="registry-label">Account Number</span>
-                <div>
-                    <span id="accountNumber" class="registry-value" style="margin-right: 15px;">14517847793</span>
-                    <button onclick="copyAccountToClipboard()" id="clipboardBtn" class="copy-btn">Copy Number</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 9. BAR TAB SECTION -->
-    <section id="bartab" class="section containment bg-black text-white">
-        <h2>BAR TAB</h2>
-        <p class="center-text">To keep transactions fluid on the night, physical beverage tokens can be pre-purchased early. The venue offers significant tier discounts for advanced online voucher orders.</p>
-        
-        <div class="bartab-wrapper">
-            <div class="table-title" style="color:#000000; border-color:#000000;">Pre-Paid Voucher Discount Matrix</div>
-            <table class="voucher-table" style="color:#000000;">
-                <thead>
-                    <tr>
-                        <th>Voucher Value</th>
-                        <th>Your Pre-Paid Cost</th>
-                        <th>Total Cash Saving</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>R500.00</strong> Bar Voucher</td><td>R450.00</td><td>Save R50.00</td></tr>
-                    <tr><td><strong>R1 000.00</strong> Bar Voucher</td><td>R850.00</td><td>Save R150.00</td></tr>
-                    <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
-                    <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
-                    <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
-                    <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
-                </tbody>
-            </table>
-
-            <div class="bartab-notes">
-                <strong>Voucher Management Instructions:</strong>
-                <ul>
-                    <li>Vouchers are issued securely via Quicket and can be processed effortlessly at the bar counters.</li>
-                    <li>Advanced booking allows our coordinators to track inventory pipelines and avoid service bottlenecks.</li>
-                    <li>Pre-purchasing is optional, but highly recommended to bypass standard payment terminal queues on the evening.</li>
-                </ul>
-            </div>
-
-            <div class="bartab-action">
-                <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color:#000000;">Click below to purchase your discounted tokens securely on the Quicket portal:</p>
-                <a href="https://www.quicket.co.za/events/345651-discount-bar-voucher-from-r500-r20-000#/" target="_blank" class="btn btn-black">Purchase Bar Vouchers</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 10. MENU SELECTION SECTION -->
-    <section id="menu" class="section containment bg-light-grey">
-        <h2>MENU SELECTION</h2>
-        <div class="center-text">
-            <p><em>Curated elegant dining options will be displayed here closer to the time. Options will cater for all individual dietary preferences.</em></p>
-        </div>
-    </section>
-
-    <!-- 11. SONG REQUESTS SECTION -->
-    <section id="songs" class="section containment bg-white">
-        <h2>SONG REQUESTS</h2>
-        <div class="center-text" style="max-width: 650px;">
-            <p style="margin-bottom: 2rem;">We want our dance floor moving all night long, and we want to hear the music you love. Use our interactive collaborative player below to review tracks and add your favorite celebration anthems directly to the lineup.</p>
+        <section id="registry" class="section containment bg-light-grey">
+            <h2>GIFT REGISTRY</h2>
+            <p class="center-text italic">Your presence on our special day is the greatest gift of all. However, should you wish to honour us with a contribution toward our future together, our banking coordinates are detailed below.</p>
             
-            <div class="spotify-wrapper">
-                <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7MTsrrmZyARUtQZhYAxF3A?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- 12. LOCAL CONCIERGE GUIDE SECTION -->
-    <section id="guide" class="section containment bg-light-grey">
-        <h2>LOCAL GUIDE</h2>
-        <p class="center-text">Since Freedom Day follows on Tuesday, we highly recommend extending your stay and exploring these top-tier spots in the Pretoria East area during your long weekend.</p>
-        
-        <div class="guide-container">
-            <div class="guide-column-box">
-                <h3>Cafés & Breakfast</h3>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">The Greenhouse Café</span>
-                    <p class="guide-spot-desc">A stunning, architecturally minimalist glasshouse setting nearby. Renowned for curated artisanal breakfasts, high-end coffee, and immersive views of the valley landscape.</p>
+            <div class="registry-card">
+                <div class="registry-row">
+                    <span class="registry-label">Bank Entity</span>
+                    <span class="registry-value">Discovery Bank</span>
                 </div>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">Rosemary Hill Café</span>
-                    <p class="guide-spot-desc">A beautiful organic country kitchen located just minutes from our venue estate. Exceptional freshly baked goods, light lunches, and premium coffee parameters.</p>
+                <div class="registry-row">
+                    <span class="registry-label">Account Nickname</span>
+                    <span class="registry-value">J&T Wedding 2027</span>
                 </div>
-            </div>
-
-            <div class="guide-column-box">
-                <h3>Leisure & Trails</h3>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">Rosemary Hill Trails</span>
-                    <p class="guide-spot-desc">Boasts over 30km of perfectly manicured, scenic paths for morning trail walks, jogging, or mountain biking winding through beautiful farmland and forests.</p>
+                <div class="registry-row">
+                    <span class="registry-label">Account Type</span>
+                    <span class="registry-value">24 Hour Notice Savings Account</span>
                 </div>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">Silver Lakes Golf Club</span>
-                    <p class="guide-spot-desc">A premier championship golf destination nearby. Features an immaculate Peter Matkovich-designed course, comprehensive practice facilities, and a fine lakeside clubhouse layout.</p>
+                <div class="registry-row">
+                    <span class="registry-label">Universal Branch Code</span>
+                    <span class="registry-value">679000</span>
+                </div>
+                <div class="registry-row">
+                    <span class="registry-label">Account Number</span>
+                    <div>
+                        <span id="accountNumber" class="registry-value" style="margin-right: 15px;">14517847793</span>
+                        <button onclick="copyAccountToClipboard()" id="clipboardBtn" class="copy-btn">Copy Number</button>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="guide-column-box">
-                <h3>Premium Dining</h3>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">Fermier Restaurant</span>
-                    <p class="guide-spot-desc">A highly celebrated fine-dining culinary theater in Pretoria East. Features an exceptional sustainable multi-course tasting menu focused entirely on organic farming pipelines.</p>
-                </div>
-                <div class="guide-item-entry">
-                    <span class="guide-spot-title">Blos Café</span>
-                    <p class="guide-spot-desc">A massive, beautifully designed modern industrial space. Perfect for a relaxed Monday lunch, offering a comprehensive grill selection, craft beers, and wine cellars.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section id="bartab" class="section containment bg-black text-white">
+            <h2>BAR TAB</h2>
+            <p class="center-text">To keep transactions fluid on the night, physical beverage tokens can be pre-purchased early. The venue offers significant tier discounts for advanced online voucher orders.</p>
+            
+            <div class="bartab-wrapper">
+                <div class="table-title" style="color:#000000; border-color:#000000;">Pre-Paid Voucher Discount Matrix</div>
+                <table class="voucher-table" style="color:#000000;">
+                    <thead>
+                        <tr>
+                            <th>Voucher Value</th>
+                            <th>Your Pre-Paid Cost</th>
+                            <th>Total Cash Saving</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>R500.00</strong> Bar Voucher</td><td>R450.00</td><td>Save R50.00</td></tr>
+                        <tr><td><strong>R1 000.00</strong> Bar Voucher</td><td>R850.00</td><td>Save R150.00</td></tr>
+                        <tr><td><strong>R2 000.00</strong> Bar Voucher</td><td>R1 650.00</td><td>Save R350.00</td></tr>
+                        <tr><td><strong>R5 000.00</strong> Bar Voucher</td><td>R4 000.00</td><td>Save R1 000.00</td></tr>
+                        <tr><td><strong>R10 000.00</strong> Bar Voucher</td><td>R7 500.00</td><td>Save R2 500.00</td></tr>
+                        <tr><td><strong>R20 000.00</strong> Bar Voucher</td><td>R15 000.00</td><td>Save R5 000.00</td></tr>
+                    </tbody>
+                </table>
 
-    <!-- 13. FAQ SECTION -->
-    <section id="faq" class="section containment bg-white">
-        <h2>FAQ</h2>
-        <p class="center-text">Find answers to immediate questions regarding our celebration details below.</p>
-        
-        <div class="faq-wrapper">
-            <div class="faq-item">
-                <button class="faq-question">A Sunday night wedding? What about work on Monday?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>We’ve got you covered. Tuesday 27 April is a public holiday (Freedom Day). If you take Monday the 26th off, you turn our wedding into a flawless 4-day long weekend. We highly recommend putting in that leave request early so you don't have to slip out of the reception early!</p>
+                <div class="bartab-notes">
+                    <strong>Voucher Management Instructions:</strong>
+                    <ul>
+                        <li>Vouchers are issued securely via Quicket and can be processed effortlessly at the bar counters.</li>
+                        <li>Advanced booking allows our coordinators to track inventory pipelines and avoid service bottlenecks.</li>
+                        <li>Pre-purchasing is optional, but highly recommended to bypass standard payment terminal queues on the evening.</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="faq-item">
-                <button class="faq-question">By when and how should I submit my RSVP?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>To maintain complete hospitality synchronization, we will not host a public RSVP button layout. Instead, our invited family and friends will receive unique, personalized private tracking form links via text or email closer to the official deadline date.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">Can we take pictures during the wedding?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>Yes, we absolutely encourage you to capture as many memories as possible! We only ask that you remain deeply courteous of our professional media team. Please look behind you to ensure you aren't blocking their camera sightlines, and kindly refrain from stepping out into the aisles or blocking paths to take photos during the ceremony and reception events.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question">What happens if guests who have not RSVP'd show up on the day?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>Gecko Ridge operates under strict security protocols to maintain the safety and comfort of our event. Only guests whose names are pre-approved and listed on the official security register will be granted entry at the estate gates. Regrettably, any unlisted attendees will be turned away by venue security personnel at the perimeter parameters without exception.</p>
+                <div class="bartab-action">
+                    <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color:#000000;">Click below to purchase your discounted tokens securely on the Quicket portal:</p>
+                    <a href="https://www.quicket.co.za/events/345651-discount-bar-voucher-from-r500-r20-000#/" target="_blank" class="btn btn-black">Purchase Bar Vouchers</a>
                 </div>
             </div>
+        </section>
 
-            <div class="faq-item">
-                <button class="faq-question">Can I bring a plus-one?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>Due to capacity limitations at our venue, we are only able to accommodate the specific names listed on your digital RSVP configuration. Thank you for your understanding.</p>
+        <section id="menu" class="section containment bg-light-grey">
+            <h2>MENU SELECTION</h2>
+            <div class="center-text">
+                <p><em>Curated elegant dining options will be displayed here closer to the time. Options will cater for all individual dietary preferences.</em></p>
+            </div>
+        </section>
+
+        <section id="songs" class="section containment bg-white">
+            <h2>SONG REQUESTS</h2>
+            <div class="center-text" style="max-width: 650px;">
+                <p style="margin-bottom: 2rem;">We want our dance floor moving all night long, and we want to hear the music you love. Use our interactive collaborative player below to review tracks and add your favorite celebration anthems directly to the lineup.</p>
+                
+                <div class="spotify-wrapper">
+                    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7MTsrrmZyARUtQZhYAxF3A?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
             </div>
+        </section>
 
-            <div class="faq-item">
-                <button class="faq-question">Are children invited?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>We love your little ones, but our wedding will be an adult-only celebration. We hope you can use this night to let your hair down and celebrate elegantly with us.</p>
+        <section id="guide" class="section containment bg-light-grey">
+            <h2>LOCAL GUIDE</h2>
+            <p class="center-text">Since Freedom Day follows on Tuesday, we highly recommend extending your stay and exploring these top-tier spots in the Pretoria East area during your long weekend.</p>
+            
+            <div class="guide-container">
+                <div class="guide-column-box">
+                    <h3>Cafés & Breakfast</h3>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">The Greenhouse Café</span>
+                        <p class="guide-spot-desc">A stunning, architecturally minimalist glasshouse setting nearby. Renowned for curated artisanal breakfasts, high-end coffee, and immersive views of the valley landscape.</p>
+                    </div>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">Rosemary Hill Café</span>
+                        <p class="guide-spot-desc">A beautiful organic country kitchen located just minutes from our venue estate. Exceptional freshly baked goods, light lunches, and premium coffee parameters.</p>
+                    </div>
+                </div>
+
+                <div class="guide-column-box">
+                    <h3>Leisure & Trails</h3>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">Rosemary Hill Trails</span>
+                        <p class="guide-spot-desc">Boasts over 30km of perfectly manicured, scenic paths for morning trail walks, jogging, or mountain biking winding through beautiful farmland and forests.</p>
+                    </div>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">Silver Lakes Golf Club</span>
+                        <p class="guide-spot-desc">A premier championship golf destination nearby. Features an immaculate Peter Matkovich-designed course, comprehensive practice facilities, and a fine lakeside clubhouse layout.</p>
+                    </div>
+                </div>
+
+                <div class="guide-column-box">
+                    <h3>Premium Dining</h3>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">Fermier Restaurant</span>
+                        <p class="guide-spot-desc">A highly celebrated fine-dining culinary theater in Pretoria East. Features an exceptional sustainable multi-course tasting menu focused entirely on organic farming pipelines.</p>
+                    </div>
+                    <div class="guide-item-entry">
+                        <span class="guide-spot-title">Blos Café</span>
+                        <p class="guide-spot-desc">A massive, beautifully designed modern industrial space. Perfect for a relaxed Monday lunch, offering a comprehensive grill selection, craft beers, and wine cellars.</p>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="faq-item">
-                <button class="faq-question">Is there secure parking at Gecko Ridge?<span class="faq-icon">+</span></button>
-                <div class="faq-answer">
-                    <p>Yes. The venue offers completely free, secure, guarded private parking inside the estate parameters for all vehicles attending the celebration.</p>
+        <section id="faq" class="section containment bg-white">
+            <h2>FAQ</h2>
+            <p class="center-text">Find answers to immediate questions regarding our celebration details below.</p>
+            
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <button class="faq-question">A Sunday night wedding? What about work on Monday?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>We’ve got you covered. Tuesday 27 April is a public holiday (Freedom Day). If you take Monday the 26th off, you turn our wedding into a flawless 4-day long weekend. We highly recommend putting in that leave request early so you don't have to slip out of the reception early!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">By when and how should I submit my RSVP?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>To maintain complete hospitality synchronization, we will not host a public RSVP button layout. Instead, our invited family and friends will receive unique, personalized private tracking form links via text or email closer to the official deadline date.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can we take pictures during the wedding?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Yes, we absolutely encourage you to capture as many memories as possible! We only ask that you remain deeply courteous of our professional media team. Please look behind you to ensure you aren't blocking their camera sightlines, and kindly refrain from stepping out into the aisles or blocking paths to take photos during the ceremony and reception events.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">What happens if guests who have not RSVP'd show up on the day?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Gecko Ridge operates under strict security protocols to maintain the safety and comfort of our event. Only guests whose names are pre-approved and listed on the official security register will be granted entry at the estate gates. Regrettably, any unlisted attendees will be turned away by venue security personnel at the perimeter parameters without exception.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Can I bring a plus-one?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Due to capacity limitations at our venue, we are only able to accommodate the specific names listed on your digital RSVP configuration. Thank you for your understanding.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Are children invited?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>We love your little ones, but our wedding will be an adult-only celebration. We hope you can use this night to let your hair down and celebrate elegantly with us.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">Is there secure parking at Gecko Ridge?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer">
+                        <p>Yes. The venue offers completely free, secure, guarded private parking inside the estate parameters for all vehicles attending the celebration.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <script>
+        <a href="#home" class="home-floating-btn" title="Back to Home" aria-label="Scroll to home">↑</a>
+
+    </div> <script>
         // DEVELOPER UNLOCK SCRIPT
-        // Checks the URL for "?dev=unlock". If present, removes the lock.
+        // Checks the URL for "?dev=unlock". If present, physically injects the site content.
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('dev') === 'unlock') {
-                document.body.classList.remove('locked-mode');
+                document.getElementById('development-lock-container').style.display = 'block';
             }
         });
 
