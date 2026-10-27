@@ -18,7 +18,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script>document.documentElement.classList.add('js');</script>
 
@@ -146,6 +146,45 @@
         @keyframes fade { to { opacity: 1; } }
 
         /* =========================================
+           COVER STYLES: one look per event, all black and white
+           ========================================= */
+        .cover-decor { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; color: var(--strong); }
+        .emblem { display: flex; justify-content: center; margin-bottom: clamp(14px, 2.5vh, 22px); color: var(--strong); }
+        .emblem:empty { display: none; }
+        .emblem svg { display: block; width: 34px; height: 34px; }
+
+        /* Night-befores: quiet, moonlit, slow */
+        .style-eve.cover:not(.light) { background: radial-gradient(circle at 50% 28%, #2a2a2a 0%, #111 38%, var(--ink) 72%); }
+        .style-eve .rise { animation-duration: 2.2s; animation-delay: calc(var(--d, 0s) * 1.7); }
+        .style-eve .fade { animation-duration: 2.6s; animation-delay: calc(var(--d, 0s) * 1.7); }
+        .style-eve .emblem svg { width: 44px; height: 44px; filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.35)); }
+        .style-eve.light .emblem svg { filter: none; }
+        .dot { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: currentColor; opacity: calc(0.12 + var(--k) * 0.4); }
+        .light .dot { display: none; }
+
+        /* Bachelor: heavy condensed type, racing stripes, coarse grain */
+        .style-stag .masthead { font-family: 'Anton', 'Impact', var(--sans); font-size: min(23vw, 10rem); line-height: 0.95; letter-spacing: 0.01em; text-transform: uppercase; }
+        .style-stag .masthead .small { font-family: var(--sans); font-style: normal; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.5em; padding-left: 0.5em; margin-bottom: 10px; }
+        .style-stag .countdown span { font-family: 'Anton', 'Impact', var(--sans); }
+        .style-stag.cover::after { opacity: 0.16; }
+        .style-stag .cover-decor::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(50% - 44px), rgba(255, 255, 255, 0.06) calc(50% - 44px), rgba(255, 255, 255, 0.06) calc(50% - 8px), transparent calc(50% - 8px), transparent calc(50% + 8px), rgba(255, 255, 255, 0.06) calc(50% + 8px), rgba(255, 255, 255, 0.06) calc(50% + 44px), transparent calc(50% + 44px)); }
+
+        /* Bachelorette: shimmering italic, twinkling sparkles */
+        .style-glam .masthead span:not(.small) { font-style: italic; background: linear-gradient(100deg, #fff 35%, #8f8f8f 48%, #fff 61%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; }
+        .spark { position: absolute; width: calc(6px + var(--k) * 12px); height: auto; fill: currentColor; opacity: 0.12; animation: twinkle 3.2s ease-in-out infinite; }
+        @keyframes shimmer { from { background-position: 100% 0; } to { background-position: -160% 0; } }
+        @keyframes twinkle { 50% { opacity: 0.75; transform: scale(1.25) rotate(20deg); } }
+
+        /* Bridal shower: fine botanical line drawings */
+        .sprig { position: absolute; width: min(40vw, 300px); height: auto; color: var(--ink); opacity: 0.6; }
+        .sprig.bl { left: 10px; bottom: 72px; }
+        .sprig.tr { right: 10px; top: 44px; transform: rotate(180deg); }
+        .style-bloom .cover-frame { outline: 1px solid var(--frame); outline-offset: -8px; }
+
+        body[data-style="stag"] .footer-mono { font-family: 'Anton', 'Impact', var(--sans); text-transform: uppercase; }
+        body[data-style="glam"] .footer-mono { font-style: italic; }
+
+        /* =========================================
            MARQUEE
            ========================================= */
         .marquee { overflow: hidden; white-space: nowrap; padding: 16px 0; background: var(--paper); color: var(--ink); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
@@ -220,6 +259,7 @@
 
     <!-- ================= COVER (themed per event, filled in by the script) ================= -->
     <header id="home" class="cover">
+        <div class="cover-decor" id="decor" aria-hidden="true"></div>
         <div class="cover-frame">
             <div class="cover-top fade" style="--d: 1.4s">
                 <span>Special Edition</span>
@@ -228,6 +268,7 @@
             </div>
 
             <div class="cover-center">
+                <div class="emblem fade" id="emblem" style="--d: 0.1s" aria-hidden="true"></div>
                 <p class="kicker rise" id="kicker" style="--d: 0.2s"></p>
                 <h1 class="masthead rise" id="masthead" style="--d: 0.4s"></h1>
                 <p class="honour rise" id="honour" style="--d: 0.8s"></p>
@@ -297,27 +338,27 @@
             // The look of each event's cover. Public: never put dates, places or names of guests here.
             var THEMES = {
                 'night-before-jarrod': {
-                    light: false, issue: 'The Eve Issue', kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
+                    style: 'eve', light: false, issue: 'The Eve Issue', kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
                     honour: 'An evening with Jarrod', details: 'The <em>evening</em>', done: 'Tonight’s the night', closing: 'One more sleep.'
                 },
                 'night-before-telicia': {
-                    light: true, issue: 'The Eve Issue', kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
+                    style: 'eve', light: true, issue: 'The Eve Issue', kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
                     honour: 'An evening with Telicia', details: 'The <em>evening</em>', done: 'Tonight’s the night', closing: 'One more sleep.'
                 },
                 'bachelor': {
-                    light: false, issue: 'The Bachelor Issue', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
+                    style: 'stag', light: false, issue: 'The Bachelor Issue', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
                     honour: 'In honour of Jarrod', details: 'The <em>plan</em>', done: 'Let the games begin', closing: 'What happens here, stays here.'
                 },
                 'bachelorette': {
-                    light: false, issue: 'The Bachelorette Issue', kicker: 'Last fling before the ring', title: ['The', 'Bachelorette'],
+                    style: 'glam', light: false, issue: 'The Bachelorette Issue', kicker: 'Last fling before the ring', title: ['The', 'Bachelorette'],
                     honour: 'In honour of Telicia', details: 'The <em>plan</em>', done: 'Let the night begin', closing: 'Here’s to the bride.'
                 },
                 'bridal-shower': {
-                    light: true, issue: 'The Shower Issue', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
+                    style: 'bloom', light: true, issue: 'The Shower Issue', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
                     honour: 'In honour of Telicia', details: 'The <em>gathering</em>', done: 'It’s shower time', closing: 'Showered with love.'
                 }
             };
-            var PRIVATE_THEME = { light: false, issue: 'Private Edition', kicker: 'By private invitation', title: ['A', 'Private', 'Invitation'], honour: '' };
+            var PRIVATE_THEME = { style: '', light: false, issue: 'Private Edition', kicker: 'By private invitation', title: ['A', 'Private', 'Invitation'], honour: '' };
 
             var params = new URLSearchParams(location.search);
             var slug = (params.get('event') || '').trim().toLowerCase();
@@ -339,8 +380,51 @@
             var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
             /* ---------- Cover ---------- */
+            var MOON = '<svg viewBox="0 0 40 40"><path d="M25 4a16 16 0 1 0 11 27A14 14 0 0 1 25 4z" fill="currentColor"/></svg>';
+            var SPARK = '<path d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z"/>';
+            var LEAF = 'M0 0Q12 -14 30 -8Q14 2 0 0Z';
+            var SPRIG = '<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1">' +
+                '<path d="M8 196C48 150 86 104 118 36"/><path d="M72 118C92 112 112 110 132 98"/><path d="M40 162C30 150 26 138 28 124"/>' +
+                [[30, 172, -35], [52, 146, -150], [72, 118, -45], [90, 92, -145], [104, 66, -55], [102, 113, -20], [28, 124, -100]].map(function (l) {
+                    return '<path d="' + LEAF + '" transform="translate(' + l[0] + ' ' + l[1] + ') rotate(' + l[2] + ')"/>';
+                }).join('') +
+                [0, 72, 144, 216, 288].map(function (a) {
+                    return '<ellipse rx="5" ry="10" transform="translate(118 36) rotate(' + a + ') translate(0 -10)"/>';
+                }).join('') +
+                '<circle cx="118" cy="36" r="3"/><circle cx="134" cy="97" r="4"/><circle cx="141" cy="91" r="2.5"/></svg>';
+
+            // Same positions on every visit (a tiny seeded random), so the cover never jumps around
+            function scatter(count, seed, make) {
+                var out = '', s = seed;
+                var next = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+                for (var i = 0; i < count; i++) out += make(next() * 100, next() * 100, next(), i);
+                return out;
+            }
+
+            function paintDecor(style) {
+                var decor = '', emblem = '';
+                if (style === 'eve') {
+                    emblem = MOON;
+                    decor = scatter(46, 7, function (x, y, k) { return '<i class="dot" style="left:' + x + '%;top:' + y + '%;--k:' + k.toFixed(2) + '"></i>'; });
+                } else if (style === 'glam') {
+                    emblem = '<svg viewBox="0 0 10 10" fill="currentColor">' + SPARK + '</svg>';
+                    decor = scatter(22, 11, function (x, y, k) {
+                        var left = k < 0.5 ? 2 + x * 0.09 : 89 + x * 0.08; // keep sparkles to the edges, clear of the text
+                        y = 8 + y * 0.8;
+                        return '<svg class="spark" viewBox="0 0 10 10" style="left:' + left + '%;top:' + y + '%;--k:' + k.toFixed(2) + ';animation-delay:-' + (k * 3.2).toFixed(2) + 's">' + SPARK + '</svg>';
+                    });
+                } else if (style === 'bloom') {
+                    decor = SPRIG.replace('<svg', '<svg class="sprig bl"') + SPRIG.replace('<svg', '<svg class="sprig tr"');
+                }
+                document.getElementById('decor').innerHTML = decor;
+                document.getElementById('emblem').innerHTML = emblem;
+            }
+
             function paintCover(t) {
-                document.getElementById('home').classList.toggle('light', !!t.light);
+                var home = document.getElementById('home');
+                home.className = 'cover' + (t.style ? ' style-' + t.style : '') + (t.light ? ' light' : '');
+                document.body.dataset.style = t.style || '';
+                paintDecor(t.style);
                 document.getElementById('issue').textContent = t.issue;
                 document.getElementById('kicker').textContent = t.kicker;
                 var words = t.title.slice(1).join(' ').split(' ');
