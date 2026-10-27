@@ -31,14 +31,14 @@
         (function () {
             var STYLES = {
                 'night-before-jarrod': 'midnight',
-                'night-before-telicia': 'dusk',
+                'night-before-telicia': 'blossom',
                 'bachelor': 'stag',
                 'bachelorette': 'glam',
                 'bridal-shower': 'bloom'
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
-                dusk: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
+                blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
                 stag: 'family=Anton&family=Barlow:wght@400;600;700',
                 glam: 'family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500;600',
                 bloom: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@400;700'
@@ -69,11 +69,13 @@
             --display: 'Cormorant Garamond', Georgia, serif; --text: 'Lato', 'Helvetica Neue', Arial, sans-serif;
             --cover: radial-gradient(circle at 50% 26%, #233455 0%, #121d31 42%, #0a111d 78%);
         }
-        .theme-dusk {
-            --bg: #f8efec; --bg2: #f0e2dd; --card: #fffaf8; --fg: #3e2830; --muted: #7e636a; --line: rgba(62, 40, 48, 0.16);
-            --accent: #a9606f; --on-accent: #ffffff;
+        /* Telicia's Thanksgiving: soft blush, dark pink accents, gold linework, linen texture (her Pinterest direction) */
+        .theme-blossom {
+            --bg: #fbf0f2; --bg2: #f6e2e8; --card: #fffafb; --fg: #4a1f30; --muted: #85586a; --line: rgba(74, 31, 48, 0.14);
+            --accent: #b0175a; --on-accent: #ffffff; --gold: #c4a05a; --gold-text: #8f6c2c;
             --display: 'Cormorant Garamond', Georgia, serif; --text: 'Lato', 'Helvetica Neue', Arial, sans-serif;
-            --cover: radial-gradient(circle at 50% 26%, #fffaf7 0%, #f6e3de 48%, #ebcfc8 90%);
+            --linen: repeating-linear-gradient(0deg, rgba(120, 70, 90, 0.03) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(120, 70, 90, 0.025) 0 1px, transparent 1px 3px);
+            --cover: var(--linen), radial-gradient(ellipse 70% 60% at 50% 45%, #fffafb 0%, #fbeef2 55%, #f2d8e1 100%);
         }
         .theme-stag {
             --bg: #11241b; --bg2: #0b1913; --card: #173227; --fg: #f2ede1; --muted: #a8b8ab; --line: rgba(242, 237, 225, 0.16);
@@ -166,11 +168,50 @@
         @keyframes rise { to { opacity: 1; transform: none; } }
         @keyframes fade { to { opacity: 1; } }
 
-        /* Midnight + dusk (night-befores): moon, stars, slow */
-        .theme-midnight .rise, .theme-dusk .rise { animation-duration: 2s; animation-delay: calc(var(--d, 0s) * 1.6); }
+        /* Midnight (Jarrod's night-before) + blossom (Telicia's Thanksgiving): slow, gentle entrance */
+        .theme-midnight .rise, .theme-blossom .rise { animation-duration: 2s; animation-delay: calc(var(--d, 0s) * 1.6); }
         .theme-midnight .emblem svg { filter: drop-shadow(0 0 18px rgba(214, 176, 108, 0.55)); }
         .dot { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; opacity: calc(0.15 + var(--k) * 0.5); }
-        .theme-dusk .dot { display: none; }
+
+        /* Blossom: gold arch, garlands, embroidered flowers, pearls, butterflies, peacocks */
+        .theme-blossom body { background-image: var(--linen); }
+        .theme-blossom .cover-frame { border-color: transparent; }
+        .theme-blossom .cover-top { visibility: hidden; } /* the date is under the title; let the flowers and garlands show */
+        .theme-blossom .kicker { color: var(--gold-text); }
+        .theme-blossom .masthead { font-size: min(13.5vw, 5.2rem); font-weight: 500; color: var(--accent); }
+        .theme-blossom .masthead .small { color: var(--gold-text); }
+        .theme-blossom .honour { color: var(--fg); }
+        .theme-blossom .emblem svg { width: 48px; height: 48px; filter: drop-shadow(0 0 12px rgba(242, 163, 58, 0.55)); }
+        .theme-blossom .cover-note { background: rgba(255, 250, 251, 0.85); padding: 6px 14px; border-radius: 14px; }
+        .bl-arch { position: absolute; left: 50%; width: min(82%, 540px); transform: translateX(-50%); top: 8%; bottom: 13%; display: flex; flex-direction: column; }
+        .bl-arch svg { display: block; width: 100%; }
+        .bl-arch .bl-cap { height: auto; }
+        .bl-arch .bl-sides { flex: 1; height: 100%; }
+        .bl-corner { position: absolute; top: -8px; width: min(44vw, 270px); height: auto; }
+        .bl-corner.l { left: -8px; }
+        .bl-corner.r { right: -8px; transform: scaleX(-1); }
+        .bl-peacock { position: absolute; bottom: 2%; width: min(34vw, 200px); height: auto; }
+        .bl-peacock.l { left: 1%; }
+        .bl-peacock.r { right: 1%; transform: scaleX(-1); }
+        .bl-strand { position: absolute; top: 0; width: 24px; height: auto; }
+        .bl-bfly { position: absolute; width: calc(24px + var(--k) * 16px); height: auto; animation: bl-drift 7s ease-in-out infinite; }
+        .bl-bfly .wing { transform-box: fill-box; transform-origin: right center; animation: bl-flap 2.6s ease-in-out infinite; }
+        .bl-pearl { position: absolute; width: calc(4px + var(--k) * 6px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffffff, #e8d5dc); box-shadow: 0 1px 2px rgba(74, 31, 48, 0.25); }
+        .bl-flame { transform-box: fill-box; transform-origin: center bottom; animation: bl-flicker 1.8s ease-in-out infinite; }
+        .bl-sky { position: fixed; inset: 0; z-index: 40; overflow: hidden; pointer-events: none; }
+        .bl-flyer { position: absolute; left: 0; top: 0; margin: -12px 0 0 -14px; will-change: transform, opacity; }
+        .bl-flyer svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 3px rgba(74, 31, 48, 0.18)); }
+        .bl-flyer .wing { transform-box: fill-box; transform-origin: right center; animation: bl-flap 0.38s ease-in-out infinite; }
+        @keyframes bl-flap { 50% { transform: scaleX(0.5); } }
+        @keyframes bl-drift { 50% { transform: translate(6px, -10px) rotate(4deg); } }
+        @keyframes bl-flicker { 50% { transform: scale(0.88, 1.08); opacity: 0.85; } }
+        .theme-blossom .sec-head .eyebrow { color: var(--gold-text); }
+        .theme-blossom .sec-title::after { content: ''; display: block; width: 130px; height: 22px; margin: 18px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 130 22'%3E%3Cpath d='M4 11h46M80 11h46' stroke='%23c4a05a' stroke-width='1'/%3E%3Cpath d='M65 2c4 5 4 13 0 18c-4-5-4-13 0-18zM56 11c5-4 13-4 18 0c-5 4-13 4-18 0z' fill='none' stroke='%23c4a05a'/%3E%3Ccircle cx='65' cy='11' r='2.6' fill='%23b0175a'/%3E%3C/svg%3E") center / contain no-repeat; }
+        .theme-blossom .fact { border: 1px solid rgba(196, 160, 90, 0.6); border-radius: 200px 200px var(--radius) var(--radius) / 110px 110px var(--radius) var(--radius); padding-top: 56px; box-shadow: inset 0 0 0 6px var(--card), inset 0 0 0 7px rgba(196, 160, 90, 0.35); }
+        .theme-blossom .notice { background: linear-gradient(120deg, #9c1450, #c42e6e); border-top: 3px double #e6c98f; border-bottom: 3px double #e6c98f; }
+        .theme-blossom .btn { border: 1px solid #e6c98f; }
+        .theme-blossom .album, .theme-blossom .registry, .theme-blossom .guest, .theme-blossom .note { border-color: rgba(196, 160, 90, 0.5); }
+        .theme-blossom .footer { border-top: 3px double var(--gold); }
 
         /* Stag: heavy condensed type, racing stripes, grain */
         .theme-stag .masthead { font-size: min(23vw, 10rem); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.01em; }
@@ -375,7 +416,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="IsdhtbsujfkCPN5v">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</script>
+                <script type="text/plain" data-gifts data-iv="MQmO12JPO0J8fxLU">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</script>
             </div>
         </section>
 
@@ -412,8 +453,8 @@
                     honour: 'An evening with Jarrod', details: 'The <em>evening</em>', done: 'Tonight’s the night'
                 },
                 'night-before-telicia': {
-                    label: "Telicia's Night Before", ref: "Telicia's Night Before", kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
-                    honour: 'An evening with Telicia', details: 'The <em>evening</em>', done: 'Tonight’s the night'
+                    label: "Telicia's Thanksgiving", ref: "Telicia's Thanksgiving", kicker: 'With grateful hearts', title: ['A', 'Thanksgiving'],
+                    honour: 'Celebrating with Telicia', details: 'The <em>celebration</em>', done: 'Let the celebration begin'
                 },
                 'bachelor': {
                     label: 'Bachelor Party', ref: 'the Bachelor Party', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
@@ -473,9 +514,177 @@
                 return out;
             }
 
+            /* ---------- Blossom artwork (Telicia's Thanksgiving), drawn from scratch ---------- */
+            var GOLD = '#c4a05a';
+            var BEADS = ' stroke="' + GOLD + '" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 3.6"'; // gold bead outline
+            var BL_DEFS = '<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>' +
+                '<linearGradient id="blPetal" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8f1148"/><stop offset="1" stop-color="#e98aa9"/></linearGradient>' +
+                '<linearGradient id="blWing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8c0d1"/><stop offset="1" stop-color="#d4527c"/></linearGradient>' +
+                '<radialGradient id="blPearl" cx="35%" cy="35%" r="65%"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e8d5dc"/></radialGradient>' +
+                '</defs></svg>';
+
+            // Five petals around (cx, cy)
+            function petals(cx, cy, r, rot, fill, extra) {
+                var d = 'M0,0 C' + (-0.45 * r) + ',' + (-0.35 * r) + ' ' + (-0.55 * r) + ',' + (-r) + ' 0,' + (-1.05 * r) +
+                    ' C' + (0.55 * r) + ',' + (-r) + ' ' + (0.45 * r) + ',' + (-0.35 * r) + ' 0,0Z';
+                var out = '';
+                for (var i = 0; i < 5; i++) out += '<path d="' + d + '" transform="translate(' + cx + ' ' + cy + ') rotate(' + (rot + i * 72) + ')" fill="' + fill + '"' + (extra || '') + '/>';
+                return out;
+            }
+            function embroidered(cx, cy, r, rot) {
+                return petals(cx, cy, r, rot, 'url(#blPetal)') + petals(cx, cy, r, rot, 'none', BEADS) +
+                    '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.2) + '" fill="#6e0c35"/>' +
+                    '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.27) + '" fill="none"' + BEADS + '/>';
+            }
+            function blossomlet(cx, cy, r, rot) {
+                return petals(cx, cy, r, rot, '#fbd3de', ' stroke="#e7a1b6" stroke-width="0.8"') + '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 0.22) + '" fill="#b0175a"/>';
+            }
+            function leaf(x, y, rot, s) {
+                return '<path d="M0,0 Q8,-10 22,-6 Q10,2 0,0Z" transform="translate(' + x + ' ' + y + ') rotate(' + rot + ') scale(' + s + ')" fill="#97a17a" opacity="0.85"/>';
+            }
+            function pearlDot(x, y, r) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="url(#blPearl)"/>'; }
+
+            var BL_CORNER = '<svg viewBox="0 0 200 200" aria-hidden="true">' +
+                '<path d="M4,198 C22,150 32,112 58,64" stroke="#8d8f62" stroke-width="2" fill="none"/>' +
+                '<path d="M30,124 C58,112 84,102 108,96" stroke="#8d8f62" stroke-width="1.6" fill="none"/>' +
+                leaf(22, 150, -70, 1) + leaf(38, 112, -40, 0.9) + leaf(60, 108, -20, 0.8) + leaf(86, 100, 10, 0.8) + leaf(14, 172, -110, 0.9) +
+                embroidered(62, 56, 46, 12) + embroidered(150, 26, 24, 40) +
+                blossomlet(26, 122, 14, 10) + blossomlet(108, 96, 13, 30) + blossomlet(170, 70, 11, 0) + blossomlet(118, 132, 9, 20) +
+                pearlDot(124, 116, 4) + pearlDot(136, 108, 3) + pearlDot(96, 142, 2.6) + pearlDot(180, 40, 3.4) +
+                '</svg>';
+
+            var BL_PEACOCK = '<svg viewBox="0 0 120 86" aria-hidden="true">' +
+                [[6, 58], [10, 46], [18, 36], [8, 68], [24, 76]].map(function (e) {
+                    return '<path d="M70,58 Q44,56 ' + e[0] + ',' + e[1] + '" stroke="' + GOLD + '" stroke-width="0.8" fill="none"/>' +
+                        '<ellipse cx="' + e[0] + '" cy="' + e[1] + '" rx="5.5" ry="4" fill="#2f7d84" stroke="' + GOLD + '" stroke-width="0.8"/>' +
+                        '<ellipse cx="' + e[0] + '" cy="' + e[1] + '" rx="2.6" ry="2" fill="#b0175a"/>';
+                }).join('') +
+                '<path d="M76,62 L74,75 M81,62 L83,75" stroke="' + GOLD + '" stroke-width="1"/>' +
+                '<path d="M70,60 C62,50 66,38 76,36 C80,28 84,18 90,14 C94,11 99,13 98,18 C97,22 92,24 90,30 C88,40 92,50 86,58 C82,63 74,64 70,60Z" fill="#2f6f7a" stroke="' + GOLD + '" stroke-width="0.8"/>' +
+                '<path d="M72,52 C78,44 86,46 84,56 C80,58 75,57 72,52Z" fill="#4a9aa0" opacity="0.85"/>' +
+                '<circle cx="95.5" cy="15" r="1" fill="#fff"/><path d="M98.5,15 L104,16.2 L98.5,17.4Z" fill="' + GOLD + '"/>' +
+                '<path d="M95,11 L93,5 M96,11 L96.5,4 M97,11 L99.5,5" stroke="' + GOLD + '" stroke-width="0.7"/>' +
+                '<circle cx="93" cy="5" r="1" fill="#b0175a"/><circle cx="96.5" cy="4" r="1" fill="#b0175a"/><circle cx="99.5" cy="5" r="1" fill="#b0175a"/>' +
+                leaf(60, 80, -170, 0.8) + leaf(92, 80, -10, 0.8) + blossomlet(66, 80, 6, 0) + blossomlet(88, 81, 5, 20) + pearlDot(100, 78, 2) +
+                '</svg>';
+
+            var DIYA = '<svg viewBox="0 0 40 40"><path class="bl-flame" d="M20 5c4 6 5 10 0 15c-5-5-4-9 0-15z" fill="#f2a33a"/>' +
+                '<path d="M20 10c2 3 2 6 0 8c-2-2-2-5 0-8z" fill="#ffe2a0"/><path d="M5 23h30c-2 8-8 11-15 11S7 31 5 23z" fill="' + GOLD + '"/>' +
+                '<path d="M9 26h22" stroke="#fff3d6" stroke-width="1"/></svg>';
+
+            // Gold triple-line arch (pointed top) framing the title; the sides stretch to fit any screen height
+            var BL_ARCH = '<div class="bl-arch" aria-hidden="true"><svg class="bl-cap" viewBox="0 0 300 110" fill="none" stroke="' + GOLD + '" stroke-width="1.3">' +
+                '<path d="M0,110 L0,72 C0,40 60,42 95,30 C125,20 140,10 150,0 C160,10 175,20 205,30 C240,42 300,40 300,72 L300,110"/>' +
+                '<path d="M7,110 L7,74 C7,46 62,48 97,37 C126,28 141,18 150,9 C159,18 174,28 203,37 C238,48 293,46 293,74 L293,110"/>' +
+                '<path d="M14,110 L14,76 C14,52 64,54 99,44 C127,36 142,27 150,18 C158,27 173,36 201,44 C236,54 286,52 286,76 L286,110"/>' +
+                '<circle cx="150" cy="-2" r="3" fill="' + GOLD + '"/></svg>' +
+                '<svg class="bl-sides" viewBox="0 0 300 100" preserveAspectRatio="none" fill="none" stroke="' + GOLD + '" stroke-width="1.3">' +
+                '<path vector-effect="non-scaling-stroke" d="M0,0 V100 M7,0 V100 M14,0 V100 M286,0 V100 M293,0 V100 M300,0 V100 M0,100 H300"/></svg></div>';
+
+            // Hanging gold garland strands: lantern, star or diya on the end
+            function strand(left, len, kind) {
+                var y = len, end;
+                if (kind === 'lantern') end = '<path d="M8,' + y + ' h8 l2,4 v10 l-2,4 h-8 l-2,-4 v-10z" fill="#ffe9bd" fill-opacity="0.8" stroke="' + GOLD + '" stroke-width="1"/><path d="M12,' + (y + 18) + ' v6" stroke="' + GOLD + '"/>';
+                else if (kind === 'star') end = '<path d="M12,' + y + ' l2,5 l5,2 l-5,2 l-2,5 l-2,-5 l-5,-2 l5,-2z" fill="' + GOLD + '"/>';
+                else end = '<path class="bl-flame" d="M12,' + y + 'c2,3 2.5,5 0,7.5c-2.5,-2.5 -2,-4.5 0,-7.5z" fill="#f2a33a"/><path d="M4,' + (y + 8) + ' h16 c-1,4 -4,6 -8,6 s-7,-2 -8,-6z" fill="' + GOLD + '"/>';
+                return '<svg class="bl-strand" style="left:' + left + '%" viewBox="0 0 24 ' + (len + 26) + '" aria-hidden="true"><path d="M12,0 V' + len + '" stroke="' + GOLD + '" stroke-width="0.8"/>' + end + '</svg>';
+            }
+
+            var BFLY_WING = '<g class="wing"><path d="M0,0 C-6,-14 -20,-16 -18,-4 C-17,2 -8,3 0,0Z" fill="url(#blWing)" stroke="' + GOLD + '" stroke-width="0.7"/>' +
+                '<path d="M0,0 C-4,4 -14,12 -10,15 C-6,17 -2,8 0,0Z" fill="url(#blWing)" stroke="' + GOLD + '" stroke-width="0.7"/><circle cx="-11" cy="-7" r="1.3" fill="' + GOLD + '"/></g>';
+            // A butterfly seen from above, head (antennae) pointing up
+            var BFLY = BFLY_WING + '<g transform="scale(-1,1)">' + BFLY_WING + '</g>' +
+                '<ellipse rx="1.4" ry="7" fill="#5a2338"/><path d="M0,-6 Q-2,-11 -4,-12 M0,-6 Q2,-11 4,-12" stroke="#5a2338" stroke-width="0.6" fill="none"/>';
+
+            function butterfly(x, y, k, i) {
+                var left = i % 2 ? 80 + x * 0.14 : 3 + x * 0.14; // sides only, clear of the text
+                return '<svg class="bl-bfly" viewBox="-20 -16 40 32" style="left:' + left + '%;top:' + (28 + y * 0.34) + '%;--k:' + k.toFixed(2) + ';animation-delay:-' + (k * 7).toFixed(2) + 's" aria-hidden="true">' + BFLY + '</svg>';
+            }
+
+            /* ---------- Blossom: butterflies flying across the whole page, and bursting out of tapped buttons ---------- */
+            var sky = null;
+            function flyer(size) {
+                var el = document.createElement('div');
+                el.className = 'bl-flyer';
+                el.style.width = size + 'px';
+                el.innerHTML = '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
+                sky.appendChild(el);
+                return el;
+            }
+            function fly(el, frames, duration, easing) {
+                var anim = el.animate(frames, { duration: duration, easing: easing || 'linear' });
+                anim.onfinish = function () { el.remove(); };
+            }
+            // Head points along the direction of travel (the drawing faces up, hence +90°)
+            function heading(ax, ay, bx, by) { return Math.atan2(by - ay, bx - ax) * 180 / Math.PI + 90; }
+
+            function wander() {
+                if (document.hidden || sky.childElementCount > 5) return;
+                var w = window.innerWidth, h = window.innerHeight, fromLeft = Math.random() < 0.5;
+                var x0 = fromLeft ? -50 : w + 50, x1 = fromLeft ? w + 50 : -50;
+                var y0 = h * (0.12 + Math.random() * 0.7), y1 = h * (0.08 + Math.random() * 0.8);
+                var waves = 2 + Math.random() * 2, swing = 25 + Math.random() * 35;
+                var pts = [];
+                for (var i = 0; i <= 12; i++) {
+                    var t = i / 12;
+                    pts.push([x0 + (x1 - x0) * t, y0 + (y1 - y0) * t + Math.sin(t * Math.PI * waves) * swing]);
+                }
+                var frames = pts.map(function (p, i) {
+                    var q = pts[Math.min(i + 1, pts.length - 1)], prev = pts[Math.max(i - 1, 0)];
+                    return { transform: 'translate(' + p[0] + 'px,' + p[1] + 'px) rotate(' + heading(prev[0], prev[1], q[0], q[1]) + 'deg)' };
+                });
+                fly(flyer(20 + Math.random() * 16), frames, 11000 + Math.random() * 7000);
+            }
+
+            function burst(x, y) {
+                for (var i = 0; i < 10; i++) {
+                    var ang = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4; // mostly upwards
+                    var dist = 110 + Math.random() * 170;
+                    var mx = x + Math.cos(ang) * dist * 0.5, my = y + Math.sin(ang) * dist * 0.5 - 15;
+                    var tx = x + Math.cos(ang) * dist, ty = y + Math.sin(ang) * dist - 50;
+                    var rot = heading(x, y, tx, ty);
+                    fly(flyer(22 + Math.random() * 16), [
+                        { transform: 'translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg) scale(0.3)', opacity: 0 },
+                        { transform: 'translate(' + mx + 'px,' + my + 'px) rotate(' + (rot + 18) + 'deg) scale(1)', opacity: 1, offset: 0.35 },
+                        { transform: 'translate(' + tx + 'px,' + ty + 'px) rotate(' + (rot - 12) + 'deg) scale(0.9)', opacity: 0 }
+                    ], 1700 + Math.random() * 900, 'cubic-bezier(0.2, 0.7, 0.3, 1)');
+                }
+            }
+
+            function startButterflies() {
+                var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (style !== 'blossom' || still || !Element.prototype.animate) return;
+                sky = document.createElement('div');
+                sky.className = 'bl-sky';
+                sky.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(sky);
+                wander();
+                setTimeout(wander, 1500);
+                setInterval(wander, 3800);
+                document.addEventListener('click', function (e) {
+                    if (e.target.tagName === 'INPUT') return; // a label click fires a second click on its radio button
+                    var hit = e.target.closest('button, .btn, .link-btn, .scroll-cue, .registry-card, .choice label');
+                    if (!hit) return;
+                    var r = hit.getBoundingClientRect();
+                    var keyboard = !e.clientX && !e.clientY;
+                    burst(keyboard ? r.left + r.width / 2 : e.clientX, keyboard ? r.top + r.height / 2 : e.clientY);
+                });
+            }
+
             function paintDecor() {
                 var decor = '', emblem = '';
-                if (style === 'midnight' || style === 'dusk') {
+                if (style === 'blossom') {
+                    emblem = DIYA;
+                    decor = BL_DEFS + BL_ARCH +
+                        BL_CORNER.replace('<svg', '<svg class="bl-corner l"') + BL_CORNER.replace('<svg', '<svg class="bl-corner r"') +
+                        strand(31, 70, 'lantern') + strand(37, 110, 'star') + strand(59, 110, 'diya') + strand(65, 70, 'lantern') +
+                        BL_PEACOCK.replace('<svg', '<svg class="bl-peacock l"') + BL_PEACOCK.replace('<svg', '<svg class="bl-peacock r"') +
+                        scatter(6, 5, butterfly) +
+                        scatter(12, 3, function (x, y, k) {
+                            var left = k < 0.5 ? x * 0.32 : 68 + x * 0.32;
+                            return '<i class="bl-pearl" style="left:' + left + '%;top:' + (4 + y * 0.26) + '%;--k:' + k.toFixed(2) + '"></i>';
+                        });
+                } else if (style === 'midnight') {
                     emblem = MOON;
                     decor = scatter(46, 7, function (x, y, k) { return '<i class="dot" style="left:' + x + '%;top:' + y + '%;--k:' + k.toFixed(2) + '"></i>'; });
                 } else if (style === 'glam') {
@@ -770,6 +979,7 @@
             }
 
             paintCover(theme || PRIVATE_THEME);
+            startButterflies();
 
             // Nothing is stored on the device: every visit needs the personal link
             if (!theme || !inviteCode) {
