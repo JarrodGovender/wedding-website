@@ -33,14 +33,14 @@
                 'night-before-jarrod': 'midnight',
                 'night-before-telicia': 'blossom',
                 'bachelor': 'stag',
-                'bachelorette': 'shore',
+                'bachelorette': 'clg',
                 'bridal-shower': 'bloom'
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
                 blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
                 stag: 'family=Anton&family=Barlow:wght@400;600;700',
-                shore: 'family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Quicksand:wght@400;500;600;700',
+                clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
                 bloom: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@400;700'
             };
             var slug = (new URLSearchParams(location.search).get('event') || '').trim().toLowerCase();
@@ -83,11 +83,13 @@
             --display: 'Anton', Impact, 'Arial Narrow', sans-serif; --text: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
             --cover: radial-gradient(ellipse 80% 70% at 50% 40%, #1d3b2c 0%, #10221a 62%, #08130e 100%);
         }
-        .theme-shore {
-            --bg: #fff7f5; --bg2: #fdeef2; --card: #ffffff; --fg: #4e3d4c; --muted: #85727f; --line: rgba(78, 61, 76, 0.13);
-            --accent: #d6588c; --accent-text: #b23f6e; --on-accent: #ffffff;
-            --display: 'Fraunces', Georgia, serif; --text: 'Quicksand', 'Helvetica Neue', Arial, sans-serif;
-            --cover: linear-gradient(180deg, #fde3ec 0%, #fde9e1 30%, #ece6f7 58%, #dcf2ef 100%);
+        /* Bachelorette: Certified Lover Girl, a pink Drake party */
+        .theme-clg {
+            --bg: #fff2f8; --bg2: #ffe3f0; --card: #ffffff; --fg: #1c0612; --muted: #6e4057; --line: rgba(28, 6, 18, 0.18);
+            --accent: #d80f6e; --on-accent: #ffffff;
+            --display: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; --text: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; --gothic: 'Grenze Gotisch', 'Times New Roman', serif;
+            --cover: linear-gradient(135deg, #d90f6c, #ff3d9a, #ff7ab8, #c7148f, #ff3d9a, #d90f6c);
+            --quilt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 44C12 33 8 25 8 18a10 10 0 0 1 20-3a10 10 0 0 1 20 3c0 7-4 15-20 26z' fill='none' stroke='%23ff2d87' stroke-opacity='.16' stroke-width='1.5'/%3E%3C/svg%3E");
         }
         .theme-bloom {
             --bg: #fbf7ee; --bg2: #f0efe2; --card: #ffffff; --fg: #34372c; --muted: #6c7161; --line: rgba(52, 55, 44, 0.16);
@@ -220,33 +222,40 @@
         .theme-stag .cover-decor::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(50% - 44px), rgba(226, 167, 42, 0.12) calc(50% - 44px), rgba(226, 167, 42, 0.12) calc(50% - 8px), transparent calc(50% - 8px), transparent calc(50% + 8px), rgba(226, 167, 42, 0.12) calc(50% + 8px), rgba(226, 167, 42, 0.12) calc(50% + 44px), transparent calc(50% + 44px)); }
         .theme-stag .cover::after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.14; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-        /* Shore (bachelorette): soft pastel, whimsical beach, pink highlight */
-        .theme-shore body { font-weight: 500; }
-        .theme-shore .cover-frame { border-color: rgba(255, 255, 255, 0.85); border-radius: 30px; }
-        .theme-shore .kicker, .theme-shore .honour, .theme-shore .sec-head .eyebrow { color: var(--accent-text); }
-        .theme-shore .masthead { color: var(--accent); }
-        .theme-shore .masthead .small { color: #9a86a8; }
-        .theme-shore .emblem svg { width: 46px; height: 46px; }
-        .sh-sun { position: absolute; left: 50%; top: 32%; width: min(86vw, 480px); aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255, 228, 214, 0.95) 0%, rgba(253, 205, 222, 0.55) 40%, rgba(253, 205, 222, 0) 70%); }
-        .sh-cloud { position: absolute; width: min(34vw, 200px); height: auto; animation: sh-cloud 26s ease-in-out infinite alternate; }
-        .sh-gull { position: absolute; width: 22px; height: auto; animation: sh-glide 9s ease-in-out infinite; }
-        .sh-sea { position: absolute; left: 0; right: 0; bottom: 10%; height: 19%; overflow: hidden; background: linear-gradient(180deg, rgba(201, 235, 238, 0) 0%, #cdeced 40%, #bfe5e2 100%); }
-        .sh-wave { position: absolute; left: 0; width: 200%; height: 34px; animation: sh-wave 14s linear infinite; }
-        .sh-wave.w1 { top: 22%; fill: #d9f0f4; animation-duration: 19s; }
-        .sh-wave.w2 { top: 52%; fill: rgba(255, 255, 255, 0.75); animation-duration: 12s; animation-direction: reverse; }
-        .sh-wave.w3 { bottom: -4px; fill: #f9ece0; animation-duration: 9s; }
-        .sh-sand { position: absolute; left: 0; right: 0; bottom: 0; height: 10.5%; background: radial-gradient(circle at 20% 30%, rgba(205, 165, 135, 0.28) 0 1px, transparent 2px) 0 0 / 14px 14px, radial-gradient(circle at 70% 60%, rgba(205, 165, 135, 0.22) 0 1px, transparent 2px) 0 0 / 19px 19px, linear-gradient(180deg, #f9ece0, #f4dfcb); }
-        .sh-shell { position: absolute; height: auto; }
-        .sh-bubble { position: absolute; bottom: 20%; width: calc(10px + var(--k) * 18px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.8); background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95) 0 12%, rgba(255, 255, 255, 0.15) 40%, rgba(214, 180, 240, 0.25) 70%, rgba(150, 220, 230, 0.35) 100%); opacity: 0; animation: sh-rise 13s ease-in infinite; }
-        @keyframes sh-cloud { to { transform: translateX(18px); } }
-        @keyframes sh-glide { 50% { transform: translate(14px, -6px); } }
-        @keyframes sh-wave { to { transform: translateX(-50%); } }
-        @keyframes sh-rise { 10% { opacity: 0.9; } 85% { opacity: 0.55; } 100% { transform: translate(var(--dx, 0), -60vh); opacity: 0; } }
-        .theme-shore .sec-title::after { content: ''; display: block; width: 130px; height: 22px; margin: 18px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 130 22'%3E%3Cpath d='M4 12h46M80 12h46' stroke='%23e9a3bf'/%3E%3Cpath d='M65 20L56 9Q58 3 65 3Q72 3 74 9Z' fill='%23f9c6d4' stroke='%23d6588c' stroke-width='.8'/%3E%3Cpath d='M65 20L59 7M65 20L65 3.5M65 20L71 7' stroke='%23d6588c' stroke-width='.6'/%3E%3C/svg%3E") center / contain no-repeat; }
-        .theme-shore .fact, .theme-shore .album, .theme-shore .registry, .theme-shore .registry-card, .theme-shore .guest, .theme-shore .note, .theme-shore .rsvp-summary { border-radius: 28px; border-color: rgba(214, 88, 140, 0.18); box-shadow: 0 14px 34px -22px rgba(214, 88, 140, 0.45); }
-        .theme-shore .choice span { border-radius: 18px; }
-        .theme-shore .notice { background: linear-gradient(120deg, #c4497b, #d6588c 60%, #c66a9a); }
-        .theme-shore .footer { background: linear-gradient(180deg, var(--bg2), #e2f3f0); }
+        /* Certified Lover Girl: pink light-box glow, gothic headline, bride grid, quilted hearts, kiss marks */
+        .clg-wash { position: absolute; inset: -60%; background: var(--cover); will-change: transform; animation: clg-shift 20s ease-in-out infinite alternate; } /* moved, not repainted, so phones stay smooth */
+        .theme-clg .cover-frame { border: 2px solid rgba(28, 6, 18, 0.5); border-radius: 6px; }
+        .theme-clg .cover-top { color: var(--fg); }
+        .theme-clg .kicker { color: var(--accent); }
+        .theme-clg .masthead { font-family: var(--gothic); font-weight: 800; font-size: min(22vw, 6.6rem, 13vh); line-height: 0.86; color: var(--fg); text-shadow: 0 0 26px rgba(255, 255, 255, 0.55); }
+        .theme-clg .masthead > span:last-child { color: var(--accent); }
+        .theme-clg .honour { color: var(--fg); }
+        .theme-clg .cover-date.tba { color: var(--muted); }
+        .theme-clg .emblem { margin-bottom: clamp(10px, 2vh, 18px); }
+        .theme-clg .scroll-cue { background: rgba(255, 255, 255, 0.82); color: var(--fg); }
+        .clg-glow { position: absolute; left: 7%; right: 7%; top: 7%; bottom: 9%; border-radius: 10px; background: radial-gradient(ellipse at 50% 46%, #fff2f8 0%, #ffd6e9 52%, #ffb1d3 100%); box-shadow: 0 0 70px 26px rgba(255, 214, 233, 0.75); }
+        .clg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 8px; font-size: clamp(22px, min(6.6vw, 3.6vh), 34px); line-height: 1.2; }
+        .clg-stairs { position: absolute; bottom: 0; width: min(46vw, 300px); height: auto; fill: rgba(255, 255, 255, 0.16); }
+        .clg-stairs.l { left: 0; }
+        .clg-stairs.r { right: 0; transform: scaleX(-1); }
+        .clg-seal { position: absolute; top: 8.5%; right: 5%; width: min(23vw, 124px); height: auto; }
+        .clg-seal .ring { transform-box: view-box; transform-origin: center; animation: clg-spin 24s linear infinite; }
+        .clg-kiss { position: absolute; height: auto; fill: var(--accent); opacity: 0.75; }
+        .clg-sticker { position: absolute; left: 5%; top: 9.5%; width: min(23vw, 112px); padding: 5px 6px 6px; background: #1c0612; color: #ffffff; font-family: var(--text); font-size: 0.62rem; font-weight: 700; line-height: 1.25; letter-spacing: 0.08em; text-align: center; text-transform: uppercase; transform: rotate(-4deg); }
+        .clg-sticker b { display: block; font-size: 0.74rem; letter-spacing: 0.04em; }
+        @keyframes clg-shift { to { transform: translate(18%, 12%); } }
+        @keyframes clg-spin { to { transform: rotate(360deg); } }
+        .theme-clg .section { background-color: var(--bg); background-image: var(--quilt); }
+        .theme-clg .section.alt { background-color: var(--bg2); }
+        .theme-clg .sec-title { font-family: var(--gothic); font-weight: 800; }
+        .theme-clg .sec-title em { font-style: normal; }
+        .theme-clg #gifts .sec-title { font-family: var(--display); font-weight: 700; } /* names stay in plain type */
+        .theme-clg .fact, .theme-clg .album, .theme-clg .registry, .theme-clg .registry-card, .theme-clg .guest, .theme-clg .note, .theme-clg .rsvp-summary { border: 2px solid var(--fg); border-radius: 14px; box-shadow: 5px 5px 0 #ff5aa9; }
+        .theme-clg .fact h3, .theme-clg .guest-name, .theme-clg .rsvp-summary b, .theme-clg .reg-value, .theme-clg .registry-card h4 { font-weight: 700; }
+        .theme-clg .facts { counter-reset: track; } /* details numbered like an album tracklist */
+        .theme-clg .fact .eyebrow::before { counter-increment: track; content: counter(track, decimal-leading-zero) ' \00b7  '; color: var(--accent); }
+        .theme-clg .notice { background: #1c0612; color: #ffffff; }
+        .theme-clg .footer { background: #1c0612; color: #ffffff; --muted: #f5b9d3; --line: rgba(255, 255, 255, 0.2); --accent: #ff5aa9; border-top: 0; }
 
         /* Bloom: botanical line drawings, script accent */
         .theme-bloom .masthead .small { font-family: 'Great Vibes', cursive; font-style: normal; font-size: 0.6em; line-height: 1.1; }
@@ -407,7 +416,7 @@
             <div class="wrap narrow">
                 <header class="sec-head reveal">
                     <span class="eyebrow" id="rsvpEyebrow"></span>
-                    <h2 class="sec-title">Will you <em>be there</em>?</h2>
+                    <h2 class="sec-title" id="rsvpTitle">Will you <em>be there</em>?</h2>
                 </header>
                 <div id="rsvpApp" aria-live="polite"></div>
             </div>
@@ -417,7 +426,7 @@
             <div class="wrap">
                 <header class="sec-head reveal">
                     <span class="eyebrow">Photos</span>
-                    <h2 class="sec-title">Share the <em>memories</em></h2>
+                    <h2 class="sec-title" id="photosTitle">Share the <em>memories</em></h2>
                 </header>
                 <div class="album reveal">
                     <p class="lede" id="albumLede"></p>
@@ -438,7 +447,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="aZupN7bklzia+vs4">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</script>
+                <script type="text/plain" data-gifts data-iv="qineyFKpjSI13uai">qT1p4Ea63WGUWW7Np8zUO6++clFHiBo5hpeD2HRXELwwo6L/fYNOXkc7N/je+E0+QyFV09U/Jrq9mJGdhw95I9fxx3ycNQlwPPl9BqIjRsKvWpNq6cjEnqftzDix8Uwu1QVSJ4wco/djF1RGPuHc57s84EaXVnOWCdpjWq1fmTD3wAoITFwllWSod6rmjPAmSrq3D/2zbS0PNhBhp8hDJ+hCbwm/CzZZNWWg8I2Q3NLfE07wUar2V43FnPCbXbFZm8JiOmHDDBdqoORGr9a1an5msaQEATE0TMgFjn1Z6NxtOmzGHkCQF16dMuqA1ZAr9QiraRi6uw17+9qT5TXI4gInu3gibcUZXGQOxpxa5L2SxUYFIoF30n6gIaleYZq+NW9MZDjZoq6Rot8i3/63LDJXIVm/gGD4rp4Jk8tImjbHb1SewOtj8jhfyv/1+42je+IpC6jvfzbggpqnh4w+FvBI+xj6fM3zBHylOIcL0fR792OU5Bvuls7lxW/Z+gwzB3o+8+7ra3yfG88hC4EjcFuly6pHOlzeizkWtEtL+jX/QR9/OdWDbdRJxr+dAdR6vtF9phBlagxHi9kBSnS5NNqn75L+ZUR4Ojmx3+Qfajpnm9eRnW7/+iGRK6bMKanhDXS8RcBuSSw/Ucp/chunmdU+InMkyPEghV5YGnI1YcppbQDpn93z791xP8raG+cgVAk7+jozazgDdCM7LrNYSZGZRhg3XDh1PZPJSRAHTuuriQzrbTEuDAHf1dtBJoELYUGhgDrQIZR+IB2slrHrpQRhOfJ8qz62BR5ZuTpMRUQmD/w9SOXYW/cjgbalQlrmxe3O068j0ApUtzwQznctsw+EVzCLgSF/jGhpLX/vJdwkAaW9Svc6DhFHFCzRvU5yblhckaDb++CaF2QzVkJrH8q/aYTITgGnCdlhxxgVlf4fHb62bC0Nz+LqPFavTB34U/XNOIAlFH7eTE/SomoD3xH5gzit9nnZMQIa1flL0dWk88t+FOBH8Pg3pks+OLyh6VWRqfJN0vW7+7gwk+jRNjlKDFuS2FfmYL48pK2bg4UUVeYHxsuKs1eVPTbN2lSiDTH8JuxOd2ZdAy9tQc++1PiqYbkQYdpQdwr3oAkTOjxNhhI1Rf6pUz6Lt6km5ZT6zv1nqtqWyDxAgGdgiAhnREpYc38H/DtfexfBps30XWeqYMqhPRduh9vNjNWV5htitwhfrQuf5lcNyZc7w2ZdxhY/kdTbQdNflLJ/U2KmkY9HpQixWG15gm5wccADOKlo9yZ1344mnanR4xUuTmkY7oIkh0Q5s7YaPUkLY1wrnw3we5qYgmBXRu7KqBqKGDIXXMBd+6xPHHFvyHHXVT6lEjwfBdesjwVrys7RsfFft3Ndx+cg4PlgZF/D6Q1CgUOTHe7HYWIIWvrg2wOnmHq8i0wWEPmlC1ufBErJWsvYwe8Ems7GPKjRhgwTIrGe8wvrDKthvqKFNElrDt6t8plk9gzG9vNXaMDLQ/IS9PUlirDn2PvT1UW2Hd0Y9/NGtTZYHKWPwDoCUQXcDoZJC0y9OvMOnHz1C2wVURUKq8xdkmE/YmDZXWE+KINR2FEU5ZAd5Rywirlbdk5na7xvfoRnSrzvSs6I3fwG+dvATzHwvI56HJaUfvkR2whPJg02K6LbwRK9cqarOFnvBY9sfAt43NBidxwm4je779NwYvjZjSpopZxH7+fP56EAg0uNkZBaKbxkCx9Gd3Fb3MzZK+UGmtXBg7hWEMshFJm063p59zSGtkveI301HJ4Y3IC9cVA7J9/cnXkLMoonbJtHoHu7EbGFWxp3rbc8hYm8FnyOyYHxrqgRvvpCfUc7ab0IBkJE/NMnDQOW5/FLF6Coj9/HGNu9BTzHtG82ir6YlQLtA8l4mJRaGZQHRRUS8WZ05nP1BW8mIqKhw8FQdm6/UOc5EaBawaOd/fSOmhzTPBIDMMo55AS89hlFnyucjNoziQDsGEmzYh6FBLhInzPvKD6rT46JJF9Lba0Zxl47qt7sYoitzERrKRPw8B5cm1qVReAMo6VXEkowwkrztf6Iuu1Bxnk1t61QS4i2GEenDLOWm1IVeHqASHIYYTkXXF6Achq41qFjmZTG3DQlE3LOO3Hmitt9IvTnrwL6QEn6vdgs/NJ1Gco3Rq20cK9J5qnbBRBGhBlLBTQs6VWdlsYiA8DSwGKPBS4OPcwfNYkcM93GN4ziNaTaP1xjKUI3MFt0PBDPC10vVhu58G3rJ1QXTxPMlZ8JohpzfGSJVXAc7hMAErdGpfMkzlYfhEPWGFDMGMMqfrC6+Pm/R41//RunSWYNtF/jvwsJdzy0vV7UbF47ov6Vux5QU6sw8SIVp5xBckYaNGO2Kl2r0okUw+NuiTk7q5NJt3bOqqg+2D9vXAQM9nKskbw8HCv99du+xieAkPWBdyTVDBs0f09fA9POitahZh6Jka6WU7VJA84/rD7va5C7tW9PrvCQICQ9FDpBPLnl0xbHO+48KXySHxIk0vlKo8N/RpV1aiXo0AOLSBwKg/CiV+fytKFsBnm/4koVGm7SD1Y++Bupv2eU8gzAjtfgR0QBt9lCaWchYw1F2Qe3kRLBYG6lClWJVydoUxl1i/uk4Fs2pD83RSybCycXJMVJeEwvPQTIU6LgQoCPqw2zEEGCVOu84xeRsIgQQPIJBl4o8e7x1/rM4CyU7Q+v4BTuuTLNGkTRlzxDPRf+YJyNdg4bI3e9pK7y+GRYEpLxAUtFQU+SV4C4kYn+jLUZg6NceDQ+iKhnN0AaxbudG20AK+MW2IRve2olpMdWpzggIkJGk5YdGD9P7NQ6TNYDp6WiICnKCKMFy4qbzq8h6uXB1tHNFlwIZhdoKD6fJtttNzeFT5ldp9wLMO3TVEQTS70VvbihVqURFJitlCxxMdu021ms0C5GcDcfppOaV/d5N46H4FCq4W4xBZ9Nxqn8yDi2RkigZgmWtWMUftMObF4cuhZobFNh9ly8kaz1EkT8f5eRUz1YdFyKcAAD7hzoZZW1I51eWIW7ANrel9oCZGgNI12wd38WAq0jXQQcuuwzmu6ZozFRdKNhkU4WDRysEQFZ6762tiD2LLrcgFlmRJs5XYJS7HVGT/Xh+4gdEYtdYh9f1BfpjMwigzsq6tgvji+78laf9Yvxq6aOtfhb184lKJ62cIf3QC750de94K/UXNiSxQ0B5Jq0DGeWwESeOigu+BoiqFINtU0sJS85suy6spL0gp7FWyFxTsg8bBn9UeUwr9RR+ypYv/yzCDd27RizW5/ueiJlRyqFtPvmL+7W1DgYp9u8v9AHRzxMsr/JQMPB++nMvxDyQwwrHJTU2ZPMugkpjONDC1gPS8ck7rJZjh7/VodRPzDZBFVgMsYCPVArZZ81Al2dhZwqrt1T5DmQOAr4VFwZ3p7tF2NVPD76CSaK4FzBUfC5ly+BnPrwlEncMbvlTm+m9mefHOTPX4zXz1OHoUAAfCTqLYfxBBBFjVO7jF+SaGGCziTk1RhkxoNYQTqAqi2f8VaSGVsYnBjo7/s1C9upeZvfrgh1wJ0zPhoS8Oqf7SaRL+T0O3rgmWhnMtNKKvwMPdLACxtoQ5hrDYo2V8E8+nOb/5gzMr9LaLJgQzBUkaArcLtDal0Yv0kgVSu3hf50nYxOHj/3wUCkwFb2jB+m122IgqlK4NEWFof6fuJIVjkPQSsRmvfuBuhLzyUYtpUTx8xf9X1nWX56YZ5tQBLIQ2Lle9D3aCR4F1LU+qM2uP5HAMT4vTtiyCP/Ivza1QbV0k1wMbwikvk7dHgKSTB4DoQtK9ZlUlfdW5hiN8GtYoVC5TAnNiTqQuDVrWjjunD80h/suZdi6rTTnXN9Msrr1az6Xy9CjYhi5E+1RjwC9+V/Rx3j78mEZiT/BSgUSHoFUnUcP96aGTgM1EMOJfMSq2C7pNblH8X+dtFIPXk05zjaCxZBTBqwypO4A42u/r1jh1p3E2ikAJYFifACLrNLmhE2piqWN7RJfpOJN3KBiDJxpWCdd9/OkeNm8VjaNn7+28xa0TqoKKOnTbZFvFoCiMRCIR1TzUnBjLnD8/x7yPThGpZjj8/Sc9mP58ZgxeZP7wjB</script>
             </div>
         </section>
 
@@ -483,8 +492,8 @@
                     honour: 'In honour of Jarrod', details: 'The <em>plan</em>', done: 'Let the games begin'
                 },
                 'bachelorette': {
-                    label: 'Bachelorette', ref: 'the Bachelorette', kicker: 'Sun, sand & celebration', title: ['The', 'Bachelorette'],
-                    honour: 'In honour of Telicia', details: 'The <em>plan</em>', done: 'Let the fun begin'
+                    label: 'Bachelorette', ref: 'the Bachelorette', kicker: 'Her last release as a single', title: ['', 'Certified', 'Lover', 'Girl'],
+                    honour: 'In honour of Telicia', details: 'Girls’ <em>Plan</em>', rsvpTitle: 'Hotline <em>Bling</em>', photosTitle: '<em>Views</em>', done: 'Nice for What'
                 },
                 'bridal-shower': {
                     label: 'Bridal Shower', ref: 'the Bridal Shower', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
@@ -692,25 +701,14 @@
                 });
             }
 
-            /* ---------- Shore artwork (bachelorette): pastel beach, drawn from scratch ---------- */
-            var SHELL = '<svg viewBox="0 0 40 38" aria-hidden="true"><path d="M20 34 L4 14 Q6 4 13 3 Q16 1 20 2 Q24 1 27 3 Q34 4 36 14 Z" fill="#f9c6d4" stroke="#e08aac" stroke-width="1"/>' +
-                '<path d="M20 34 L6 13 M20 34 L11 6 M20 34 L16 3 M20 34 L20 2.5 M20 34 L24 3 M20 34 L29 6 M20 34 L34 13" stroke="#e08aac" stroke-width="0.8"/>' +
-                '<path d="M15 33 h10 l-2 4 h-6z" fill="#f4b3c7" stroke="#e08aac" stroke-width="0.8"/></svg>';
-            var STARFISH = (function () {
-                var pts = [];
-                for (var i = 0; i < 10; i++) {
-                    var a = (-90 + i * 36) * Math.PI / 180, r = i % 2 ? 7 : 17;
-                    pts.push((Math.cos(a) * r).toFixed(1) + ',' + (Math.sin(a) * r).toFixed(1));
-                }
-                return '<svg viewBox="-20 -20 40 40" aria-hidden="true"><polygon points="' + pts.join(' ') + '" fill="#f8c4a4" stroke="#f8c4a4" stroke-width="4" stroke-linejoin="round"/>' +
-                    '<circle r="2" fill="#fff" opacity="0.6"/><circle cx="0" cy="-9" r="1.2" fill="#fff" opacity="0.6"/><circle cx="8.5" cy="-2.8" r="1.2" fill="#fff" opacity="0.6"/>' +
-                    '<circle cx="-8.5" cy="-2.8" r="1.2" fill="#fff" opacity="0.6"/><circle cx="5.3" cy="7.3" r="1.2" fill="#fff" opacity="0.6"/><circle cx="-5.3" cy="7.3" r="1.2" fill="#fff" opacity="0.6"/></svg>';
-            })();
-            var CLOUD = '<svg viewBox="0 0 80 44" aria-hidden="true"><path d="M12 40 a10 10 0 0 1 2 -18 a14 14 0 0 1 24 -10 a16 16 0 0 1 28 8 a11 11 0 0 1 2 20 Z" fill="#ffffff" opacity="0.8"/></svg>';
-            var GULL = '<svg viewBox="0 0 20 8" aria-hidden="true"><path d="M1 6 Q5.5 0 10 6 Q14.5 0 19 6" stroke="#a593ad" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>';
-            function wave(cls) {
-                return '<svg class="sh-wave ' + cls + '" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0,20 Q50,4 100,20 T200,20 T300,20 T400,20 V40 H0Z"/></svg>';
-            }
+            /* ---------- Certified Lover Girl artwork (bachelorette), drawn from scratch ---------- */
+            var CLG_BRIDES = ['\uD83D\uDC70\uD83C\uDFFB\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFE\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFC\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFF\u200D\u2640\uFE0F'];
+            var CLG_GRID = '<div class="clg-grid">' + [0, 1, 2, 3, 2, 0, 3, 1, 3, 2, 1, 0].map(function (n) { return '<span>' + CLG_BRIDES[n] + '</span>'; }).join('') + '</div>';
+            var CLG_STAIRS = '<svg viewBox="0 0 200 120" aria-hidden="true"><rect y="90" width="200" height="30"/><rect y="60" width="150" height="60"/><rect y="30" width="100" height="90"/><rect width="50" height="120"/></svg>';
+            var CLG_SEAL = '<svg class="clg-seal" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="58" fill="#1c0612"/><circle cx="60" cy="60" r="52" fill="none" stroke="#ff5aa9" stroke-width="1"/>' +
+                '<defs><path id="clgArc" d="M60 18a42 42 0 1 1 -0.01 0"/></defs><g class="ring"><text font-family="DM Sans, Arial, sans-serif" font-size="11" font-weight="700" fill="#ffffff"><textPath href="#clgArc" textLength="258">CERTIFIED LOVER GIRL \u2726 CERTIFIED \u2726</textPath></text></g>' +
+                '<path d="M60 82C44 71 38 62 38 54a11 11 0 0 1 22 -3a11 11 0 0 1 22 3c0 8 -6 17 -22 28z" fill="#ff2d87"/></svg>';
+            var CLG_KISS = '<svg viewBox="0 0 60 34" aria-hidden="true"><path d="M2 15C12 5 20 2 25 3C27 3.5 29 5 30 6C31 5 33 3.5 35 3C40 2 48 5 58 15C48 15 38 17 30 17C22 17 12 15 2 15Z"/><path d="M4 17C12 18 22 20 30 20C38 20 48 18 56 17C50 27 40 33 30 33C20 33 10 27 4 17Z"/></svg>';
 
             function paintDecor() {
                 var decor = '', emblem = '';
@@ -728,19 +726,13 @@
                 } else if (style === 'midnight') {
                     emblem = MOON;
                     decor = scatter(46, 7, function (x, y, k) { return '<i class="dot" style="left:' + x + '%;top:' + y + '%;--k:' + k.toFixed(2) + '"></i>'; });
-                } else if (style === 'shore') {
-                    emblem = SHELL;
-                    decor = '<div class="sh-sun"></div>' +
-                        CLOUD.replace('<svg', '<svg class="sh-cloud" style="top:8%;left:-4%"') + CLOUD.replace('<svg', '<svg class="sh-cloud" style="top:16%;right:-6%;animation-delay:-9s"') +
-                        [[17, 12], [23, 15], [77, 10]].map(function (g, i) { return GULL.replace('<svg', '<svg class="sh-gull" style="left:' + g[0] + '%;top:' + g[1] + '%;animation-delay:-' + (i * 3) + 's"'); }).join('') +
-                        '<div class="sh-sea">' + wave('w1') + wave('w2') + wave('w3') + '</div><div class="sh-sand"></div>' +
-                        SHELL.replace('<svg', '<svg class="sh-shell" style="left:7%;bottom:3%;width:38px;transform:rotate(-14deg)"') +
-                        SHELL.replace('<svg', '<svg class="sh-shell" style="right:9%;bottom:5%;width:28px;transform:rotate(18deg)"') +
-                        STARFISH.replace('<svg', '<svg class="sh-shell" style="right:27%;bottom:2%;width:30px;transform:rotate(12deg)"') +
-                        '<i class="bl-pearl" style="left:17%;top:auto;bottom:4%;--k:.6"></i><i class="bl-pearl" style="left:20%;top:auto;bottom:2.5%;--k:.3"></i>' +
-                        scatter(9, 21, function (x, y, k) {
-                            return '<i class="sh-bubble" style="left:' + (4 + x * 0.92) + '%;--k:' + k.toFixed(2) + ';--dx:' + ((y - 50) * 0.6).toFixed(0) + 'px;animation-delay:-' + (k * 13).toFixed(1) + 's"></i>';
-                        });
+                } else if (style === 'clg') {
+                    emblem = CLG_GRID;
+                    decor = '<div class="clg-wash"></div><div class="clg-glow"></div>' +
+                        CLG_STAIRS.replace('<svg', '<svg class="clg-stairs l"') + CLG_STAIRS.replace('<svg', '<svg class="clg-stairs r"') + CLG_SEAL +
+                        CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="left:6%;top:24%;width:38px;transform:rotate(-16deg)"') +
+                        CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="right:6%;top:66%;width:32px;transform:rotate(14deg)"') +
+                        '<div class="clg-sticker"><b>Bride Advisory</b>Certified content</div>';
                 } else if (style === 'bloom') {
                     decor = SPRIG.replace('<svg', '<svg class="sprig bl"') + SPRIG.replace('<svg', '<svg class="sprig tr"');
                 }
@@ -754,7 +746,7 @@
                 var words = t.title.slice(1).join(' ').split(' ');
                 var mast = document.getElementById('masthead');
                 mast.style.setProperty('--len', Math.max.apply(null, words.map(function (w) { return w.length; })));
-                mast.innerHTML = '<span class="small">' + esc(t.title[0]) + '</span>' +
+                mast.innerHTML = (t.title[0] ? '<span class="small">' + esc(t.title[0]) + '</span>' : '') +
                     t.title.slice(1).map(function (w) { return '<span>' + esc(w) + '</span>'; }).join('');
                 var honour = document.getElementById('honour');
                 honour.textContent = t.honour;
@@ -823,6 +815,8 @@
                     ' only. It is <strong>not</strong> your invitation or RSVP for Jarrod &amp; Telicia’s wedding. Wedding invitations are sent separately.';
                 document.getElementById('detailsEyebrow').textContent = theme.label;
                 document.getElementById('detailsTitle').innerHTML = theme.details;
+                if (theme.rsvpTitle) document.getElementById('rsvpTitle').innerHTML = theme.rsvpTitle;
+                if (theme.photosTitle) document.getElementById('photosTitle').innerHTML = theme.photosTitle;
                 document.getElementById('rsvpEyebrow').textContent = 'RSVP for ' + theme.ref + ' only';
                 document.getElementById('footerNote').textContent = 'Your reply on this page is only for ' + theme.ref + '. Your wedding invitation, with its own RSVP, will come separately.';
 
