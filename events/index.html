@@ -281,6 +281,8 @@
         .fact h3.tba { font-style: italic; color: var(--muted); }
         .fact p { color: var(--muted); max-width: 380px; margin: 0 auto; }
         .fact .link-btn { display: inline-block; margin-top: 16px; text-decoration: none; }
+        .cal-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; margin-top: 4px; }
+        .cal-links .link-btn { font: inherit; font-weight: 600; }
         .note { max-width: 760px; margin: 28px auto 0; padding: 28px; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--radius); }
         .note p { margin-top: 10px; font-size: 1.15rem; }
 
@@ -447,7 +449,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="mpKUMrCGKVeaXAdP">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</script>
+                <script type="text/plain" data-gifts data-iv="xwp4Xqyh6e40yGsN">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</script>
             </div>
         </section>
 
@@ -480,23 +482,23 @@
             // "label" is how the page names the event in plain language, e.g. on the RSVP button.
             var THEMES = {
                 'night-before-jarrod': {
-                    label: "Jarrod's Night Before", ref: "Jarrod's Night Before", kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
+                    label: "Jarrod's Night Before", cal: "Jarrod's Night Before", ref: "Jarrod's Night Before", kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
                     honour: 'An evening with Jarrod', details: 'The <em>evening</em>', done: 'Tonight’s the night'
                 },
                 'night-before-telicia': {
-                    label: "Telicia's Thanksgiving", ref: "Telicia's Thanksgiving", kicker: 'With grateful hearts', title: ['A', 'Thanksgiving'],
+                    label: "Telicia's Thanksgiving", cal: "Telicia's Thanksgiving", ref: "Telicia's Thanksgiving", kicker: 'With grateful hearts', title: ['A', 'Thanksgiving'],
                     honour: 'Celebrating with Telicia', details: 'The <em>celebration</em>', done: 'Let the celebration begin'
                 },
                 'bachelor': {
-                    label: 'Bachelor Party', ref: 'the Bachelor Party', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
+                    label: 'Bachelor Party', cal: "Jarrod's Bachelor Party", ref: 'the Bachelor Party', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
                     honour: 'In honour of Jarrod', details: 'The <em>plan</em>', done: 'Let the games begin'
                 },
                 'bachelorette': {
-                    label: 'Bachelorette', ref: 'the Bachelorette', kicker: 'Her last release as a single', title: ['', 'Certified', 'Lover', 'Girl'],
+                    label: 'Bachelorette', cal: "Telicia's Bachelorette", ref: 'the Bachelorette', kicker: 'Her last release as a single', title: ['', 'Certified', 'Lover', 'Girl'],
                     honour: 'In honour of Telicia', details: 'Girls’ <em>Plan</em>', rsvpTitle: 'Hotline <em>Bling</em>', photosTitle: '<em>Views</em>', done: 'Nice for What'
                 },
                 'bridal-shower': {
-                    label: 'Bridal Shower', ref: 'the Bridal Shower', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
+                    label: 'Bridal Shower', cal: "Telicia's Bridal Shower", ref: 'the Bridal Shower', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
                     honour: 'In honour of Telicia', details: 'The <em>gathering</em>', done: 'It’s shower time'
                 }
             };
@@ -794,6 +796,97 @@
                 timer = setInterval(tick, 1000);
             }
 
+            /* ---------- Add to calendar ---------- */
+            // Times on the sheet are South African time (UTC+2, no daylight saving), stored in calendars as UTC.
+            // No start time yet: an all-day entry. No end time: 3 hours. An end before the start runs past midnight.
+            function calEvent(ev) {
+                var p = eventDate;
+                var link = location.origin + location.pathname + '?event=' + encodeURIComponent(slug) + '&invite=' + encodeURIComponent(rsvp.invite.code);
+                var out = {
+                    title: theme.cal || theme.label,
+                    where: [ev.venue, ev.address].filter(Boolean).join(', '),
+                    details: [
+                        ev.hosts ? 'Hosted by ' + ev.hosts : '',
+                        ev.dressCode ? 'Dress code: ' + ev.dressCode : '',
+                        ev.notes || '',
+                        'Your invitation, RSVP and photos: ' + link,
+                        'This is not the wedding. Your wedding invitation comes separately.'
+                    ].filter(Boolean).join('\n\n'),
+                    uid: slug + '-' + rsvp.invite.code + '@teliciajarrod.com'
+                };
+                var ymd = function (d) { return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()); };
+                if (!ev.start) {
+                    out.allDay = true;
+                    out.start = ymd(new Date(Date.UTC(p.y, p.m - 1, p.d)));
+                    out.end = ymd(new Date(Date.UTC(p.y, p.m - 1, p.d + 1)));
+                    return out;
+                }
+                var at = function (t) { var hm = parseTime(t).split(':'); return Date.UTC(p.y, p.m - 1, p.d, +hm[0] - 2, +hm[1]); };
+                var start = at(ev.start);
+                var end = ev.end ? at(ev.end) : start + 3 * 3600000;
+                if (end <= start) end += 86400000;
+                var stamp = function (ms) { var d = new Date(ms); return ymd(d) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z'; };
+                out.start = stamp(start);
+                out.end = stamp(end);
+                return out;
+            }
+
+            function googleCalUrl(c) {
+                return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+                    '&text=' + encodeURIComponent(c.title) + '&dates=' + c.start + '/' + c.end +
+                    '&details=' + encodeURIComponent(c.details) + '&location=' + encodeURIComponent(c.where) + '&ctz=Africa/Johannesburg';
+            }
+
+            // A standard .ics file: opens in Apple Calendar, Outlook and most other calendar apps
+            function icsFile(c) {
+                var text = function (v) { return String(v).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); };
+                var fold = function (line) {
+                    var out = [];
+                    while (line.length > 73) {
+                        var cut = line.charAt(72) === '\\' ? 72 : 73; // never split an escape like \n
+                        out.push(line.slice(0, cut));
+                        line = ' ' + line.slice(cut);
+                    }
+                    out.push(line);
+                    return out.join('\r\n');
+                };
+                var now = new Date();
+                var lines = [
+                    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//teliciajarrod.com//Events//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+                    'BEGIN:VEVENT',
+                    'UID:' + c.uid,
+                    'DTSTAMP:' + now.getUTCFullYear() + pad(now.getUTCMonth() + 1) + pad(now.getUTCDate()) + 'T' + pad(now.getUTCHours()) + pad(now.getUTCMinutes()) + '00Z',
+                    c.allDay ? 'DTSTART;VALUE=DATE:' + c.start : 'DTSTART:' + c.start,
+                    c.allDay ? 'DTEND;VALUE=DATE:' + c.end : 'DTEND:' + c.end,
+                    'SUMMARY:' + text(c.title),
+                    c.where ? 'LOCATION:' + text(c.where) : '',
+                    'DESCRIPTION:' + text(c.details),
+                    'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:' + text(c.title + ' is tomorrow'), 'TRIGGER:-P1D', 'END:VALARM',
+                    'END:VEVENT', 'END:VCALENDAR'
+                ];
+                return lines.filter(Boolean).map(fold).join('\r\n') + '\r\n';
+            }
+
+            function calendarLinks(ev) {
+                if (!eventDate) return '';
+                return '<div class="cal-links"><a class="link-btn" id="calGoogle" href="' + esc(googleCalUrl(calEvent(ev))) + '" target="_blank" rel="noopener">Google Calendar ↗</a>' +
+                    '<button type="button" class="link-btn" id="calFile">Apple / Outlook calendar</button></div>';
+            }
+
+            function wireCalendar(ev) {
+                var btn = document.getElementById('calFile');
+                if (!btn) return;
+                btn.addEventListener('click', function () {
+                    var blob = new Blob([icsFile(calEvent(ev))], { type: 'text/calendar;charset=utf-8' });
+                    var a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = (theme.cal || theme.label).replace(/'/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.ics';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+                });
+            }
+
             /* ---------- Details ---------- */
             function fact(label, value, sub, extra, tba) {
                 return '<div class="fact"><span class="eyebrow">' + label + '</span><h3' + (tba ? ' class="tba"' : '') + '>' + value + '</h3>' +
@@ -822,7 +915,7 @@
 
                 var times = [ev.start, ev.end].filter(Boolean).map(esc).join(' – ');
                 var html = eventDate
-                    ? fact('When', longDate(eventDate), times || 'Time to be announced')
+                    ? fact('When', longDate(eventDate), times || 'Time to be announced', calendarLinks(ev))
                     : fact('When', 'Date to be announced', times ? 'From ' + times : 'Watch this space', '', true);
                 html += ev.venue
                     ? fact('Where', esc(ev.venue), esc(ev.address), ev.mapUrl ? '<a class="link-btn" href="' + esc(ev.mapUrl) + '" target="_blank" rel="noopener">Open in Maps ↗</a>' : '')
@@ -830,6 +923,7 @@
                 if (ev.dressCode) html += fact('Dress code', esc(ev.dressCode));
                 if (ev.hosts) html += fact('Hosted by', esc(ev.hosts));
                 document.getElementById('facts').innerHTML = html;
+                wireCalendar(ev);
 
                 if (ev.notes) {
                     document.getElementById('notesText').innerHTML = esc(ev.notes).replace(/\n/g, '<br>');
