@@ -34,14 +34,14 @@
                 'night-before-telicia': 'blossom',
                 'bachelor': 'stag',
                 'bachelorette': 'clg',
-                'bridal-shower': 'bloom'
+                'bridal-shower': 'mamma'
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
                 blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
                 stag: 'family=Anton&family=Barlow:wght@400;600;700',
                 clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
-                bloom: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@400;700'
+                mamma: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Sacramento&family=Lato:wght@400;700'
             };
             var slug = (new URLSearchParams(location.search).get('event') || '').trim().toLowerCase();
             var style = STYLES.hasOwnProperty(slug) ? STYLES[slug] : 'midnight';
@@ -91,11 +91,13 @@
             --cover: linear-gradient(135deg, #d90f6c, #ff3d9a, #ff7ab8, #c7148f, #ff3d9a, #d90f6c);
             --quilt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 44C12 33 8 25 8 18a10 10 0 0 1 20-3a10 10 0 0 1 20 3c0 7-4 15-20 26z' fill='none' stroke='%23ff2d87' stroke-opacity='.16' stroke-width='1.5'/%3E%3C/svg%3E");
         }
-        .theme-bloom {
-            --bg: #fbf7ee; --bg2: #f0efe2; --card: #ffffff; --fg: #34372c; --muted: #6c7161; --line: rgba(52, 55, 44, 0.16);
-            --accent: #7a8e68; --on-accent: #ffffff;
-            --display: 'Cormorant Garamond', Georgia, serif; --text: 'Lato', 'Helvetica Neue', Arial, sans-serif;
-            --cover: radial-gradient(circle at 50% 30%, #ffffff 0%, #f7f3e6 55%, #e9ead8 100%);
+        /* Bridal shower: Mamma Mia (Telicia's Pinterest direction): Greek blue-and-white tiles, sky-blue arch, pink bougainvillea, a disco ball */
+        .theme-mamma {
+            --bg: #ffffff; --bg2: #e9f3fc; --card: #ffffff; --fg: #12306b; --muted: #4a5f8c; --line: rgba(18, 48, 107, 0.18);
+            --accent: #1f4fa8; --on-accent: #ffffff; --pink: #d81b6a; --sky: #cfe6f8;
+            --display: 'Bodoni Moda', Didot, Georgia, serif; --text: 'Lato', 'Helvetica Neue', Arial, sans-serif; --script: 'Sacramento', 'Brush Script MT', cursive;
+            --tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23ffffff'/%3E%3Cg fill='%231f4fa8'%3E%3Ccircle r='11'/%3E%3Ccircle cx='48' r='11'/%3E%3Ccircle cy='48' r='11'/%3E%3Ccircle cx='48' cy='48' r='11'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Ccircle r='5'/%3E%3Ccircle cx='48' r='5'/%3E%3Ccircle cy='48' r='5'/%3E%3Ccircle cx='48' cy='48' r='5'/%3E%3C/g%3E%3Cg fill='%237aa3e0'%3E%3Cpath d='M24 0l3 4-3 4-3-4zM24 48l3-4-3-4-3 4zM0 24l4-3 4 3-4 3zM48 24l-4-3-4 3 4 3z'/%3E%3Cpath d='M24 24C19 21 15 17 16 14C19 15 22 19 24 24ZM24 24C29 21 33 17 32 14C29 15 26 19 24 24ZM24 24C19 27 15 31 16 34C19 33 22 29 24 24ZM24 24C29 27 33 31 32 34C29 33 26 29 24 24Z'/%3E%3C/g%3E%3Cg fill='%231f4fa8'%3E%3Cpath d='M24 24C21 18 21 12 24 8C27 12 27 18 24 24ZM24 24C21 30 21 36 24 40C27 36 27 30 24 24ZM24 24C18 21 12 21 8 24C12 27 18 27 24 24ZM24 24C30 21 36 21 40 24C36 27 30 27 24 24Z'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='3' fill='%23ffffff' stroke='%231f4fa8' stroke-width='1.2'/%3E%3Cpath d='M0 0h48v48H0z' fill='none' stroke='%23b9cfee' stroke-width='1'/%3E%3C/svg%3E");
+            --cover: var(--tile) 0 0 / 48px 48px;
         }
 
         /* =========================================
@@ -257,11 +259,55 @@
         .theme-clg .notice { background: #1c0612; color: #ffffff; }
         .theme-clg .footer { background: #1c0612; color: #ffffff; --muted: #f5b9d3; --line: rgba(255, 255, 255, 0.2); --accent: #ff5aa9; border-top: 0; }
 
-        /* Bloom: botanical line drawings, script accent */
-        .theme-bloom .masthead .small { font-family: 'Great Vibes', cursive; font-style: normal; font-size: 0.6em; line-height: 1.1; }
-        .sprig { position: absolute; width: min(40vw, 300px); height: auto; color: var(--accent); opacity: 0.75; }
-        .sprig.bl { left: 10px; bottom: 72px; }
-        .sprig.tr { right: 10px; top: 44px; transform: rotate(180deg); }
+        /* Mamma Mia: tiled cover, sky-blue arch, sequinned headline, script lines, bougainvillea, disco ball */
+        .theme-mamma .cover { padding: 26px 26px 24px; }
+        .mm-arch { position: absolute; left: 50%; transform: translateX(-50%); width: min(calc(100% - 52px), 620px); top: 26px; bottom: 24px; background: var(--sky); border: 6px solid #ffffff; border-radius: 310px 310px 10px 10px / 240px 240px 10px 10px; box-shadow: 0 0 0 3px var(--accent); }
+        .theme-mamma .cover-frame { border: 0; flex: 0 1 560px; min-width: 0; margin: 0 auto; padding: 12px 18px 18px; }
+        .theme-mamma .cover-top { visibility: hidden; }
+        .theme-mamma .kicker { color: var(--accent); font-size: 0.8rem; letter-spacing: 0.15em; padding-left: 0.15em; margin-bottom: clamp(6px, 1.6vh, 14px); }
+        .theme-mamma .cover-center { width: 100%; }
+        /* Condensed like the poster lettering: laid out 25% wider, then squeezed back to fit */
+        .theme-mamma .masthead { width: 125%; font-weight: 800; font-size: min(20.5vw, 5.4rem, 12vh); line-height: 0.92; text-transform: uppercase; letter-spacing: 0.01em; filter: drop-shadow(0 2px 0 rgba(255, 255, 255, 0.75)); }
+        /* Sequinned letters: a mirror-tile grid with glints over a shifting blue (on the words, so the entrance animation still runs) */
+        .theme-mamma .masthead > span { display: inline-block; margin: 0 0.1em;
+            color: transparent; -webkit-background-clip: text; background-clip: text;
+            background-image: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95) 0 0.7px, transparent 1.5px), linear-gradient(90deg, rgba(8, 26, 80, 0.45) 1px, transparent 1px), linear-gradient(0deg, rgba(8, 26, 80, 0.45) 1px, transparent 1px), linear-gradient(115deg, #13306f 0%, #2a5bbd 26%, #5f8fdc 38%, #2756b3 52%, #173a87 70%, #4a7bd0 84%, #13306f 100%);
+            -webkit-text-stroke: 0.6px #12306b; background-size: 5px 5px, 5px 5px, 5px 5px, 300% 100%; animation: mm-shimmer 9s ease-in-out infinite alternate; }
+        .theme-mamma .honour { font-family: var(--script); font-weight: 400; font-size: clamp(2.1rem, 8vw, 3rem); line-height: 1.1; letter-spacing: 0; text-transform: none; color: var(--pink); margin-top: clamp(0px, 1vh, 8px); }
+        .theme-mamma .cover-date { color: var(--accent); }
+        .theme-mamma .emblem { margin-bottom: clamp(4px, 1.4vh, 12px); color: inherit; }
+        .theme-mamma .emblem svg { width: min(20vw, 84px, 11vh); height: auto; overflow: visible; }
+        .mm-hang { position: relative; transform-origin: 50% -45vh; animation: mm-swing 6s ease-in-out infinite alternate; }
+        .mm-hang::before { content: ''; position: absolute; left: 50%; bottom: calc(100% - 4px); width: 1.5px; height: 60vh; margin-left: -0.75px; background: #7d93c2; }
+        .mm-glint { animation: mm-twinkle 2.6s ease-in-out infinite; }
+        .mm-star { position: absolute; width: calc(10px + var(--k) * 12px); height: auto; fill: #ffffff; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.9)); animation: mm-twinkle 3s ease-in-out infinite; animation-delay: calc(var(--k) * -3s); }
+        .mm-vine { position: absolute; height: auto; filter: drop-shadow(0 2px 2px rgba(18, 48, 107, 0.18)); }
+        .mm-vine.tl { left: 4px; top: 6px; width: min(54vw, 330px); }
+        .mm-vine.tr { right: 4px; top: 6px; width: min(42vw, 250px); transform: scaleX(-1); }
+        .mm-vine.ml { left: 0; top: 46%; width: min(24vw, 130px); }
+        .mm-vine.br { right: 0; bottom: 6px; width: min(50vw, 340px); }
+        .theme-mamma .countdown { border-top-color: rgba(31, 79, 168, 0.3); }
+        .theme-mamma .countdown > div { border-left-color: rgba(31, 79, 168, 0.3); }
+        .theme-mamma .countdown span { color: var(--accent); }
+        .theme-mamma .scroll-cue { background: #ffffff; border-color: var(--accent); color: var(--accent); }
+        .theme-mamma .scroll-cue::after { color: var(--pink); }
+        .theme-mamma .cover-note { background: rgba(255, 255, 255, 0.85); padding: 6px 14px; border-radius: 14px; }
+        .theme-mamma .masthead.rise { animation-name: mm-rise; }
+        @keyframes mm-rise { from { opacity: 0; transform: translateY(24px) scaleX(0.8); } to { opacity: 1; transform: scaleX(0.8); } }
+        @keyframes mm-shimmer { to { background-position: 0 0, 0 0, 0 0, 100% 0; } }
+        @keyframes mm-swing { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+        @keyframes mm-twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1); } }
+        .theme-mamma .mm-glint { transform-box: fill-box; transform-origin: center; }
+        .theme-mamma .sec-title { font-weight: 600; }
+        .theme-mamma .sec-title em, .theme-mamma .sub-head em { font-family: var(--script); font-style: normal; font-weight: 400; font-size: 1.3em; line-height: 0.8; color: var(--pink); }
+        .theme-mamma .lede em { color: var(--pink); }
+        .theme-mamma .section.alt { background: var(--tile) 0 0 / 28px 28px repeat-x, var(--tile) 0 100% / 28px 28px repeat-x, var(--bg2); }
+        .theme-mamma .notice { border-bottom: 4px solid var(--pink); }
+        .theme-mamma .fact { border: 2px solid var(--accent); border-radius: 170px 170px 14px 14px / 90px 90px 14px 14px; padding-top: 52px; box-shadow: inset 0 0 0 5px #ffffff, inset 0 0 0 6px rgba(31, 79, 168, 0.25); }
+        .theme-mamma .album, .theme-mamma .registry, .theme-mamma .guest, .theme-mamma .note, .theme-mamma .rsvp-summary { border: 2px solid var(--accent); }
+        .theme-mamma .note { border-left-color: var(--pink); }
+        .theme-mamma .btn:hover { box-shadow: 0 12px 30px -12px var(--pink); }
+        .theme-mamma .footer { background: #1f4fa8; color: #ffffff; --muted: #d6e4fb; --line: rgba(255, 255, 255, 0.25); --accent: #ffffff; border-top: 4px solid var(--pink); }
 
         /* =========================================
            "NOT THE WEDDING" NOTICE
@@ -449,7 +495,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="RonvG4s4U51fvPeN">TeHzHUjd/jGgV+i7dFxozS8m9CaZJUE6eHVMrtnTgtUmidTxxs1MV0CxbXlhrHWcOzm7A80cCshM42rVISns83PyaH3lCLgAXZxuWFThEej9MEeBZJj0dpIlp3yqauSUviZWHohojt8pTWLxJXXg/M69NMsz9r4Vjp/Lk7b1z7YxsHFpf/Ou8vMYENjG7ae52mASQbMn9HDELI6m3OiWt1PXTG32WL+Qrdb+HkEDzMG8Uhrz5w5SgwUf9O8Jkfc0vagv93ZgJf7H2dGmJtB5mKo2J/hUTQBT2rMTwu9fwcP/6ANf16RpB9QG6OxOmk8C1DoN3E3RUcAAl/Go0MXykefJ0fUzJIVo/w4aQD2wQNq3ek85l8LYKG5ivNp/GmZTs1io8nnz5gIYLhjrTddKYfwYV6Qw6PODtdvePcMRAFIO/B3wBMO089eqGJ2v9X87WHhVh06jc5jJcDD9zUsC0f5S0Y4t3iigaY8p9ATMGiQVazRAt+My0tbwGlljBUh01PkO61KjwHSZxbkIoTPSt5yJcgqdOfyqTebPsKP7uGE+mR8cqt3DzAQngcLHiR0XcZO4wtXa2mkW3C+G8vuyr1sgl8jXsNu6U/sm/68ls1az91NHwvQOcKFiRLtT/cra6Sei1QUWUtKNzS83/ib7Tf/0j4WuQYwws+9Kco/TK3+yaJ9srg3DHxgtCd/qgFl4/ZFv1t5FY94MABxPrkNnLC2EoAPAe9jCEqtO/3vACAi5N/rs8ruKYxOAjmkx0GWPZXLqnbp9nrrrUjjYFvMPoh6mJgCAUOdZlj6o9XjALKGXf/U0tURbquWpIhp4dW5y/95jfv70xpVQv6FxBrFSBSlyLHtxZWky2/Fc6tXBSbJcVz6GezREzhIXyZaetjbulyJKqTYjCSUON4V4BOPNw2PF4Vi1cKK7tzezyuPnbckP6iLcsbY1F6lToXtzq/IV6uVXg0KzYrQQlqgZ2T3o4BLXWyxKMBAyzwVnjnkgTJ93GEudhfM3BjxWWKpUwUs+6LPwVjTrQT3r21+yahd+XH/gXgisG3A9L2AUCrMGuqy6Mx6LMBbGuFWFgATsK8c+3yB5ACc3R2PrqEqEiG/pYESNRJavnpz7YxeorM8MMg44lftcHZz+Pb4WRTQ5EsKjjIXZTxR7RnOAWic0jfgRAop+AheQ8Sw+rhz3hv4/QizIpMbwnNiy3wem1C6EOyIyJsiVuemShUWfczSqkFNbm/lwAt3lI8ptmTTI8Ne1u/3zJTKC1+YdV6i7UTWP8MC+O5w7eYdbYuCzqc9Cd79asezEhaPi7Qn2FQ+m/ngXStVm9hITbomYjLBCw1vxlKeU97BXdXUYL0JOMyiDeNZ4Bf+i6GguGzGMkRvRNbbVmqfvevgNYaO8uL7HtdMRH+/lrcCn8EnUMrzfAM37SKTqvL/Q7AqzTFnFbRoExFHPNAYjA4zicIOQZC8Fgrp/ththPmYFc6N5KhZsjW8X4NyKA6lMqWJ6VjzpcPCQbfNVzav4fldBmX/NNnXTXm3N0ct+NPMICU1qTpG+uDosPesvkeKDTnS5yne8vBi4019I9J/MxRydkudv32QNU2MYKTEDFn+cYcQGGnqUgzS5V0xpxOMBnull2f5xGSi9+EELcUKD8N9DTvh1cTVaSwBMl9/HH42G1HlVbeemJr80trtiD83pRNGNrpma0ndXxQbUdmpZapGZdmGyJrj5euEvV1iH4hjCcNfZWGAtOu3CDrct65KdjtDhmNmZem1ghx5xb50g1vnSUurpPcRRPYg03/tbZOYbnDa5dIHfzOjWETApqOMDdqWnS6ljw1Bz43Hz+1HVMV5kObNQC9aGDC9P0WGvQkzmEr/Hakk1JsvwUVuj+KHmxvpeowgjvNzIRXa11raXXqmc9mu6bU7J8JboRI/zzYsMU1P2UZlcaPr0xBej5WO3cP+SxB+ORWXzXM/zrCBE1OAUrFvn5CKwGf+M5CxvUVX/Im4a5bPjSgXLyqAUmEa/9aB1etzzWpII0TtVDSEP5KiU5ObE42gkXvnAj2l5069MYPBgOJHAa2bmPajsz6xY0gMye8u2SM4pBEZ7GNoWzOhFjGGKgAsuKhvsgKctXqACVFTNL9sJeSHIJgpuQ/pNcQaEF6qax5FfbowrRgtH91i/BR6TNbAFKZ7ST+smGP0ZO2eou2R+8VARTroYVsEOaf2EXWEElU4yl22KPybwBedcQ4pUANeWUqG+oHIvt7vZ6ePvv2dHiXb9Hiuj8S1AFOZP3OEb77Oe8qszQrswxNy9vweSpsLKGi9LsU4/d3u2oxhg6N0JvXzwsKblySrLpRgBrqNZhjMvpXlkI5YJhV5XYGr2tIZwHP5xGxHtZvc6gxEexGuT28sos2vYPn/ltEHJFRy3VbD2CAw55vLDdEyZfFM7xlAwFqvQGZbd/FmRqftlsw0Flm2COCIj6eW+7LQH4lSHa1DFNlxASIGudlgIWvj5SYLQMQGOQDWBe61YFFZsglwaMLApff13gviY7TbbA5fPEodXpRnyWBBB7BJmCH+2xL0rN58InukiArwwnOvMIvr1dLMZvOudKotQwH4Zs+5u1mUQxnm7UClLnh7RMi6rl5qhEdwhvgFnIfwqK3R3tHmMB4T//IaghwW4+I9zs6OS/DrJKf3Huj1aRPaCnHYNKR9UpESyin6Xc3Er84DyT6fmsvhLD3Ib6r/wjyel2fw/paidpfB+ImpUMxmbcrpn3jzS4To68dZ3/vylfguhsQAykArsN5hGbNFQa3bNei5GDCRc6sMBQfQiS1f+FHvsZBUx0vWMj1qPtPas/lZWbJHStqwc5z1tfMf4aTzeBhAQw2Qc6/cFjiXBz0u8ReFylQ7gWVG2oFLZhuQyxFm6MqyFAndTn346tPZJHFbhWCQ4011ZBok05UmO4sWD38BSpM1EEIDhhWsCwPDW3F052/HbKKRkCbOs+Nwe7TQe+Avol2yds/rmLnYsDAD5JwixmTIAq2ie6TmFywzartvVzP0HO3Mde/QzUY5uimicfFGI77FJETz5O4ZOrRbUPyZVsAS0RWzzi8rut7DgmmjdvjuNQPaxjpABlEW1q/Y77at+M5/oyb7sb3+JRYFTKXDLTvm844zT3Swt7NV8pqzt/z3lA93eRGX0h/VU1xs8REPqRKWjaQkocHRpQrHeFUdv8ee3mB0UpeF6TU8A2lSL0d7bpXfyX4LL6X87sxyjnPgxtdxOeAZoulA5DSyg8NW3714xpqrcYB9Hvkhkbz1j3CvHnNReVPuZ1xA36XMFq9jrX6vr46DyBZ2XgRqTSC42kcCM6GjoDuJcwvYPcMHzg2GzPldQWGrNcKqC+HEz0CbjY7WlEYZxjeOHAsOH1jwNTczwmEhBrEGwgezb4pSg4hkT5bOvbvudAR4pJazrN/Mx7iYxMg0+HI96LRY/YsX5WrGsNBC473GIgyPUPJ2aAa3c9duLUvMTxUZzHAasPjEldFhl3Fc3aez1MP2iB7oGvLKXQ7DTsAqbVSjNlkyYAbcIMqxcLPyRbxhtpoTnpHs35hm5CtIMmrXlAb10vtksOaby9rBQiaBfiBoQ1Iz/bRIIXs+N7wZPlfzbpH52fJCeth05GuqUfMZ2s7b6u8W6L1yEijpiF4z9E5iMXlMztBzMBqUwj08jIqJydsem6ecS/cggmNF3AXLZgkr+gk74KGHrCgKGr5kAUVgW7tKaM41gLha/PQ4f4v+aqeiXcbKNXb0qOVLauJERxCOAxl5/TucD0c9UWYc3bUXfRcalOIOpVbDCtZGq1yWdz+H0dlyRyP6HlsfrPHcv6Z693x14x/T5j2SJC6gj71V20QDSmMYti3ugT02r7fxxen8B2uLv4jtJOqouyfPdCdrMsqWsuPv//1ALPcnVt112ukDxTRc0FmKt/Qra3I6WncMUVbznHtGC4/gcB6yqoz9qi1IcwZXeb0MNK5BUyCJS/+xn2dHTS45Lgp7Eqm7uHbefOuwEdJbk0rLu/7qE7LR+Jnw1nVHaF9qkPvrWlr0Sk7QVOHDH60g8RxQPBe0eDbfZQ1gWA0zqVXviuqVMi+RMx9BLqKZwhyAJgze7aBYBqe8zjrcI</script>
+                <script type="text/plain" data-gifts data-iv="rC2034rIz/W4vZSf">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</script>
             </div>
         </section>
 
@@ -499,8 +545,8 @@
                     noRegistries: true // bank details only until the registries are ready (Jarrod, 10 Nov 2026)
                 },
                 'bridal-shower': {
-                    label: 'Bridal Shower', cal: "Telicia's Bridal Shower", ref: 'the Bridal Shower', kicker: 'Showered with love', title: ['The', 'Bridal', 'Shower'],
-                    honour: 'In honour of Telicia', details: 'The <em>gathering</em>', done: 'It’s shower time'
+                    label: 'Bridal Shower', cal: "Telicia's Bridal Shower", ref: 'the Bridal Shower', kicker: 'A bridal shower for Telicia', title: ['', 'Mamma', 'Mia!'],
+                    honour: 'she’s getting married!', details: 'Island <em>details</em>', rsvpTitle: 'Take a Chance on <em>Me</em>', photosTitle: 'Dancing <em>Queen</em>', done: 'Here we go again!'
                 }
             };
             var PRIVATE_THEME = { label: '', kicker: 'By private invitation', title: ['A', 'Private', 'Invitation'], honour: '' };
@@ -528,16 +574,6 @@
 
             /* ---------- Cover decoration ---------- */
             var MOON = '<svg viewBox="0 0 40 40"><path d="M25 4a16 16 0 1 0 11 27A14 14 0 0 1 25 4z" fill="currentColor"/></svg>';
-            var LEAF = 'M0 0Q12 -14 30 -8Q14 2 0 0Z';
-            var SPRIG = '<svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.2">' +
-                '<path d="M8 196C48 150 86 104 118 36"/><path d="M72 118C92 112 112 110 132 98"/><path d="M40 162C30 150 26 138 28 124"/>' +
-                [[30, 172, -35], [52, 146, -150], [72, 118, -45], [90, 92, -145], [104, 66, -55], [102, 113, -20], [28, 124, -100]].map(function (l) {
-                    return '<path d="' + LEAF + '" transform="translate(' + l[0] + ' ' + l[1] + ') rotate(' + l[2] + ')"/>';
-                }).join('') +
-                [0, 72, 144, 216, 288].map(function (a) {
-                    return '<ellipse rx="5" ry="10" transform="translate(118 36) rotate(' + a + ') translate(0 -10)"/>';
-                }).join('') +
-                '<circle cx="118" cy="36" r="3"/><circle cx="134" cy="97" r="4"/><circle cx="141" cy="91" r="2.5"/></svg>';
 
             // Same positions on every visit (a tiny seeded random), so the cover never jumps around
             function scatter(count, seed, make) {
@@ -640,7 +676,7 @@
                 var el = document.createElement('div');
                 el.className = 'bl-flyer';
                 el.style.width = size + 'px';
-                el.innerHTML = '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
+                el.innerHTML = style === 'mamma' ? MM_FLYERS[Math.floor(Math.random() * MM_FLYERS.length)] : '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
                 sky.appendChild(el);
                 return el;
             }
@@ -686,14 +722,16 @@
 
             function startButterflies() {
                 var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                if (style !== 'blossom' || still || !Element.prototype.animate) return;
+                if ((style !== 'blossom' && style !== 'mamma') || still || !Element.prototype.animate) return;
                 sky = document.createElement('div');
                 sky.className = 'bl-sky';
                 sky.setAttribute('aria-hidden', 'true');
                 document.body.appendChild(sky);
-                wander();
-                setTimeout(wander, 1500);
-                setInterval(wander, 3800);
+                if (style === 'blossom') { // only the Thanksgiving page has butterflies drifting across it
+                    wander();
+                    setTimeout(wander, 1500);
+                    setInterval(wander, 3800);
+                }
                 document.addEventListener('click', function (e) {
                     if (e.target.tagName === 'INPUT') return; // a label click fires a second click on its radio button
                     var hit = e.target.closest('button, .btn, .link-btn, .scroll-cue, .registry-card, .choice label');
@@ -703,6 +741,62 @@
                     burst(keyboard ? r.left + r.width / 2 : e.clientX, keyboard ? r.top + r.height / 2 : e.clientY);
                 });
             }
+
+            /* ---------- Mamma Mia artwork (bridal shower), drawn from scratch ---------- */
+            function seeded(seed) { var s = seed; return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+            var MM_PINKS = ['#e5307c', '#f0559a', '#d81b6a', '#f27bb0', '#c8155f'];
+            // One bougainvillea flower: three papery bracts round a tiny cream flower
+            function bract(x, y, size, rot, fill) {
+                var out = '';
+                for (var i = 0; i < 3; i++) {
+                    out += '<path d="M0,0 C-7,-3 -10,-12 -3,-18 C-1,-19.5 1,-19.5 3,-18 C10,-12 7,-3 0,0Z" fill="' + fill + '" transform="translate(' + x + ' ' + y + ') rotate(' + (rot + i * 120) + ') scale(' + size + ')"/>' +
+                        '<path d="M0,-2 L0,-14" stroke="#9e0f4e" stroke-opacity="0.35" stroke-width="' + (0.8 * size) + '" transform="translate(' + x + ' ' + y + ') rotate(' + (rot + i * 120) + ')"/>';
+                }
+                return out + '<circle cx="' + x + '" cy="' + y + '" r="' + (2 * size) + '" fill="#fff6d8"/>';
+            }
+            function vineLeaf(x, y, rot, size, dark) {
+                return '<path d="M0,0 Q7,-9 18,-6 Q9,3 0,0Z" fill="' + (dark ? '#3f7f36' : '#5c9e47') + '" transform="translate(' + x + ' ' + y + ') rotate(' + rot + ') scale(' + size + ')"/>';
+            }
+            // Flowers clustered along a trailing vine (points), same layout every visit
+            function vine(viewBox, path, points, seed) {
+                var rnd = seeded(seed), out = '<svg viewBox="' + viewBox + '" aria-hidden="true"><path d="' + path + '" stroke="#5b7a3a" stroke-width="1.6" fill="none"/>';
+                points.forEach(function (p) {
+                    var n = p[3] || 4;
+                    for (var i = 0; i < n; i++) out += vineLeaf(p[0] + (rnd() - 0.5) * p[2] * 2.4, p[1] + (rnd() - 0.5) * p[2] * 2, rnd() * 360, 0.7 + rnd() * 0.5, rnd() < 0.5);
+                    for (var j = 0; j < n + 2; j++) out += bract(p[0] + (rnd() - 0.5) * p[2] * 2, p[1] + (rnd() - 0.5) * p[2] * 1.6, 0.55 + rnd() * 0.5, rnd() * 120, MM_PINKS[Math.floor(rnd() * MM_PINKS.length)]);
+                });
+                return out + '</svg>';
+            }
+            var MM_CORNER = vine('0 0 300 220', 'M0,8 C60,20 120,10 170,30 C200,42 215,70 230,96 M40,14 C30,60 34,110 20,170 M120,18 C130,40 120,62 128,80',
+                [[22, 18, 22, 5], [70, 22, 18, 4], [124, 22, 16, 4], [176, 36, 16, 4], [226, 92, 14, 3], [36, 74, 14, 3], [24, 150, 14, 3], [126, 74, 12, 3]], 11);
+            var MM_SIDE = vine('0 0 130 240', 'M0,0 C30,40 20,90 40,130 C56,162 46,200 60,238',
+                [[16, 26, 14, 3], [30, 92, 14, 3], [46, 150, 13, 3], [56, 214, 12, 3]], 23);
+            var MM_BOTTOM = vine('0 0 380 140', 'M0,130 C60,110 110,124 160,102 C210,80 260,96 300,70 C330,50 360,46 380,20',
+                [[40, 118, 16, 4], [110, 118, 16, 4], [170, 98, 16, 4], [236, 90, 16, 4], [300, 70, 15, 4], [350, 40, 14, 4]], 37);
+
+            // Disco ball: mirror facets laid over a sphere, a few that glint
+            var MM_BALL = (function () {
+                var rnd = seeded(7), R = 44, step = Math.PI / 15, out = '';
+                var shades = ['#dbeafc', '#a9c6f0', '#7aa3e0', '#4f7fd0', '#2e5bb5', '#1d4290', '#16336f'];
+                for (var lat = -Math.PI / 2 + step / 2; lat < Math.PI / 2; lat += step) {
+                    var cosLat = Math.cos(lat), y = R * Math.sin(lat), h = R * cosLat * step * 0.86 + 0.6;
+                    for (var lon = -Math.PI / 2 + step / 2; lon < Math.PI / 2; lon += step) {
+                        var w = R * cosLat * Math.cos(lon) * step * 0.86 + 0.3, x = R * cosLat * Math.sin(lon);
+                        var light = (1 - (x + 30) / 110) * 0.6 + (1 - (y + 40) / 100) * 0.4; // lit from the top left
+                        var idx = Math.max(0, Math.min(shades.length - 1, Math.round((1 - light) * (shades.length - 1) + (rnd() - 0.5) * 2.4)));
+                        var glint = rnd() < 0.05;
+                        out += '<rect' + (glint ? ' class="mm-glint" style="animation-delay:-' + (rnd() * 2.6).toFixed(2) + 's"' : '') + ' x="' + (x - w / 2).toFixed(2) + '" y="' + (y - h / 2).toFixed(2) + '" width="' + w.toFixed(2) + '" height="' + h.toFixed(2) + '" fill="' + (glint ? '#ffffff' : shades[idx]) + '"/>';
+                    }
+                }
+                return '<svg viewBox="-50 -56 100 106" aria-hidden="true"><defs><clipPath id="mmBall"><circle r="44"/></clipPath>' +
+                    '<radialGradient id="mmShade" cx="34%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#06143a" stop-opacity="0.45"/></radialGradient></defs>' +
+                    '<rect x="-5" y="-52" width="10" height="9" rx="2" fill="#8fa5cf"/><circle r="44" fill="#14306b"/><g clip-path="url(#mmBall)">' + out + '</g><circle r="44" fill="url(#mmShade)"/>' +
+                    '<path class="mm-glint" d="M-20,-30 l2,-7 l2,7 l7,2 l-7,2 l-2,7 l-2,-7 l-7,-2z" fill="#ffffff"/></svg>';
+            })();
+            var MM_STAR = '<svg viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0,-10 L2,-2 L10,0 L2,2 L0,10 L-2,2 L-10,0 L-2,-2Z"/></svg>';
+            // What bursts out of a tapped button: a flower or a sparkle
+            var MM_FLYERS = ['<svg viewBox="-20 -16 40 32">' + bract(0, 0, 0.95, 10, '#e5307c') + '</svg>', '<svg viewBox="-20 -16 40 32">' + bract(0, 0, 0.95, 40, '#f0559a') + '</svg>',
+                '<svg viewBox="-20 -16 40 32"><path d="M0,-12 L2.4,-2.4 L12,0 L2.4,2.4 L0,12 L-2.4,2.4 L-12,0 L-2.4,-2.4Z" fill="#7aa3e0"/></svg>'];
 
             /* ---------- Certified Lover Girl artwork (bachelorette), drawn from scratch ---------- */
             var CLG_BRIDES = ['\uD83D\uDC70\uD83C\uDFFB\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFE\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFC\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFF\u200D\u2640\uFE0F'];
@@ -736,8 +830,14 @@
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="left:6%;top:24%;width:38px;transform:rotate(-16deg)"') +
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="right:6%;top:66%;width:32px;transform:rotate(14deg)"') +
                         '<div class="clg-sticker"><b>Bride Advisory</b>Certified content</div>';
-                } else if (style === 'bloom') {
-                    decor = SPRIG.replace('<svg', '<svg class="sprig bl"') + SPRIG.replace('<svg', '<svg class="sprig tr"');
+                } else if (style === 'mamma') {
+                    emblem = '<div class="mm-hang">' + MM_BALL + '</div>';
+                    decor = '<div class="mm-arch"></div>' +
+                        MM_CORNER.replace('<svg', '<svg class="mm-vine tl"') + MM_CORNER.replace('<svg', '<svg class="mm-vine tr"') +
+                        MM_SIDE.replace('<svg', '<svg class="mm-vine ml"') + MM_BOTTOM.replace('<svg', '<svg class="mm-vine br"') +
+                        [[30, 8, 0.7], [66, 6, 0.4], [13, 25, 0.2], [86, 31, 0.9], [89, 63, 0.5], [9, 80, 0.6]].map(function (p) {
+                            return MM_STAR.replace('<svg', '<svg class="mm-star" style="left:' + p[0] + '%;top:' + p[1] + '%;--k:' + p[2] + '"');
+                        }).join('');
                 }
                 document.getElementById('decor').innerHTML = decor;
                 document.getElementById('emblem').innerHTML = emblem;
