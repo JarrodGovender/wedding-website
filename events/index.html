@@ -32,14 +32,14 @@
             var STYLES = {
                 'night-before-jarrod': 'midnight',
                 'night-before-telicia': 'blossom',
-                'bachelor': 'stag',
+                'bachelor': 'major',
                 'bachelorette': 'clg',
                 'bridal-shower': 'mamma'
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
                 blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
-                stag: 'family=Anton&family=Barlow:wght@400;600;700',
+                major: 'family=Cinzel:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700',
                 clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
                 mamma: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Sacramento&family=Lato:wght@400;700'
             };
@@ -77,11 +77,12 @@
             --linen: repeating-linear-gradient(0deg, rgba(120, 70, 90, 0.03) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(120, 70, 90, 0.025) 0 1px, transparent 1px 3px);
             --cover: var(--linen), radial-gradient(ellipse 70% 60% at 50% 45%, #fffafb 0%, #fbeef2 55%, #f2d8e1 100%);
         }
-        .theme-stag {
-            --bg: #11241b; --bg2: #0b1913; --card: #173227; --fg: #f2ede1; --muted: #a8b8ab; --line: rgba(242, 237, 225, 0.16);
-            --accent: #e2a72a; --on-accent: #11241b;
-            --display: 'Anton', Impact, 'Arial Narrow', sans-serif; --text: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
-            --cover: radial-gradient(ellipse 80% 70% at 50% 40%, #1d3b2c 0%, #10221a 62%, #08130e 100%);
+        /* Bachelor party: "The Final Major" (the organiser's crest): navy and gold, a golf tournament */
+        .theme-major {
+            --bg: #0e1b3a; --bg2: #f4eedf; --card: #13265a; --fg: #f4ecd6; --muted: #b8c1d9; --line: rgba(212, 175, 95, 0.3);
+            --accent: #d4af5f; --on-accent: #0e1b3a; --gold: #d4af5f; --navy: #0e1b3a;
+            --display: 'Cinzel', 'Trajan Pro', Georgia, serif; --text: 'Barlow', 'Helvetica Neue', Arial, sans-serif; --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+            --cover: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(40, 68, 136, 0.6), transparent 72%), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 56px, transparent 56px 112px), #0a1630;
         }
         /* Bachelorette: Certified Lover Girl, a pink Drake party */
         .theme-clg {
@@ -218,11 +219,69 @@
         .theme-blossom .footer { border-top: 3px double var(--gold); }
 
         /* Stag: heavy condensed type, racing stripes, grain */
-        .theme-stag .masthead { font-size: min(23vw, 10rem); line-height: 0.95; text-transform: uppercase; letter-spacing: 0.01em; }
-        .theme-stag .masthead .small { font-family: var(--text); font-style: normal; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5em; padding-left: 0.5em; margin-bottom: 10px; }
-        .theme-stag .sec-title { text-transform: uppercase; letter-spacing: 0.01em; }
-        .theme-stag .cover-decor::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(50% - 44px), rgba(226, 167, 42, 0.12) calc(50% - 44px), rgba(226, 167, 42, 0.12) calc(50% - 8px), transparent calc(50% - 8px), transparent calc(50% + 8px), rgba(226, 167, 42, 0.12) calc(50% + 8px), rgba(226, 167, 42, 0.12) calc(50% + 44px), transparent calc(50% + 44px)); }
-        .theme-stag .cover::after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.14; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        /* The Final Major: gold crest as the hero, mown-stripe navy, scoreboard countdown, a ball rolling into the cup */
+        .theme-major .cover-frame { border: 1px solid rgba(212, 175, 95, 0.55); border-radius: 10px; box-shadow: inset 0 0 0 6px rgba(10, 22, 48, 0), inset 0 0 0 7px rgba(212, 175, 95, 0.22); gap: 14px; }
+        .theme-major .cover-top { color: var(--gold); font-family: var(--cond); font-size: 0.85rem; letter-spacing: 0.22em; }
+        .theme-major .kicker { font-family: var(--cond); font-size: 0.95rem; letter-spacing: 0.32em; padding-left: 0.32em; color: var(--gold); margin-bottom: clamp(8px, 1.8vh, 16px); order: -1; } /* above the crest */
+        .theme-major .masthead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* the crest carries the title; kept for screen readers */
+        .theme-major .emblem { margin-bottom: 0; color: inherit; }
+        .theme-major .emblem svg { width: min(74vw, 360px, 43vh); height: auto; filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.5)); }
+        .theme-major .honour { font-family: var(--display); font-weight: 600; font-size: clamp(0.85rem, 2.6vw, 1rem); letter-spacing: 0.12em; color: var(--fg); margin-top: clamp(12px, 2.4vh, 22px); text-wrap: balance; max-width: 22em; }
+        .theme-major .cover-date { font-family: var(--display); color: var(--gold); margin-top: clamp(8px, 1.6vh, 14px); font-size: clamp(1.1rem, 3.2vw, 1.5rem); }
+        .theme-major .cover-date.tba { color: var(--muted); font-style: normal; }
+        /* Scoreboard countdown: cream tiles, navy numbers, like a tournament leaderboard */
+        .theme-major .countdown { border-top: 0; gap: 8px; max-width: 420px; padding-top: 4px; }
+        .theme-major .countdown > div { border-left: 0; }
+        .theme-major .countdown span { display: block; min-width: 2.2em; padding: 6px 6px 4px; background: #f4ecd6; color: var(--navy); font-family: var(--cond); font-weight: 700; font-size: clamp(1.7rem, 6.4vw, 2.5rem); text-align: center; border-radius: 4px; box-shadow: inset 0 -3px 0 rgba(14, 27, 58, 0.14), 0 0 0 1px rgba(212, 175, 95, 0.7); }
+        .theme-major .countdown small { color: var(--gold); font-family: var(--cond); letter-spacing: 0.2em; }
+        .theme-major #countdown::before { content: 'Tee off in'; grid-column: 1 / -1; font-family: var(--cond); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+        .theme-major .countdown .done { font-family: var(--display); font-style: normal; color: var(--gold); }
+        .theme-major .scroll-cue { background: rgba(10, 22, 48, 0.85); border-color: var(--gold); color: var(--fg); font-family: var(--cond); letter-spacing: 0.2em; }
+        .theme-major .cover-note { color: var(--muted); }
+        .mj-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: mj-draw 2.2s 0.2s var(--ease) forwards; }
+        .mj-sheen { animation: mj-sheen 7s 2.4s ease-in-out infinite; }
+        .mj-hill { position: absolute; left: -10%; right: -10%; bottom: -60px; height: 150px; border-radius: 50%; background: radial-gradient(ellipse at 50% 0%, #17306a, #0f224d 60%); box-shadow: 0 -1px 0 rgba(212, 175, 95, 0.35); }
+        .mj-pin { position: absolute; left: 21%; bottom: 56px; width: 2px; height: 70px; background: linear-gradient(#f4ecd6, #c9c2ad); }
+        .mj-pin::before { content: ''; position: absolute; left: 2px; top: 0; border-left: 30px solid var(--gold); border-top: 10px solid transparent; border-bottom: 10px solid transparent; transform-origin: left center; animation: mj-flag 2.6s ease-in-out infinite; }
+        .mj-cup { position: absolute; left: calc(21% - 9px); bottom: 50px; width: 20px; height: 7px; border-radius: 50%; background: #050b18; box-shadow: 0 1px 0 rgba(212, 175, 95, 0.4); }
+        .mj-ball { position: absolute; left: 0; top: 0; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff, #d9dce6 70%, #a9aebf); opacity: 0; will-change: transform, opacity; }
+        .mj-golfer { position: absolute; left: 75%; bottom: 44px; width: 52px; height: auto; overflow: visible; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4)); }
+        .mj-swing { transform-box: view-box; transform-origin: 30px 22px; }
+        @keyframes mj-draw { to { stroke-dashoffset: 0; } }
+        @keyframes mj-sheen { 0% { transform: translateX(0) skewX(-20deg); } 55%, 100% { transform: translateX(820px) skewX(-20deg); } }
+        @keyframes mj-flag { 50% { transform: scaleX(0.82) skewY(4deg); } }
+        /* Sections: navy, with cream "scorecard" sections in between */
+        .theme-major .section.alt { --bg: #fffdf7; --fg: #0e1b3a; --muted: #4b5677; --card: #fffdf7; --line: rgba(14, 27, 58, 0.16); --accent: #0e1b3a; --on-accent: #f4ecd6; color: var(--fg); background-image: linear-gradient(rgba(14, 27, 58, 0.05) 1px, transparent 1px); background-size: 100% 44px; }
+        .theme-major .section.alt .sec-title em { color: #94701f; }
+        .theme-major .sec-head .eyebrow { font-family: var(--cond); letter-spacing: 0.3em; color: var(--gold); }
+        .theme-major .section.alt .sec-head .eyebrow { color: #94701f; }
+        .theme-major .sec-title { font-weight: 600; letter-spacing: 0.02em; }
+        .theme-major .sec-title em { font-style: normal; color: var(--gold); }
+        .theme-major .sec-title::after { content: ''; display: block; width: 140px; height: 14px; margin: 16px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 14'%3E%3Cpath d='M0 7h56M84 7h56' stroke='%23d4af5f' stroke-width='1'/%3E%3Cpath d='M70 1l6 6-6 6-6-6z' fill='%23d4af5f'/%3E%3C/svg%3E") center / contain no-repeat; }
+        .theme-major .facts { counter-reset: hole; }
+        .theme-major .fact { position: relative; border: 1px solid rgba(212, 175, 95, 0.45); border-top: 3px solid var(--gold); border-radius: 6px; background: linear-gradient(180deg, #152a60, #10214b); }
+        .theme-major .fact .eyebrow { font-family: var(--cond); letter-spacing: 0.22em; color: var(--gold); }
+        .theme-major .fact .eyebrow::before { counter-increment: hole; content: 'Hole ' counter(hole) ' \00b7  '; color: var(--muted); }
+        .theme-major .fact::after { content: ''; position: absolute; top: 14px; right: 16px; width: 18px; height: 24px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 24'%3E%3Cpath d='M2 1v22' stroke='%23f4ecd6' stroke-width='1.5'/%3E%3Cpath d='M3 1l13 5-13 5z' fill='%23d4af5f'/%3E%3C/svg%3E") center / contain no-repeat; opacity: 0.85; }
+        .theme-major .fact h3 { font-weight: 600; }
+        .theme-major .notice { border-top: 2px solid #f4ecd6; border-bottom: 2px solid #f4ecd6; }
+        .theme-major .note { border-left-color: var(--gold); }
+        .theme-major .guest, .theme-major .rsvp-summary, .theme-major .registry, .theme-major .album { border-radius: 6px; }
+        .theme-major .section.alt .guest, .theme-major .section.alt .rsvp-summary, .theme-major .section.alt .registry { border: 1px solid rgba(14, 27, 58, 0.25); border-top: 3px solid var(--gold); }
+        .theme-major .btn { font-family: var(--cond); font-size: 1.05rem; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 6px; }
+        .theme-major .footer { border-top: 3px double var(--gold); }
+        /* Practice green: a little putting game, bachelor page only */
+        .pg { position: relative; max-width: 560px; height: clamp(280px, 52vh, 380px); margin: 0 auto; border: 3px solid var(--gold); border-radius: 28px; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: crosshair;
+            background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.1), transparent 60%), repeating-linear-gradient(90deg, #2f7d43 0 38px, #2a7240 38px 76px); box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.35), 0 20px 40px -20px rgba(0, 0, 0, 0.6); }
+        .pg-cup { position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 50% 42%, #050a05 0 56%, #18261a 72%); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.45); }
+        .pg-cup::before { content: ''; position: absolute; left: 13px; bottom: 14px; width: 2px; height: 62px; background: #f4ecd6; }
+        .pg-cup::after { content: '19'; position: absolute; left: 15px; bottom: 54px; width: 30px; height: 22px; padding-left: 5px; background: var(--gold); clip-path: polygon(0 0, 100% 50%, 0 100%); font: 700 10px/22px var(--cond); color: var(--navy); transform-origin: left center; animation: mj-flag 2.6s ease-in-out infinite; }
+        .pg-ball { position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff, #dfe2ea 68%, #b3b8c8); box-shadow: 0 3px 4px rgba(0, 0, 0, 0.35); will-change: transform; }
+        .pg-ball.in { transition: transform 0.35s ease-in, opacity 0.35s ease-in; opacity: 0; }
+        .pg-aim { position: absolute; left: 0; top: 0; height: 3px; transform-origin: 0 50%; background: repeating-linear-gradient(90deg, #ffffff 0 7px, transparent 7px 13px); opacity: 0.9; pointer-events: none; display: none; }
+        .pg-status { margin-top: 18px; text-align: center; font-size: 1.05rem; min-height: 1.7em; }
+        .pg-score { text-align: center; font-family: var(--cond); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); font-size: 0.9rem; }
+        .mj-fore { position: absolute; left: 0; top: 0; font: 800 1.4rem/1 var(--display); color: var(--gold); text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45); white-space: nowrap; }
 
         /* Certified Lover Girl: pink light-box glow, gothic headline, bride grid, quilted hearts, kiss marks */
         .clg-wash { position: absolute; inset: -60%; background: var(--cover); will-change: transform; animation: clg-shift 20s ease-in-out infinite alternate; } /* moved, not repainted, so phones stay smooth */
@@ -495,7 +554,22 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="bkrjcbAZILsQwqh1">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</script>
+                <script type="text/plain" data-gifts data-iv="7WCsAghn3pZYcueT">sgw+4l+r+Gx0btLAcOH55eycbGoG64/5cThSztjmaIZXWwplLetHyEedyT9LtXORAEFFrkYKrv/rK9rVyNUsa4OcGH6v/yh7k2GCFbTWU2hPlIXnBQ+G66uuFT7VMY3lt0xaooQ3MMWcHhmTVLTFqF40h9KAm+cTdErwLVEpo9LxHXeVyttT/6QH+GlRUwGITEgEWvTawBl9UGE7Xhas5zn4MUvLGgvDPawWWCJzj/I3fIopFUEolkIJvJs26wo+FyIwEAa5EpoID0diurKhBRqYnfQPVE6hRiert8K2NOWPWH7TkXLwZBKGXl7E1yq7ZdgHnlKTAbYvP76pEtY/Xwdw++WkFe+AokKWtz6T3YNUbLD3yyTge/Efr6Z+RnvQdF1U3lbYXLwmgtvDZu1sy3H9I4toFed6rGF05VzC2fpXyYX5Cjbo7o6eSP9Az/9vbPjHjcUBM9Ds+beCmA7oV2QKBZXMo+mQ3pubf2z7lcVsh5X0xQzVQof90puJWoR37G0BK8PPCEF3KvJGV9msbS40dJe2xKh6tBDmRL0vxemk0L5dTCchsEUXwbJ7TJOGqZK3TF9v0qBunmt/m1SrG47k2EFefjJwQ0Vs8XWKqgJTkVSlquhNYZILodIBoPsWM2fM8NEzX4xlYemVPUU+b5n4uFVFEix/ie96LuaP86WqfUEeOyRxHZK8NTMPkPB06tDumv4Q5U4ow5GTMswSYX3EZy6rX4QZtlR4nj9OYnFqupVnYACv/+smNMngccvYYAPfhZyn0f6V6x8dDgkoknyqSPdVN3paVsTFDWCEcCcUtPriNp/mMoIiuAgEk52fshBeOSFE4TsSAmNhY+bpM9LrxZ7WbN0Uhkib6Gepg3AqvvxHrt6rE1ZioKf+jSg9POaJW2shhkSN/RtgmJKD5VHAOqDFkBtL441X/S17JHSvBNAOlwa7mNG5Xd4D/tSaKJ5LLDu46his6YFD4RDqVodO4L2N4KQQeamaLu+VA+YRdicPs+yKdT7ZEGl/tGlTmhpVGz0xjdvRXZ4hqlGosiLmTkNggld0Ja9Vq/EShkLF43MtnsQm21h9mGlpYsCn6VUpPvhmDlQXJzh/ymbWsH656hx0rN/8mxFyfHkwBBsKktNFFOBJ9aVm+raDsDxh5Nd725QUVpmjuz8oqSgT4Cgk/oWZvOnJOfQYPMryoy1XuuDpCjgirg8K1jiitJBWI8+KZykC88gR6GzjtsoEFO4LZ0MPOT7xvVSHIiba9K7sN/Ftar/cGSx7MKA84b4jAuXdHD8ey4+tzjur4egHIgLpLhA98/6VofIlih/j9JKcCYwG/8TaeQAxG+b3kqAS2vWO9b7NELDA4W2NjYA22vfX/KOSIfDKOUPg5jGOdY+MX000FUrVNl3VNl46ma7X0kqoguPSWg9fnHbtM+LpKdDIwiS+7kSMifRTvl7FW2rDn5anasireSqGWfH5nEJPLkpI9SxOM2OByB7sdWjNXGty3lSvzbhYuaMQXKWLih48QTm8hIUlrajidsE55C4NWiMaRwOhFwsYGP9EOUV1C315psC/+03y6n80NEETzkdbn82ZD+k4wLWw7uMeknf9l3pG7x1p0hZkwd/V7DMrVbRQYRkceHagmv70Wvgy3J2b4ieuC/s3C/vTQ6T8Z1+rDuYEWsdy8eAlit0vZ1FTtPxb3zn0tf8RQqs+n2Kj/x0cxIAZVp6R0iD03MmtElW4LYEGB/aBfdXrl69gwQNPwgFI3+lMtsnBzuewSlx8FzTyrd45Pc3lgOaQQfIMRcWbvB8CCO/L6AlReSjbcB7uHwyHF0DPa738Dz+bqcw+U3HEZeEP0X1buBKgRvgJmbWsOz4fnbm6fXtCjbAYhginMa/VzfYfvyH6DUGOdPzGPl0yvy1p0qfmnn0E9qjJEP0iGNI6Z1aZrmk7Ls6mULW1XbyAeaI4A6DzcX5r43ulSLSw7ByI37+ShQB09d3mdge2DhPUqPVrB+jpG0Yg49Y5NPgYAQrNwZ/jo8Wd345WMnpfloZIBrQOyU7aTHqtLn/lTGpeJmwVN1CC2Sv8x/7bTEbsDEfbTfyDR5djfo4Svaokspf4TEBXydJGYUtR6NrzMkRtokTWFaXxaMEsse5UpIxfoI7JzCsBHkb3uooeCgUGFLl8kVLtzW5r3feQGG30LXs/PZ/DqZgcz0O9nwZrW7AQ6vuQLOWYFrdFKdS8jBszz4NY3NS5T7jkNZy4m5c77coH5ftaN8xAT31vBCnJjU5J4YH+tYN1zJkW0/Q7GXGSpOh5OFbR1RLFeE9ZiPWs97vRzl0MgTXlzM7M4ihxh30vZ5VERVAwKrS8jf/ezd7JXDGi/5BvLVVHA6YPY2RUdOHzwcUVe4iaefEW+dwnQXu0Fld7TTTdI/4ULVdKwdALdrrwOLDuTzSvbKT52bE4rfSY7uJgtUj3sVgUJcdj6aPb/9/vkDPKDXDgStJgQZb/NjJ24Y2o9tuqHEbzm87JiWLmCj2v1GQLnlsX81QrT1UMynIYX8vYyspeUjPzyRctOUJV96IwIjwxrN2XSy8ZB3oxX4r7KA9426rtVj7lUoSSNED3Mq28d0iWU6CkrdHivQ4KjAXbjIDtUYZtp3+AjooaF2+UmExU4B5CUJclGbRgpCWduRtPdqR/tGccnR6x9JgFV4QnKHaZ010+XJZCx2Dmz3lHDwC2xOiJbJK5sUdeY7cqoqsgyuTYBm3xKJir45/SoC69ubhWfde4NBW8ezcZTKEDQFGO4dcKZtNVIkbnLgt9xeBq8Mu3Gv7QJLnE4cqZf2DdE6mFWw7sy3TNkUF7jRiagzj9qHop6utttDBMYZiwHInnYI/mKd5EotLkE+AmD0zi46bOKuBZNSKCEvMcQ+MsBMRANNoUHBLz8Xk7NWfpLa7Og0Wr7mpLDhGf23IIoO8k+l4EMP1Wl89lso1zQZPENFX6PeDNjNysydglEpFeqrBWHhvRi0yhIx6w31Vi3xelVFXOCs8+ZG+eEYL5lBcd8psB0MCAxT+PM2Xv+IjlbYmD4qka/HDeKaMy0sozxjUwUoOOBzsi9IXY43j7QNotDGm6RT75L6dfBktbiaOvHxhf6VWOlkMUPdBbYG+bpNU0xymbyuBJ46Y0fMvC3LrCRE0slYFxhAEDh3E6n59pSgkqrqyn9mdHP9qVPs6oQFcdg1Cf43uJz/TixyrD8XODza38zMg89IMacUCOf8zyGZ4WZ4rOYkuYKBEruweh9dCIdZdui/dZURS4mA+wlLBoHNZf4/GmazagQrTdIj8NfCZC3KhQcAwde/dNGiNk3sUYhlz1P1k+1m938QbieHg+2y9JmsihmuX+mioZ8XWZIwCaKoGHgVXwKOXsDLVqeae//9TOKim9H0r42/jDYfe8DaD5kNdxrgr6/zpS/o0DNOO3BBbgSL+R2rUzpPwKT7OoVtUpJH5/UxEoIWhX5G+vP4pe5cthLfkZww9DivQHg1m7psOALPN/OHZS0CdH4Ak9edU83BokboDkbntw+iC/BJRRJWIvMaxujcqe3X9erYW6dbNDdcL2jzrtAXtslGnf4t4NjYNdGHxtJCLBmSgIZNZupJyKcRM4GQkt6IXOxNT7gQWProaVo29B/jHxSwZl5fnLHkRTXDSpdzs6pkpqPZUypkX8SG4BvfrQpM/WX7hxDueKgEh5xDkywVnveYypwbupf8D29YXYsvRMU1+on2Kfx7+2jDLDeqr0HCiObVK8a93HS8TGzpizE5G8X6qPLIeqqENSGjW4o1Bt/GWL3WlCrWC7ozmgMS360XXC2sl+iaBoMZNQQ8gUcpZ4LGafkMEjbyoV+M8KNb4+WPSBePjvK7ywc3igiRatWhcP3FB6G59Pshm1swnd6gThN9L6LkvPQHjScmmewxRxnCxFlVJfPPXN9ZniIHx9Nz1eTz6Q5CXxAT1YLYBj4TgrGNrE0MQdRdcWECuJO8U9qVshPMWG7DPifHskFns++sE4MPkmKCzxOMzCMWOW2SAJf7kZ5snYE6nFwB8v8Q0LEVBKa8EsXOUhD1MGH7uj5lhhABL8yqNkW4gRV8SpnJD5KwLGEzcD1p+jsWljmbwaONfp0d2bXsZNt6pBGPzZBBwfeenR501As+hpv4vDreOCbx+tO/PgPQsf</script>
+            </div>
+        </section>
+
+        <section id="green" class="section" hidden>
+            <div class="wrap narrow">
+                <header class="sec-head reveal">
+                    <span class="eyebrow">While you wait</span>
+                    <h2 class="sec-title">Practice <em>green</em></h2>
+                </header>
+                <div class="pg" id="pg" role="img" aria-label="A mini putting game. Drag back from the ball and let go to putt.">
+                    <div class="pg-cup"></div><div class="pg-aim"></div><div class="pg-ball"></div>
+                </div>
+                <p class="pg-status" id="pgStatus" aria-live="polite"></p>
+                <p class="pg-score" id="pgScore"></p>
+                <div class="rsvp-actions"><button type="button" class="link-btn" id="pgNew">New hole</button></div>
             </div>
         </section>
 
@@ -536,8 +610,8 @@
                     honour: 'Celebrating with Telicia', details: 'The <em>celebration</em>', done: 'Let the celebration begin'
                 },
                 'bachelor': {
-                    label: 'Bachelor Party', cal: "Jarrod's Bachelor Party", ref: 'the Bachelor Party', kicker: 'One last hurrah', title: ['The', 'Bachelor'],
-                    honour: 'In honour of Jarrod', details: 'The <em>plan</em>', done: 'Let the games begin'
+                    label: 'Bachelor Party', cal: "Jarrod's Bachelor Party · The Final Major", ref: 'the Bachelor Party', kicker: 'You’re on the tee sheet', title: ['', 'The Final Major'],
+                    honour: 'One last round as a single man', details: 'The <em>course</em>', rsvpTitle: 'Confirm your <em>tee time</em>', photosTitle: 'The 19th <em>hole</em>', done: 'Tee off!'
                 },
                 'bachelorette': {
                     label: 'Bachelorette', cal: "Telicia's Bachelorette", ref: 'the Bachelorette', kicker: 'Her last release as a single', title: ['', 'Certified', 'Lover', 'Girl'],
@@ -562,6 +636,7 @@
             var rsvpApp = document.getElementById('rsvpApp');
             var rsvp = null;
             var eventDate = null;
+            var endDate = null; // set when the event runs over several days (the sheet's End Date)
 
             var esc = function (s) {
                 return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -676,7 +751,7 @@
                 var el = document.createElement('div');
                 el.className = 'bl-flyer';
                 el.style.width = size + 'px';
-                el.innerHTML = style === 'mamma' ? MM_FLYERS[Math.floor(Math.random() * MM_FLYERS.length)] : '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
+                el.innerHTML = style === 'major' ? MJ_BALL : style === 'mamma' ? MM_FLYERS[Math.floor(Math.random() * MM_FLYERS.length)] : '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
                 sky.appendChild(el);
                 return el;
             }
@@ -722,7 +797,7 @@
 
             function startButterflies() {
                 var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                if ((style !== 'blossom' && style !== 'mamma') || still || !Element.prototype.animate) return;
+                if ((style !== 'blossom' && style !== 'mamma' && style !== 'major') || still || !Element.prototype.animate) return;
                 sky = document.createElement('div');
                 sky.className = 'bl-sky';
                 sky.setAttribute('aria-hidden', 'true');
@@ -738,7 +813,7 @@
                     if (!hit) return;
                     var r = hit.getBoundingClientRect();
                     var keyboard = !e.clientX && !e.clientY;
-                    burst(keyboard ? r.left + r.width / 2 : e.clientX, keyboard ? r.top + r.height / 2 : e.clientY);
+                    (style === 'major' ? chip : burst)(keyboard ? r.left + r.width / 2 : e.clientX, keyboard ? r.top + r.height / 2 : e.clientY);
                 });
             }
 
@@ -798,6 +873,218 @@
             var MM_FLYERS = ['<svg viewBox="-20 -16 40 32">' + bract(0, 0, 0.95, 10, '#e5307c') + '</svg>', '<svg viewBox="-20 -16 40 32">' + bract(0, 0, 0.95, 40, '#f0559a') + '</svg>',
                 '<svg viewBox="-20 -16 40 32"><path d="M0,-12 L2.4,-2.4 L12,0 L2.4,2.4 L0,12 L-2.4,2.4 L-12,0 L-2.4,-2.4Z" fill="#7aa3e0"/></svg>'];
 
+            /* ---------- The Final Major artwork (bachelor party): the organiser's crest, redrawn so it stays sharp ---------- */
+            var MJ_CREST = (function () {
+                var gold = 'url(#mjGold)', out = '';
+                // Laurel: leaves along an arc on the left, mirrored for the right
+                var laurel = '<path d="M126,282 C100,250 100,190 132,152" stroke="' + gold + '" stroke-width="2.4" fill="none"/>';
+                for (var i = 0; i < 8; i++) {
+                    var a = (150 + i * 10.5) * Math.PI / 180, x = 200 + 90 * Math.cos(a), y = 222 + 90 * Math.sin(a), rot = (150 + i * 10.5) + 90;
+                    laurel += '<ellipse cx="' + (x - 8).toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="9" ry="3.6" transform="rotate(' + (rot - 35) + ' ' + (x - 8).toFixed(1) + ' ' + y.toFixed(1) + ')" fill="' + gold + '"/>' +
+                        '<ellipse cx="' + (x + 7).toFixed(1) + '" cy="' + (y - 3).toFixed(1) + '" rx="9" ry="3.6" transform="rotate(' + (rot + 35) + ' ' + (x + 7).toFixed(1) + ' ' + (y - 3).toFixed(1) + ')" fill="' + gold + '"/>';
+                }
+                var club = function (x1, y1, x2, y2, head) {
+                    var gx = x1 + (x2 - x1) * 0.28, gy = y1 + (y2 - y1) * 0.28;
+                    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + gold + '" stroke-width="5" stroke-linecap="round"/>' +
+                        '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + gx + '" y2="' + gy + '" stroke="#8a6a22" stroke-width="8.5" stroke-linecap="round"/>' +
+                        '<path d="' + head + '" fill="' + gold + '" stroke="#8a6a22" stroke-width="1"/>';
+                };
+                var diamond = function (x, y, r) { return '<path d="M' + x + ',' + (y - r) + ' L' + (x + r) + ',' + y + ' L' + x + ',' + (y + r) + ' L' + (x - r) + ',' + y + 'Z" fill="' + gold + '"/>'; };
+                var curl = '<path d="M172,226 C150,214 136,230 146,240 C152,246 160,238 155,233" stroke="#f4ecd6" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+                    '<path d="M170,236 C152,236 140,250 150,256" stroke="#f4ecd6" stroke-width="2.2" fill="none" stroke-linecap="round"/>';
+                out += '<svg viewBox="0 0 400 400" role="img" aria-label="The Final Major, Jarrod’s Bachelors">' +
+                    '<defs><linearGradient id="mjGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dd96"/><stop offset="0.45" stop-color="#d4af5f"/><stop offset="1" stop-color="#a8822f"/></linearGradient>' +
+                    '<linearGradient id="mjSheenG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.28"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>' +
+                    '<clipPath id="mjClip"><circle cx="200" cy="200" r="196"/></clipPath>' +
+                    '<path id="mjTop" d="M58,200 A142,142 0 0 1 342,200"/><path id="mjBottom" d="M30,200 A170,170 0 0 0 370,200"/></defs>' +
+                    '<circle cx="200" cy="200" r="196" fill="#13224a"/>' +
+                    '<circle class="mj-draw" pathLength="1" cx="200" cy="200" r="194" fill="none" stroke="' + gold + '" stroke-width="4"/>' +
+                    '<circle class="mj-draw" pathLength="1" cx="200" cy="200" r="186" fill="none" stroke="#f4ecd6" stroke-width="2"/>' +
+                    '<circle class="mj-draw" pathLength="1" cx="200" cy="200" r="181" fill="none" stroke="' + gold + '" stroke-width="1.4"/>' +
+                    '<text font-family="Cinzel, Georgia, serif" font-weight="700" font-size="33" letter-spacing="2" fill="#f4ecd6"><textPath href="#mjTop" startOffset="50%" text-anchor="middle">THE FINAL MAJOR</textPath></text>' +
+                    '<text font-family="Cinzel, Georgia, serif" font-weight="700" font-size="29" letter-spacing="1.5" fill="#f4ecd6"><textPath href="#mjBottom" startOffset="50%" text-anchor="middle">JARROD’S BACHELORS</textPath></text>' +
+                    diamond(26, 200, 7) + diamond(374, 200, 7) + '<circle cx="40" cy="200" r="2.4" fill="' + gold + '"/><circle cx="360" cy="200" r="2.4" fill="' + gold + '"/>' +
+                    '<circle class="mj-draw" pathLength="1" cx="200" cy="200" r="128" fill="none" stroke="' + gold + '" stroke-width="3"/>' +
+                    '<circle cx="200" cy="200" r="122" fill="none" stroke="#f4ecd6" stroke-opacity="0.5" stroke-width="1"/>' +
+                    laurel + '<g transform="translate(400 0) scale(-1 1)">' + laurel + curl + '</g>' + curl +
+                    club(136, 182, 256, 296, 'M250,290 l18,3 l3,12 l-22,-4z') + club(264, 182, 144, 296, 'M150,290 l-18,3 l-3,12 l22,-4z') +
+                    // Trophy
+                    '<path d="M168,142 C142,140 140,178 174,184" stroke="' + gold + '" stroke-width="6" fill="none"/><path d="M232,142 C258,140 260,178 226,184" stroke="' + gold + '" stroke-width="6" fill="none"/>' +
+                    '<path d="M164,132 H236 C236,172 222,198 200,202 C178,198 164,172 164,132Z" fill="' + gold + '"/>' +
+                    '<ellipse cx="200" cy="132" rx="36" ry="5" fill="#f6dd96"/>' +
+                    '<path d="M176,142 C176,166 184,184 196,192" stroke="#fff7d6" stroke-opacity="0.75" stroke-width="3.2" fill="none" stroke-linecap="round"/>' +
+                    '<rect x="194" y="200" width="12" height="17" fill="' + gold + '"/><ellipse cx="200" cy="206" rx="10" ry="4" fill="#f6dd96"/>' +
+                    '<path d="M181,217 H219 L225,230 H175Z" fill="' + gold + '"/><rect x="170" y="230" width="60" height="8" rx="2" fill="#a8822f"/>' +
+                    '<path d="M168,116 C184,104 216,104 232,116" stroke="' + gold + '" stroke-width="2" fill="none"/>' + diamond(200, 102, 6) +
+                    // Ball
+                    '<circle cx="200" cy="294" r="12" fill="#ffffff"/><circle cx="196" cy="290" r="1.3" fill="#c9ccd6"/><circle cx="202" cy="289" r="1.3" fill="#c9ccd6"/><circle cx="206" cy="295" r="1.3" fill="#c9ccd6"/><circle cx="199" cy="297" r="1.3" fill="#c9ccd6"/><circle cx="193" cy="296" r="1.3" fill="#c9ccd6"/>' +
+                    diamond(200, 326, 5) +
+                    '<g clip-path="url(#mjClip)"><rect class="mj-sheen" x="-260" y="-40" width="140" height="480" fill="url(#mjSheenG)"/></g>' +
+                    '</svg>';
+                return out;
+            })();
+            // A little golfer on the hill, facing the flag (to his left); the arms and club swing as one
+            var MJ_GOLFER = '<svg class="mj-golfer" viewBox="0 0 60 80" aria-hidden="true">' +
+                '<path d="M31,43 L26,72 M35,43 L41,72" stroke="#f4ecd6" stroke-width="5" stroke-linecap="round"/>' +
+                '<path d="M22,74 h7 M38,74 h7" stroke="#0a1630" stroke-width="3" stroke-linecap="round"/>' +
+                '<path d="M25,18 L34,17 L38,44 L29,45Z" fill="#f4ecd6"/>' +
+                '<circle cx="29" cy="11.5" r="5.5" fill="#f4ecd6"/>' +
+                '<path d="M23,9 Q28,3 35,7 L36,9 Z M22,9 h-5 l1,1.6 h4z" fill="#d4af5f"/>' +
+                '<g class="mj-swing"><path d="M30,22 L22,43" stroke="#f4ecd6" stroke-width="4.6" stroke-linecap="round"/>' +
+                '<path d="M22,43 L13,72" stroke="#d4af5f" stroke-width="2" stroke-linecap="round"/><path d="M14,71 l-6,2 l1,2.6 l6,-1.4z" fill="#d4af5f"/></g>' +
+                '</svg>';
+
+            // One shot every 8 seconds: address, backswing, strike, the ball arcs onto the green and drops in
+            var golferAnims = [];
+            function startGolfer() {
+                golferAnims.forEach(function (a) { a.cancel(); });
+                golferAnims = [];
+                var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                var decor = document.getElementById('decor'), golfer = decor.querySelector('.mj-golfer'), cup = decor.querySelector('.mj-cup'), ball = decor.querySelector('.mj-ball');
+                if (!golfer || !cup || !ball || still || !Element.prototype.animate) return;
+                var d = decor.getBoundingClientRect(), g = golfer.getBoundingClientRect(), c = cup.getBoundingClientRect();
+                if (!g.width) return;
+                var sx = g.left - d.left + g.width * 0.06 - 5, sy = g.bottom - d.top - g.height * 0.07 - 5;
+                var ex = c.left - d.left + c.width / 2 - 5, ey = c.top - d.top + c.height / 2 - 6;
+                var h = Math.min(170, Math.max(70, (sx - ex) * 0.42));
+                var pos = function (x, y, extra) { return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)' + (extra || ''); };
+                var frames = [{ offset: 0, transform: pos(sx, sy), opacity: 1 }, { offset: 0.36, transform: pos(sx, sy), opacity: 1 }];
+                for (var k = 1; k <= 12; k++) {
+                    var t = k / 12;
+                    frames.push({ offset: 0.36 + t * 0.24, transform: pos(sx + (ex - sx) * t, sy + (ey - 6 - sy) * t - 4 * h * t * (1 - t), ' scale(' + (1 + 0.35 * Math.sin(Math.PI * t)).toFixed(2) + ')'), opacity: 1 });
+                }
+                frames.push({ offset: 0.63, transform: pos(ex + 2, ey - 3), opacity: 1 }); // a little check on landing
+                frames.push({ offset: 0.66, transform: pos(ex, ey + 2, ' scale(0.5)'), opacity: 0 });
+                frames.push({ offset: 0.9, transform: pos(sx, sy), opacity: 0 });
+                frames.push({ offset: 1, transform: pos(sx, sy), opacity: 1 });
+                var timing = { duration: 8000, iterations: Infinity, delay: 1200 };
+                golferAnims.push(ball.animate(frames, timing));
+                golferAnims.push(golfer.querySelector('.mj-swing').animate([
+                    { offset: 0, transform: 'rotate(0deg)' },
+                    { offset: 0.1, transform: 'rotate(0deg)', easing: 'ease-out' },
+                    { offset: 0.3, transform: 'rotate(-145deg)', easing: 'ease-in' },
+                    { offset: 0.36, transform: 'rotate(0deg)', easing: 'ease-out' },
+                    { offset: 0.46, transform: 'rotate(118deg)' },
+                    { offset: 0.8, transform: 'rotate(118deg)', easing: 'ease-in-out' },
+                    { offset: 0.95, transform: 'rotate(0deg)' },
+                    { offset: 1, transform: 'rotate(0deg)' }
+                ], timing));
+            }
+
+            var MJ_BALL = '<svg viewBox="-12 -12 24 24"><circle r="10" fill="#ffffff" stroke="#c9ccd6" stroke-width="0.8"/><circle cx="-3" cy="-3" r="1.1" fill="#d5d8e2"/><circle cx="3" cy="-2" r="1.1" fill="#d5d8e2"/><circle cx="0" cy="3" r="1.1" fill="#d5d8e2"/><circle cx="-4" cy="3" r="1.1" fill="#d5d8e2"/><circle cx="4" cy="4" r="1.1" fill="#d5d8e2"/></svg>';
+
+            // Tapped buttons chip golf balls into the air, and now and then someone shouts "Fore!"
+            function chip(x, y) {
+                for (var i = 0; i < 3; i++) {
+                    var el = flyer(18 + Math.random() * 6);
+                    var dx = (Math.random() - 0.5) * 300, h = 110 + Math.random() * 150, land = 70 + Math.random() * 60, spin = (Math.random() < 0.5 ? -1 : 1) * (540 + Math.random() * 540);
+                    var frames = [];
+                    for (var k = 0; k <= 16; k++) {
+                        var t = k / 16;
+                        frames.push({ transform: 'translate(' + (x + dx * t) + 'px,' + (y - 4 * h * t * (1 - t) + land * t * t) + 'px) rotate(' + (spin * t) + 'deg)', opacity: t > 0.85 ? (1 - t) / 0.15 : 1 });
+                    }
+                    fly(el, frames, 1000 + Math.random() * 400);
+                }
+                if (Math.random() < 0.35) {
+                    var fore = document.createElement('div');
+                    fore.className = 'mj-fore';
+                    fore.textContent = 'Fore!';
+                    sky.appendChild(fore);
+                    fly(fore, [
+                        { transform: 'translate(' + (x - 30) + 'px,' + (y - 20) + 'px) scale(0.6)', opacity: 0 },
+                        { transform: 'translate(' + (x - 30) + 'px,' + (y - 70) + 'px) scale(1.1)', opacity: 1, offset: 0.3 },
+                        { transform: 'translate(' + (x - 30) + 'px,' + (y - 110) + 'px) scale(1)', opacity: 0 }
+                    ], 1300, 'ease-out');
+                }
+            }
+
+            /* ---------- Practice green: drag back from the ball and let go ---------- */
+            function startGreen() {
+                var box = document.getElementById('pg');
+                if (!box || box.getAttribute('data-ready')) return;
+                box.setAttribute('data-ready', '1');
+                var ballEl = box.querySelector('.pg-ball'), cupEl = box.querySelector('.pg-cup'), aim = box.querySelector('.pg-aim');
+                var status = document.getElementById('pgStatus'), score = document.getElementById('pgScore');
+                var R = 9, CUP = 14, W = 0, H = 0, slope = 0, strokes = 0, sunk = 0, aces = 0, rolling = false, drag = null, shot = null;
+                var b = { x: 0, y: 0, vx: 0, vy: 0 }, c = { x: 0, y: 0 };
+                var place = function () { ballEl.style.transform = 'translate(' + (b.x - R) + 'px,' + (b.y - R) + 'px)'; };
+                var tally = function () { score.textContent = 'Holes sunk: ' + sunk + (aces ? ' · Holes in one: ' + aces : ''); };
+                function newHole() {
+                    W = box.clientWidth; H = box.clientHeight; strokes = 0; rolling = false;
+                    c.x = W * (0.25 + Math.random() * 0.5); c.y = 70 + Math.random() * 40;
+                    b.x = W * (0.2 + Math.random() * 0.6); b.y = H - 34; b.vx = b.vy = 0;
+                    slope = (Math.random() - 0.5) * 0.09;
+                    cupEl.style.transform = 'translate(' + (c.x - CUP) + 'px,' + (c.y - CUP) + 'px)';
+                    ballEl.classList.remove('in');
+                    place();
+                    status.textContent = 'This green breaks ' + (Math.abs(slope) < 0.015 ? 'dead straight' : slope < 0 ? 'to the left' : 'to the right') + '. Drag back from the ball and let go.';
+                }
+                function point(e) { var r = box.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+                box.addEventListener('pointerdown', function (e) {
+                    if (rolling) return;
+                    var p = point(e);
+                    if (Math.hypot(p.x - b.x, p.y - b.y) > 70) return;
+                    drag = p; shot = null;
+                    box.setPointerCapture(e.pointerId);
+                });
+                box.addEventListener('pointermove', function (e) {
+                    if (!drag) return;
+                    var p = point(e), dx = b.x - p.x, dy = b.y - p.y, len = Math.hypot(dx, dy);
+                    if (len > 150) { dx *= 150 / len; dy *= 150 / len; len = 150; }
+                    shot = { x: dx, y: dy, len: len };
+                    aim.style.display = len > 6 ? 'block' : 'none';
+                    aim.style.width = (len * 1.1) + 'px';
+                    aim.style.transform = 'translate(' + b.x + 'px,' + (b.y - 1.5) + 'px) rotate(' + Math.atan2(dy, dx) + 'rad)';
+                });
+                function release() {
+                    if (!drag) return;
+                    drag = null; aim.style.display = 'none';
+                    if (!shot || shot.len < 8) return;
+                    b.vx = shot.x * 0.1; b.vy = shot.y * 0.1;
+                    strokes++; rolling = true;
+                    requestAnimationFrame(step);
+                }
+                box.addEventListener('pointerup', release);
+                box.addEventListener('pointercancel', function () { drag = null; aim.style.display = 'none'; });
+                function holed() {
+                    rolling = false; sunk++;
+                    if (strokes === 1) aces++;
+                    ballEl.classList.add('in');
+                    ballEl.style.transform = 'translate(' + (c.x - R) + 'px,' + (c.y - R) + 'px) scale(0.5)';
+                    var words = { 1: 'Hole in one! First round is on you.', 2: 'Birdie! The boys are impressed.', 3: 'Par. Steady hands.', 4: 'Bogey. The bar is calling.' };
+                    status.textContent = words[strokes] || 'Got there in ' + strokes + '. Maybe stick to the 19th hole.';
+                    tally();
+                    setTimeout(newHole, 2600);
+                }
+                function step() {
+                    var sp = Math.hypot(b.vx, b.vy);
+                    if (sp > 0.3) b.vx += slope;
+                    b.x += b.vx; b.y += b.vy;
+                    b.vx *= 0.965; b.vy *= 0.965;
+                    if (b.x < R) { b.x = R; b.vx = -b.vx * 0.6; }
+                    if (b.x > W - R) { b.x = W - R; b.vx = -b.vx * 0.6; }
+                    if (b.y < R) { b.y = R; b.vy = -b.vy * 0.6; }
+                    if (b.y > H - R) { b.y = H - R; b.vy = -b.vy * 0.6; }
+                    var d = Math.hypot(b.x - c.x, b.y - c.y);
+                    if (d < CUP + 4 && sp < 4.5) { b.vx += (c.x - b.x) * 0.05; b.vy += (c.y - b.y) * 0.05; } // the cup pulls in a slow ball
+                    if (d < CUP - 3) {
+                        if (sp < 7) { place(); return holed(); }
+                        b.vx = b.vx * 0.75 + (b.y - c.y) * 0.04; b.vy = b.vy * 0.75 - (b.x - c.x) * 0.04; // too fast: lips out
+                    }
+                    place();
+                    if (sp < 0.06) {
+                        rolling = false;
+                        status.textContent = strokes === 1 ? 'Short of the cup. Have another go.' : 'That’s ' + strokes + ' putts. Keep going.';
+                        return;
+                    }
+                    requestAnimationFrame(step);
+                }
+                document.getElementById('pgNew').addEventListener('click', newHole);
+                window.addEventListener('resize', function () { if (!rolling) newHole(); });
+                tally();
+                newHole();
+            }
+
             /* ---------- Certified Lover Girl artwork (bachelorette), drawn from scratch ---------- */
             var CLG_BRIDES = ['\uD83D\uDC70\uD83C\uDFFB\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFE\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFC\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFF\u200D\u2640\uFE0F'];
             var CLG_GRID = '<div class="clg-grid">' + [0, 1, 2, 3, 2, 0, 3, 1, 3, 2, 1, 0].map(function (n) { return '<span>' + CLG_BRIDES[n] + '</span>'; }).join('') + '</div>';
@@ -830,6 +1117,9 @@
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="left:6%;top:24%;width:38px;transform:rotate(-16deg)"') +
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="right:6%;top:66%;width:32px;transform:rotate(14deg)"') +
                         '<div class="clg-sticker"><b>Bride Advisory</b>Certified content</div>';
+                } else if (style === 'major') {
+                    emblem = MJ_CREST;
+                    decor = '<div class="mj-hill"></div><div class="mj-cup"></div><div class="mj-pin"></div>' + MJ_GOLFER + '<div class="mj-ball"></div>';
                 } else if (style === 'mamma') {
                     emblem = '<div class="mm-hang">' + MM_BALL + '</div>';
                     decor = '<div class="mm-arch"></div>' +
@@ -841,6 +1131,11 @@
                 }
                 document.getElementById('decor').innerHTML = decor;
                 document.getElementById('emblem').innerHTML = emblem;
+                if (style === 'major') {
+                    requestAnimationFrame(startGolfer);
+                    var resizeTimer;
+                    window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(startGolfer, 250); });
+                }
             }
 
             function paintCover(t) {
@@ -866,6 +1161,18 @@
                 return { y: y, m: mo, d: d, day: DAYS[new Date(Date.UTC(y, mo - 1, d)).getUTCDay()] };
             }
             function longDate(p) { return p.day + ', ' + p.d + ' ' + MONTHS[p.m - 1] + ' ' + p.y; }
+            // "Friday 2 to Monday 5 April 2027", or the single day
+            function dateRange(a, b) {
+                if (!b) return longDate(a);
+                if (a.y === b.y && a.m === b.m) return a.day + ' ' + a.d + ' to ' + b.day + ' ' + b.d + ' ' + MONTHS[a.m - 1] + ' ' + a.y;
+                if (a.y === b.y) return a.day + ' ' + a.d + ' ' + MONTHS[a.m - 1] + ' to ' + b.day + ' ' + b.d + ' ' + MONTHS[b.m - 1] + ' ' + a.y;
+                return longDate(a) + ' to ' + longDate(b);
+            }
+            function shortRange(a, b) {
+                if (!b) return a.d + ' ' + MONTHS[a.m - 1] + ' ' + a.y;
+                return a.m === b.m && a.y === b.y ? a.d + '–' + b.d + ' ' + MONTHS[a.m - 1] + ' ' + a.y : a.d + ' ' + MONTHS[a.m - 1].slice(0, 3) + ' – ' + b.d + ' ' + MONTHS[b.m - 1].slice(0, 3) + ' ' + b.y;
+            }
+            function nights(a, b) { return Math.round((Date.UTC(b.y, b.m - 1, b.d) - Date.UTC(a.y, a.m - 1, a.d)) / 86400000); }
 
             // "19:00", "19h00", "7 pm" → "19:00"
             function parseTime(t) {
@@ -901,7 +1208,7 @@
             // Times on the sheet are South African time (UTC+2, no daylight saving), stored in calendars as UTC.
             // No start time yet: an all-day entry. No end time: 3 hours. An end before the start runs past midnight.
             function calEvent(ev) {
-                var p = eventDate;
+                var p = eventDate, q = endDate || eventDate;
                 var link = location.origin + location.pathname + '?event=' + encodeURIComponent(slug) + '&invite=' + encodeURIComponent(rsvp.invite.code);
                 var out = {
                     title: theme.cal || theme.label,
@@ -919,12 +1226,12 @@
                 if (!ev.start) {
                     out.allDay = true;
                     out.start = ymd(new Date(Date.UTC(p.y, p.m - 1, p.d)));
-                    out.end = ymd(new Date(Date.UTC(p.y, p.m - 1, p.d + 1)));
+                    out.end = ymd(new Date(Date.UTC(q.y, q.m - 1, q.d + 1)));
                     return out;
                 }
-                var at = function (t) { var hm = parseTime(t).split(':'); return Date.UTC(p.y, p.m - 1, p.d, +hm[0] - 2, +hm[1]); };
-                var start = at(ev.start);
-                var end = ev.end ? at(ev.end) : start + 3 * 3600000;
+                var at = function (t, day) { var hm = parseTime(t).split(':'); return Date.UTC(day.y, day.m - 1, day.d, +hm[0] - 2, +hm[1]); };
+                var start = at(ev.start, p);
+                var end = endDate ? at(ev.end || '12:00', q) : ev.end ? at(ev.end, p) : start + 3 * 3600000; // a trip ends on its last day (noon unless an end time is set)
                 if (end <= start) end += 86400000;
                 var stamp = function (ms) { var d = new Date(ms); return ymd(d) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z'; };
                 out.start = stamp(start);
@@ -996,15 +1303,16 @@
 
             function renderEvent(ev) {
                 eventDate = parseDate(ev.date);
+                endDate = eventDate ? parseDate(ev.endDate) : null;
                 var coverDate = document.getElementById('coverDate');
                 if (eventDate) {
-                    coverDate.textContent = longDate(eventDate);
+                    coverDate.textContent = dateRange(eventDate, endDate);
                     coverDate.classList.remove('tba');
-                    document.getElementById('topDate').textContent = eventDate.d + ' ' + MONTHS[eventDate.m - 1] + ' ' + eventDate.y;
+                    document.getElementById('topDate').textContent = shortRange(eventDate, endDate);
                     countdown(document.getElementById('countdown'), new Date(ev.date + 'T' + parseTime(ev.start) + ':00+02:00').getTime(), theme.done);
                 }
 
-                var when = eventDate ? ' on <strong>' + longDate(eventDate) + '</strong>' : '';
+                var when = !eventDate ? '' : endDate ? ', <strong>' + dateRange(eventDate, endDate) + '</strong>,' : ' on <strong>' + longDate(eventDate) + '</strong>';
                 document.getElementById('noticeText').innerHTML = 'This invitation is for <strong>' + esc(theme.ref) + '</strong>' + when +
                     ' only. It is <strong>not</strong> your invitation or RSVP for Jarrod &amp; Telicia’s wedding. Wedding invitations are sent separately.';
                 document.getElementById('detailsEyebrow').textContent = theme.label;
@@ -1016,7 +1324,9 @@
 
                 var times = [ev.start, ev.end].filter(Boolean).map(esc).join(' – ');
                 var html = eventDate
-                    ? fact('When', longDate(eventDate), times || 'Time to be announced', calendarLinks(ev))
+                    ? endDate
+                        ? fact('When', dateRange(eventDate, endDate), [nights(eventDate, endDate) + ' nights', ev.start ? 'starts ' + esc(ev.start) + ' on the ' + eventDate.day : ''].filter(Boolean).join(' · '), calendarLinks(ev))
+                        : fact('When', longDate(eventDate), times || 'Time to be announced', calendarLinks(ev))
                     : fact('When', 'Date to be announced', times ? 'From ' + times : 'Watch this space', '', true);
                 html += ev.venue
                     ? fact('Where', esc(ev.venue), esc(ev.address), ev.mapUrl ? '<a class="link-btn" href="' + esc(ev.mapUrl) + '" target="_blank" rel="noopener">Open in Maps ↗</a>' : '')
@@ -1029,6 +1339,11 @@
                 if (ev.notes) {
                     document.getElementById('notesText').innerHTML = esc(ev.notes).replace(/\n/g, '<br>');
                     document.getElementById('notes').hidden = false;
+                }
+
+                if (style === 'major') {
+                    document.getElementById('green').hidden = false;
+                    requestAnimationFrame(startGreen);
                 }
 
                 if (/^https:\/\//i.test(ev.album || '')) {
@@ -1146,7 +1461,7 @@
                         '<div class="choice">' + choice(i, 'Yes', 'Yes, I’ll stay over', g.stay, 'stay') + choice(i, 'No', 'No, I’ll head home', g.stay, 'stay') + '</div></div>';
                 };
 
-                var on = eventDate ? ' on ' + longDate(eventDate) : '';
+                var on = !eventDate ? '' : endDate ? ', ' + dateRange(eventDate, endDate) : ' on ' + longDate(eventDate);
                 var html = '<p class="lede rsvp-greeting">Dear ' + esc(inv.name) + ', will you be at <span class="hl">' + esc(theme.ref) + '</span>' + on + '?' +
                     (s.deadline ? ' Please let us know by <em>' + esc(s.deadline) + '</em>.' : '') + '</p><form id="rsvpForm" novalidate>';
 
