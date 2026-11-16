@@ -34,13 +34,15 @@
                 'night-before-telicia': 'blossom',
                 'bachelor': 'major',
                 'bachelorette': 'clg',
-                'bridal-shower': 'mamma'
+                'bridal-shower': 'mamma',
+                'braai': 'ember'
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
                 blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
                 major: 'family=Cinzel:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700',
                 clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
+                ember: 'family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..800&family=Work+Sans:wght@400;500;600;700',
                 mamma: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Sacramento&family=Lato:wght@400;700'
             };
             var slug = (new URLSearchParams(location.search).get('event') || '').trim().toLowerCase();
@@ -91,6 +93,13 @@
             --display: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; --text: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; --gothic: 'Grenze Gotisch', 'Times New Roman', serif;
             --cover: linear-gradient(135deg, #d90f6c, #ff3d9a, #ff7ab8, #c7148f, #ff3d9a, #d90f6c);
             --quilt: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 44C12 33 8 25 8 18a10 10 0 0 1 20-3a10 10 0 0 1 20 3c0 7-4 15-20 26z' fill='none' stroke='%23ff2d87' stroke-opacity='.16' stroke-width='1.5'/%3E%3C/svg%3E");
+        }
+        /* Saturday braai: dusk, string lights, a drum braai with embers and smoke */
+        .theme-ember {
+            --bg: #18131d; --bg2: #f6ecdd; --card: #231b29; --fg: #f8ecdc; --muted: #cbb9a7; --line: rgba(248, 236, 220, 0.16);
+            --accent: #ff8a3d; --on-accent: #1d120c; --glow: #ffb36b;
+            --display: 'Fraunces', Georgia, serif; --text: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+            --cover: linear-gradient(180deg, #120f22 0%, #241a3a 38%, #4a2541 62%, #9b4430 84%, #d9763b 100%);
         }
         /* Bridal shower: Mamma Mia (Telicia's Pinterest direction): Greek blue-and-white tiles, sky-blue arch, pink bougainvillea, a disco ball */
         .theme-mamma {
@@ -270,6 +279,43 @@
         .theme-major .section.alt .guest, .theme-major .section.alt .rsvp-summary, .theme-major .section.alt .registry { border: 1px solid rgba(14, 27, 58, 0.25); border-top: 3px solid var(--gold); }
         .theme-major .btn { font-family: var(--cond); font-size: 1.05rem; letter-spacing: 0.14em; text-transform: uppercase; border-radius: 6px; }
         .theme-major .footer { border-top: 3px double var(--gold); }
+        /* Saturday braai */
+        .theme-ember .cover-frame { border: 0; }
+        .theme-ember .cover-top { visibility: hidden; } /* the lights hang here; the date is under the title */
+        .theme-ember .kicker { color: var(--glow); letter-spacing: 0.2em; }
+        .theme-ember .masthead { font-weight: 800; font-size: min(19vw, 7rem, 12vh); line-height: 0.9; letter-spacing: -0.01em; color: #ffe6c4; text-shadow: 0 0 22px rgba(255, 138, 61, 0.55), 0 0 2px rgba(255, 220, 180, 0.9); }
+        .theme-ember .masthead .small { font-style: italic; font-weight: 500; font-size: 0.36em; color: var(--accent); text-shadow: none; }
+        .theme-ember .honour { color: var(--fg); letter-spacing: 0.14em; }
+        .theme-ember .cover-date { font-style: italic; color: #ffd9a8; }
+        .theme-ember .countdown { border-top-color: rgba(255, 179, 107, 0.3); }
+        .theme-ember .countdown > div { border-left-color: rgba(255, 179, 107, 0.3); }
+        .theme-ember .countdown span { color: #ffe6c4; }
+        .theme-ember .scroll-cue { background: rgba(24, 19, 29, 0.75); border-color: var(--accent); }
+        .theme-ember .emblem svg { width: 40px; height: 40px; }
+        .em-stars i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; opacity: calc(0.2 + var(--k) * 0.6); animation: em-twinkle 4s ease-in-out infinite; animation-delay: calc(var(--k) * -4s); }
+        .em-wire { position: absolute; left: -2%; width: 104%; overflow: visible; }
+        .em-bulb { position: absolute; width: 9px; height: 12px; margin-left: -4.5px; border-radius: 50% 50% 46% 46%; background: radial-gradient(circle at 50% 40%, #fff6d8, #ffc46b 60%, #ff9a3d); box-shadow: 0 0 10px 3px rgba(255, 190, 110, 0.75), 0 0 26px 8px rgba(255, 160, 80, 0.3); animation: em-bulb 3.2s ease-in-out infinite; animation-delay: calc(var(--k) * -3.2s); }
+        .em-bulb::before { content: ''; position: absolute; left: 2px; top: -4px; width: 5px; height: 5px; border-radius: 1px; background: #2a2230; }
+        .em-ground { position: absolute; left: -10%; right: -10%; bottom: -70px; height: 150px; border-radius: 50%; background: #0e0b12; }
+        .em-braai { position: absolute; left: 1%; bottom: 10px; width: min(25vw, 170px); height: auto; overflow: visible; }
+        .em-glow { position: absolute; left: calc(1% + min(12.5vw, 85px) - 90px); bottom: 20px; width: 180px; height: 120px; border-radius: 50%; background: radial-gradient(ellipse at 50% 60%, rgba(255, 140, 60, 0.45), transparent 70%); animation: em-glow 2.4s ease-in-out infinite; }
+        .em-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: em-flicker 0.9s ease-in-out infinite alternate; }
+        .em-spark { position: absolute; left: calc(1% + min(12.5vw, 85px)); bottom: 60px; width: 3px; height: 3px; border-radius: 50%; background: #ffcf8a; box-shadow: 0 0 6px 2px rgba(255, 150, 60, 0.8); opacity: 0; animation: em-rise 4.5s linear infinite; animation-delay: calc(var(--k) * -4.5s); --dx: calc((var(--k) - 0.5) * 120px); }
+        .em-smoke { position: absolute; left: calc(1% + min(12.5vw, 85px) - 20px); bottom: 70px; width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle, rgba(220, 210, 220, 0.18), transparent 70%); opacity: 0; animation: em-smoke 7s ease-out infinite; animation-delay: calc(var(--k) * -7s); }
+        @keyframes em-twinkle { 50% { opacity: 0.15; } }
+        @keyframes em-bulb { 0%, 100% { opacity: 1; } 45% { opacity: 0.78; } 50% { opacity: 0.55; } 55% { opacity: 0.9; } }
+        @keyframes em-glow { 50% { opacity: 0.7; transform: scale(0.94); } }
+        @keyframes em-flicker { 0% { transform: scale(1, 1) skewX(0deg); } 50% { transform: scale(0.92, 1.12) skewX(3deg); } 100% { transform: scale(1.04, 0.9) skewX(-3deg); } }
+        @keyframes em-rise { 0% { opacity: 0; transform: translate(0, 0); } 10% { opacity: 1; } 80% { opacity: 0.6; } 100% { opacity: 0; transform: translate(var(--dx), -55vh); } }
+        @keyframes em-smoke { 0% { opacity: 0; transform: translate(0, 0) scale(0.6); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(30px, -40vh) scale(3); } }
+        .theme-ember .section.alt { --bg: #fffaf2; --fg: #2a1d17; --muted: #6b5546; --card: #fffaf2; --line: rgba(42, 29, 23, 0.16); --accent: #c4501a; --on-accent: #ffffff; color: var(--fg); }
+        .theme-ember .sec-title { font-weight: 700; }
+        .theme-ember .sec-title em { color: var(--accent); }
+        .theme-ember .fact { border-color: rgba(255, 138, 61, 0.35); box-shadow: 0 14px 30px -18px rgba(255, 120, 40, 0.5); }
+        .theme-ember .fact h3 { font-weight: 600; }
+        .theme-ember .notice { background: linear-gradient(90deg, #c4501a, #ff8a3d); color: #1d120c; }
+        .theme-ember .footer { background: #0e0b12; border-top: 2px solid rgba(255, 138, 61, 0.5); }
+
         /* Practice green: a little putting game, bachelor page only */
         .pg { position: relative; max-width: 560px; height: clamp(280px, 52vh, 380px); margin: 0 auto; border: 3px solid var(--gold); border-radius: 28px; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; cursor: crosshair;
             background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.1), transparent 60%), repeating-linear-gradient(90deg, #2f7d43 0 38px, #2a7240 38px 76px); box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.35), 0 20px 40px -20px rgba(0, 0, 0, 0.6); }
@@ -580,7 +626,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="sWW8kTVSdTcKV+B5">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</script>
+                <script type="text/plain" data-gifts data-iv="mNSnB6RZkRwsRvr3">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</script>
             </div>
         </section>
 
@@ -621,7 +667,8 @@
                 'night-before-telicia': 'https://script.google.com/macros/s/AKfycbxXFsSYhmTwfmNElzrTr9d8jDmvJK0bYbPDlUz7t4Fuude7oShP_GKapOV0j98yvUt6/exec',
                 'bachelor': 'https://script.google.com/macros/s/AKfycbwyh4j26CfPnkGAe4grVuJp92CSUaSmymWiKRg-kp-uPOweYvHqnAWwAGmLW8cRUA_v/exec',
                 'bachelorette': 'https://script.google.com/macros/s/AKfycbxWjhxwmW72jOfvbvPRsbwtz_qns3DLE3oCuPtecixpRdpkxtLRCYCwsSAVKMgnGQhEZA/exec',
-                'bridal-shower': 'https://script.google.com/macros/s/AKfycbzQibrUiYVX2ypQaAcU6sW-MaXYV4Gqrws6whKw_N85_KQQ-MfDYE0TLyl-wag1UNfrEQ/exec'
+                'bridal-shower': 'https://script.google.com/macros/s/AKfycbzQibrUiYVX2ypQaAcU6sW-MaXYV4Gqrws6whKw_N85_KQQ-MfDYE0TLyl-wag1UNfrEQ/exec',
+                'braai': 'https://script.google.com/macros/s/AKfycbyG8q_MhGinA8C6L_S2ORZSeRk2jOxeeGBNe6ZN2exhcUJdD88YZwStF0B97n8agCkQ/exec'
             };
 
             // Each event's words. Public: never put dates, places or guest names here.
@@ -643,6 +690,10 @@
                     label: 'Bachelorette', cal: "Telicia's Bachelorette", ref: 'the Bachelorette', kicker: 'Her last release as a single', title: ['', 'Certified', 'Lover', 'Girl'],
                     honour: 'In honour of Telicia', details: 'Girls’ <em>Plan</em>', rsvpTitle: 'Hotline <em>Bling</em>', photosTitle: '<em>Views</em>', done: 'Nice for What'
                     // Registry back on (15 Nov 2026, MyRegistry). noRegistries: true would show the bank details only
+                },
+                'braai': {
+                    label: 'Saturday Braai', cal: 'Saturday Braai with Jarrod & Telicia', ref: 'the Saturday Braai', kicker: 'Good food, good people, open fire', title: ['The', 'Saturday', 'Braai'],
+                    honour: 'With Jarrod & Telicia', details: 'Around the <em>fire</em>', rsvpTitle: 'Pull up a <em>chair</em>', photosTitle: 'Fireside <em>snaps</em>', shareTitle: 'Chip in for the <em>coals</em>', done: 'The fire’s lit!'
                 },
                 'bridal-shower': {
                     label: 'Bridal Shower', cal: "Telicia's Bridal Shower", ref: 'the Bridal Shower', kicker: 'A bridal shower for Telicia', title: ['', 'Mamma', 'Mia!'],
@@ -777,7 +828,7 @@
                 var el = document.createElement('div');
                 el.className = 'bl-flyer';
                 el.style.width = size + 'px';
-                el.innerHTML = style === 'major' ? MJ_BALL : style === 'mamma' ? MM_FLYERS[Math.floor(Math.random() * MM_FLYERS.length)] : '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
+                el.innerHTML = style === 'major' ? MJ_BALL : style === 'ember' ? EM_SPARK : style === 'mamma' ? MM_FLYERS[Math.floor(Math.random() * MM_FLYERS.length)] : '<svg viewBox="-20 -16 40 32">' + BFLY + '</svg>';
                 sky.appendChild(el);
                 return el;
             }
@@ -823,7 +874,7 @@
 
             function startButterflies() {
                 var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                if ((style !== 'blossom' && style !== 'mamma' && style !== 'major') || still || !Element.prototype.animate) return;
+                if ((style !== 'blossom' && style !== 'mamma' && style !== 'major' && style !== 'ember') || still || !Element.prototype.animate) return;
                 sky = document.createElement('div');
                 sky.className = 'bl-sky';
                 sky.setAttribute('aria-hidden', 'true');
@@ -1111,6 +1162,34 @@
                 newHole();
             }
 
+            /* ---------- Saturday braai artwork, drawn from scratch ---------- */
+            var EM_FLAME = '<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="emF" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff5a1f"/><stop offset="0.6" stop-color="#ff9a3d"/><stop offset="1" stop-color="#ffd27a"/></linearGradient></defs>' +
+                '<path class="em-flame" d="M20 3c6 8 11 13 11 21a11 11 0 0 1-22 0c0-5 3-8 5-11c1 4 3 6 5 6c-2-6-1-11 1-16z" fill="url(#emF)"/></svg>';
+            // A drum braai on legs with a boerewors coil and chops on the grid, flames licking up behind
+            var EM_BRAAI = '<svg class="em-braai" viewBox="0 0 170 120" aria-hidden="true">' +
+                '<defs><linearGradient id="emFire" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff4a12"/><stop offset="0.55" stop-color="#ff9a3d"/><stop offset="1" stop-color="#ffe08a" stop-opacity="0.9"/></linearGradient></defs>' +
+                '<path class="em-flame" d="M48 62c4-14 10-18 8-30c9 9 12 18 10 30z" fill="url(#emFire)" style="animation-duration:0.8s"/>' +
+                '<path class="em-flame" d="M74 62c3-18 12-24 10-40c12 12 16 26 12 40z" fill="url(#emFire)" style="animation-duration:1.1s"/>' +
+                '<path class="em-flame" d="M104 62c3-12 8-16 7-26c8 8 11 17 9 26z" fill="url(#emFire)" style="animation-duration:0.95s"/>' +
+                '<path d="M30 116 L52 80 M140 116 L118 80 M85 116 V84" stroke="#2c2733" stroke-width="5" stroke-linecap="round"/>' +
+                '<path d="M22 62 H148 C146 82 122 92 85 92 C48 92 24 82 22 62Z" fill="#2c2733"/>' +
+                '<path d="M28 70 C40 84 130 84 142 70" stroke="#ff7a2f" stroke-opacity="0.35" stroke-width="2" fill="none"/>' +
+                '<path d="M18 61 H152" stroke="#8b8592" stroke-width="2.5" stroke-linecap="round"/>' +
+                '<path d="M64 55 c0-6 10-6 10 0 c0 9 -18 9 -18 0 c0 -13 26 -13 26 0 c0 14 -32 14 -32 0" stroke="#8a3c1c" stroke-width="5" fill="none" stroke-linecap="round"/>' +
+                '<ellipse cx="108" cy="56" rx="13" ry="6" fill="#9c4a24"/><ellipse cx="128" cy="57" rx="11" ry="5" fill="#8a3c1c"/>' +
+                '<path d="M100 54 l5 3 m4 -4 l5 3" stroke="#3b1a0c" stroke-width="1.2"/>' +
+                '</svg>';
+            function emLights(top, sag, count, seed) {
+                var wire = '<svg class="em-wire" style="top:' + top + 'px;height:' + sag + 'px" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 Q50,200 100,0" fill="none" stroke="#3a3040" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>';
+                var bulbs = '', rnd = seeded(seed);
+                for (var i = 1; i < count; i++) {
+                    var t = i / count;
+                    bulbs += '<i class="em-bulb" style="left:' + (-2 + 104 * t).toFixed(2) + '%;top:' + (top + 4 * sag * t * (1 - t) + 1).toFixed(1) + 'px;--k:' + rnd().toFixed(2) + '"></i>';
+                }
+                return wire + bulbs;
+            }
+            var EM_SPARK = '<svg viewBox="-20 -16 40 32"><circle r="4" fill="#ffd68f"/><circle r="8" fill="#ff9a3d" opacity="0.35"/></svg>';
+
             /* ---------- Certified Lover Girl artwork (bachelorette), drawn from scratch ---------- */
             var CLG_BRIDES = ['\uD83D\uDC70\uD83C\uDFFB\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFE\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFC\u200D\u2640\uFE0F', '\uD83D\uDC70\uD83C\uDFFF\u200D\u2640\uFE0F'];
             var CLG_GRID = '<div class="clg-grid">' + [0, 1, 2, 3, 2, 0, 3, 1, 3, 2, 1, 0].map(function (n) { return '<span>' + CLG_BRIDES[n] + '</span>'; }).join('') + '</div>';
@@ -1143,6 +1222,13 @@
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="left:6%;top:24%;width:38px;transform:rotate(-16deg)"') +
                         CLG_KISS.replace('<svg', '<svg class="clg-kiss" style="right:6%;top:66%;width:32px;transform:rotate(14deg)"') +
                         '<div class="clg-sticker"><b>Bride Advisory</b>Certified content</div>';
+                } else if (style === 'ember') {
+                    emblem = EM_FLAME;
+                    decor = '<div class="em-stars">' + scatter(36, 11, function (x, y, k) { return '<i style="left:' + x + '%;top:' + (y * 0.45) + '%;--k:' + k.toFixed(2) + '"></i>'; }) + '</div>' +
+                        emLights(-6, 70, 14, 3) + emLights(-10, 120, 18, 9) +
+                        '<div class="em-ground"></div><div class="em-glow"></div>' +
+                        scatter(3, 5, function (x, y, k) { return '<i class="em-smoke" style="--k:' + k.toFixed(2) + '"></i>'; }) +
+                        scatter(16, 13, function (x, y, k) { return '<i class="em-spark" style="--k:' + k.toFixed(2) + '"></i>'; }) + EM_BRAAI;
                 } else if (style === 'major') {
                     emblem = MJ_CREST;
                     decor = '<div class="mj-hill"></div><div class="mj-cup"></div><div class="mj-pin"></div>' + MJ_GOLFER + '<div class="mj-ball"></div>';
@@ -1429,13 +1515,15 @@
                 if (!p || !p.accountNumber) return;
                 if (theme.shareTitle) document.getElementById('shareTitle').innerHTML = theme.shareTitle;
                 var to = p.accountName || ev.hosts || 'the organiser';
-                document.getElementById('shareLede').innerHTML = 'Everyone who’s coming chips in for <span class="hl">' + esc(theme.ref) + '</span>. Please pay your share straight to ' + esc(to) + '.';
+                document.getElementById('shareLede').innerHTML = p.optional
+                    ? 'If you’d like to, you’re welcome to chip in towards the food for <span class="hl">' + esc(theme.ref) + '</span>. It’s a request, not a must. Please pay it straight to ' + esc(to) + '.'
+                    : 'Everyone who’s coming chips in for <span class="hl">' + esc(theme.ref) + '</span>. Please pay your share straight to ' + esc(to) + '.';
                 var row = function (label, value, copy) {
                     if (!value) return '';
                     return '<div class="reg-row"><span class="eyebrow">' + label + '</span><span class="reg-value">' + esc(value) +
                         (copy ? ' <button class="copy" data-copy="' + esc(String(value).replace(/\s+/g, '')) + '">Copy</button>' : '') + '</span></div>';
                 };
-                var head = '<div class="share-head"><div><small>Your share</small><span class="share-amount">' + esc(p.cost || 'See the organiser') + '</span></div>' +
+                var head = '<div class="share-head"><div><small>' + (p.optional ? 'Optional, if you can' : 'Your share') + '</small><span class="share-amount">' + esc(p.cost || 'See the organiser') + '</span></div>' +
                     (p.payBy ? '<div class="share-by"><small>Pay by</small>' + esc(p.payBy) + '</div>' : '') + '</div>';
                 document.getElementById('shareCard').innerHTML = head + '<div class="registry-inner">' +
                     row('Pay to', p.accountName) + row('Bank', p.bank) + row('Account number', p.accountNumber, true) + row('Branch code', p.branchCode, true) +
