@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#0b0b0b">
+    <title>The Darkroom | Jarrod & Telicia</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0b0b'/%3E%3Ccircle cx='32' cy='34' r='14' fill='none' stroke='%23ff8c2a' stroke-width='4'/%3E%3Crect x='14' y='18' width='12' height='6' rx='2' fill='%23ff8c2a'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0b0b;
+            --panel: #161616;
+            --line: rgba(255, 255, 255, 0.14);
+            --ink: #f5f2ec;
+            --muted: rgba(245, 242, 236, 0.62);
+            --stamp: #ff8c2a;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        body { overscroll-behavior: none; }
+        button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        a.btn, a.small-btn { color: inherit; text-decoration: none; text-align: center; }
+        [hidden] { display: none !important; }
+        .screen { min-height: 100dvh; }
+
+        /* ---------- Intro ---------- */
+        .intro { max-width: 520px; margin: 0 auto; padding: calc(40px + var(--safe-top)) 24px calc(40px + var(--safe-bottom)); display: flex; flex-direction: column; gap: 28px; }
+        .brand { text-align: center; }
+        .brand-mark { width: 56px; height: 56px; margin: 0 auto 18px; }
+        .brand h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: 1; letter-spacing: -0.01em; }
+        .brand h1 em { font-style: italic; }
+        .brand p { margin-top: 12px; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
+        .lede { font-family: var(--serif); font-size: 1.15rem; line-height: 1.5; text-align: center; color: var(--ink); }
+        .card { border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px; background: var(--panel); }
+        .eyebrow { display: block; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+        .roll { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .roll b { display: block; font-family: var(--serif); font-size: 1.6rem; font-weight: 400; }
+        .roll .stampy { color: var(--stamp); }
+        .roll span { font-size: 0.8rem; color: var(--muted); }
+        .who { display: flex; flex-wrap: wrap; gap: 8px; }
+        .who label { position: relative; }
+        .who input { position: absolute; opacity: 0; pointer-events: none; }
+        .who span { display: inline-block; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.9rem; }
+        .who input:checked + span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        .who input:focus-visible + span { outline: 2px solid var(--stamp); outline-offset: 2px; }
+        .missions { list-style: none; display: grid; gap: 8px; }
+        .missions li { font-size: 0.95rem; line-height: 1.4; padding-left: 22px; position: relative; }
+        .missions li::before { content: '◎'; position: absolute; left: 0; color: var(--stamp); }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+        .btn-solid { background: var(--ink); color: var(--bg); }
+        .btn-ghost { border: 1px solid var(--line); }
+        .btn[disabled] { opacity: 0.4; }
+        .note { font-size: 0.85rem; line-height: 1.5; color: var(--muted); text-align: center; }
+        .note-strong { color: var(--ink); }
+        .admin-note { border: 1px dashed var(--stamp); color: var(--ink); border-radius: 12px; padding: 12px 14px; font-size: 0.85rem; line-height: 1.5; }
+        .queue-line { font-size: 0.82rem; text-align: center; color: var(--muted); }
+        .queue-line.pending { color: var(--stamp); }
+
+        /* ---------- Camera ---------- */
+        .cam { position: fixed; inset: 0; display: flex; flex-direction: column; background: #000; }
+        .cam-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(10px + var(--safe-top)) 14px 10px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.08); }
+        .icon-btn svg { width: 22px; height: 22px; }
+        .icon-btn.on { background: var(--stamp); color: #000; }
+        .who-pill { flex: 1; min-width: 0; text-align: center; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 10px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+        .counter { min-width: 64px; text-align: right; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; color: var(--stamp); text-shadow: 0 0 10px rgba(255, 120, 20, 0.6); line-height: 1; }
+        .counter b { display: block; font-size: 1.6rem; }
+        .counter span { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; }
+        .finder-wrap { flex: 1; display: grid; place-items: center; min-height: 0; padding: 0 0; }
+        .finder { position: relative; width: min(100vw, calc((100dvh - 250px - var(--safe-top) - var(--safe-bottom)) * 0.75)); aspect-ratio: 3 / 4; overflow: hidden; background: #111; border-radius: 6px; }
+        .finder video, .finder .still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .finder video.mirror { transform: scaleX(-1); }
+        .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 1) 100%); opacity: 0.3; transition: opacity 0.3s; }
+        .finder .date-preview { position: absolute; right: 6%; bottom: 4.5%; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; font-size: clamp(0.8rem, 3.6vw, 1rem); color: var(--stamp); text-shadow: 0 0 8px rgba(255, 110, 20, 0.9); pointer-events: none; }
+        .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 30; }
+        .flash.go { animation: flash 0.42s ease-out; }
+        @keyframes flash { 0% { opacity: 0.95; } 100% { opacity: 0; } }
+        .flash.selfie { opacity: 1; animation: none; }
+        .cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: 0.95rem; line-height: 1.5; color: var(--muted); background: #111; }
+        .mission-bar { display: flex; justify-content: center; padding: 12px 14px 4px; }
+        .mission-chip { max-width: 100%; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mission-chip.active { border-color: var(--stamp); color: var(--stamp); }
+        .films { display: flex; justify-content: center; gap: 8px; padding: 8px 10px; overflow-x: auto; scrollbar-width: none; }
+        .films::-webkit-scrollbar { display: none; }
+        .film { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+        .film i { width: 38px; height: 38px; border-radius: 8px; border: 2px solid transparent; }
+        .film.on { color: var(--ink); }
+        .film.on i { border-color: var(--stamp); }
+        .film-classic i { background: linear-gradient(135deg, #e9b38a, #6b8fb3); }
+        .film-noir i { background: linear-gradient(135deg, #f0f0f0, #1a1a1a); }
+        .film-golden i { background: linear-gradient(135deg, #ffd27a, #b8572f); }
+        .film-faded i { background: linear-gradient(135deg, #e7dccb, #8fa3a1); }
+        .controls { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 10px 28px calc(18px + var(--safe-bottom)); }
+        .controls .left { justify-self: start; }
+        .controls .right { justify-self: end; }
+        .shutter { width: 78px; height: 78px; border-radius: 50%; border: 4px solid var(--ink); display: grid; place-items: center; }
+        .shutter i { width: 60px; height: 60px; border-radius: 50%; background: var(--ink); transition: transform 0.12s; }
+        .shutter:active i { transform: scale(0.88); }
+        .shutter[disabled] { opacity: 0.35; }
+        .uploads { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.6); font-size: 0.72rem; color: var(--ink); white-space: nowrap; }
+        .uploads.pending { color: var(--stamp); }
+        .toast { position: fixed; left: 50%; top: calc(76px + var(--safe-top)); transform: translateX(-50%); z-index: 40; max-width: calc(100vw - 32px); padding: 10px 16px; border-radius: 12px; background: rgba(20, 20, 20, 0.92); border: 1px solid var(--line); font-size: 0.88rem; line-height: 1.4; text-align: center; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+        .toast.show { opacity: 1; }
+        .developing { position: fixed; z-index: 35; width: 64px; aspect-ratio: 3 / 4; border-radius: 4px; background: #2a2016; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5); pointer-events: none; animation: develop 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) forwards; }
+        @keyframes develop { 0% { opacity: 1; transform: translate(0, 0) scale(1.4) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(8deg); } }
+
+        /* ---------- Gallery ---------- */
+        .gallery { max-width: 1100px; margin: 0 auto; padding: calc(16px + var(--safe-top)) 14px calc(40px + var(--safe-bottom)); }
+        .gal-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .gal-top h2 { flex: 1; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
+        .gal-top h2 em { font-style: italic; }
+        .gal-count { font-size: 0.8rem; color: var(--muted); }
+        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 8px; scrollbar-width: none; }
+        .chips::-webkit-scrollbar { display: none; }
+        .chip { flex: none; padding: 8px 13px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); }
+        .chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+        @media (min-width: 700px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; } }
+        .tile { position: relative; aspect-ratio: 3 / 4; background: #1b1b1b; overflow: hidden; border-radius: 3px; }
+        .tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.6s; }
+        .tile img.in { opacity: 1; }
+        .tile.hidden-photo img { opacity: 0.25; }
+        .tile .tag { position: absolute; left: 4px; bottom: 4px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 0, 0, 0.65); font-size: 0.62rem; }
+        .gal-actions { display: grid; gap: 10px; margin: 18px 0 8px; }
+        .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.96); display: flex; flex-direction: column; }
+        .lb-top { display: flex; justify-content: space-between; align-items: center; padding: calc(10px + var(--safe-top)) 14px 10px; gap: 10px; }
+        .lb-cap { flex: 1; min-width: 0; font-size: 0.85rem; line-height: 1.4; }
+        .lb-cap span { display: block; color: var(--muted); font-size: 0.75rem; }
+        .lb-img { flex: 1; min-height: 0; display: grid; place-items: center; padding: 0 8px; }
+        .lb-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .lb-bar { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px 14px calc(16px + var(--safe-bottom)); }
+        .lb-bar .mid { display: flex; gap: 8px; justify-content: center; }
+        .small-btn { padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+        .small-btn.warn { border-color: var(--stamp); color: var(--stamp); }
+        @media (prefers-reduced-motion: reduce) { .flash.go, .developing { animation: none; opacity: 0; } }
+    </style>
+</head>
+<body>
+<main id="app">
+
+    <!-- Intro: who's shooting, the roll, the missions -->
+    <section id="intro" class="screen">
+        <div class="intro">
+            <header class="brand">
+                <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="52" height="38" rx="6" fill="none" stroke="#f5f2ec" stroke-width="2.5"/><circle cx="32" cy="35" r="11" fill="none" stroke="#ff8c2a" stroke-width="2.5"/><rect x="12" y="10" width="12" height="6" rx="1.5" fill="#f5f2ec"/><circle cx="49" cy="24" r="2.5" fill="#ff8c2a"/></svg>
+                <h1>The <em>Darkroom</em></h1>
+                <p>Jarrod &amp; Telicia · 25.04.2027</p>
+            </header>
+            <p class="lede" id="introLede">Opening your camera…</p>
+            <div id="introBody" hidden></div>
+            <p class="queue-line" id="introQueue" hidden></p>
+        </div>
+    </section>
+
+    <!-- Camera -->
+    <section id="camera" class="cam" hidden aria-label="Camera">
+        <div class="cam-top">
+            <button class="icon-btn" id="camClose" aria-label="Close the camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            <button class="who-pill" id="camWho" aria-label="Change who is shooting"></button>
+            <div class="counter" aria-live="polite"><b id="camLeft">24</b><span>left</span></div>
+        </div>
+        <div class="finder-wrap">
+            <div class="finder" id="finder">
+                <video id="viewfinder" playsinline muted autoplay></video>
+                <div class="vignette" id="vignette"></div>
+                <div class="date-preview" id="datePreview"></div>
+                <div class="cam-msg" id="camMsg" hidden></div>
+                <div class="uploads" id="camUploads" hidden></div>
+            </div>
+        </div>
+        <div class="mission-bar"><button class="mission-chip" id="missionChip">◎ Pick a photo mission</button></div>
+        <div class="films" id="films" role="radiogroup" aria-label="Film"></div>
+        <div class="controls">
+            <button class="icon-btn left" id="camFlip" aria-label="Switch camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13.5a2.5 2.5 0 0 0 4.6 1.3M14.5 12.5a2.5 2.5 0 0 0-4.6-1.3"/><path d="M14.4 15.6l-.3-.8.8-.3M9.6 10.4l-.3.8.8.3"/></svg></button>
+            <button class="shutter" id="shutter" aria-label="Take a photo"><i></i></button>
+            <button class="icon-btn right" id="camFlash" aria-label="Flash" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></button>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="screen" hidden>
+        <div class="gallery">
+            <div class="gal-top">
+                <button class="icon-btn" id="galBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+                <h2>The <em>Darkroom</em></h2>
+                <span class="gal-count" id="galCount"></span>
+            </div>
+            <p class="admin-note" id="galAdmin" hidden></p>
+            <div class="chips" id="galChips"></div>
+            <div class="grid" id="galGrid"></div>
+            <p class="note" id="galEmpty" hidden>No photos here yet.</p>
+            <div class="gal-actions"><a class="btn btn-ghost" id="galDownloadAll" target="_blank" rel="noopener" hidden>Download all the photos ↗</a></div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo">
+        <div class="lb-top">
+            <div class="lb-cap" id="lbCap"></div>
+            <button class="icon-btn" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <div class="lb-img"><img id="lbImg" alt=""></div>
+        <div class="lb-bar">
+            <button class="icon-btn" id="lbPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="mid"><a class="small-btn" id="lbSave" download>Save photo</a><button class="small-btn warn" id="lbHide" hidden>Hide</button></div>
+            <button class="icon-btn" id="lbNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+    </div>
+
+    <div class="flash" id="flash"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <input type="file" id="fileShot" accept="image/*" capture="environment" hidden>
+</main>
+
+<script>
+(function () {
+    'use strict';
+
+    // The same Google script as the RSVP. A local test can point it elsewhere with ?api= (localhost only).
+    var RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyinQ-3JaQqG4m9UJAm3d2eN2lzKSMWaDeW3NUkEY9FM4oy3LbTDbwJpCfqszZfyY4whw/exec';
+    var params = new URLSearchParams(location.search);
+    var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    var api = (isLocal && params.get('api')) || RSVP_ENDPOINT;
+    var STORE_KEY = 'jt-invite';      // set by the wedding site when an invite link is opened
+    var GUEST_KEY = 'jt-cam-guest';
+    var FILM_KEY = 'jt-cam-film';
+    var TZ = 'Africa/Johannesburg';
+
+    // ---------- Film stocks: the same recipe drives the live preview (CSS) and the saved photo (pixels) ----------
+    var FILMS = {
+        classic: { name: 'Classic', steps: [['saturate', 1.15], ['contrast', 1.05], ['sepia', 0.12], ['brightness', 1.03]], vignette: 0.28, grain: 0 },
+        noir: { name: 'Noir', steps: [['grayscale', 1], ['contrast', 1.25], ['brightness', 1.05]], vignette: 0.4, grain: 14 },
+        golden: { name: 'Golden Hour', steps: [['sepia', 0.35], ['saturate', 1.3], ['brightness', 1.06], ['contrast', 1.02]], vignette: 0.3, grain: 6 },
+        faded: { name: 'Faded', steps: [['contrast', 0.85], ['saturate', 0.75], ['brightness', 1.08], ['sepia', 0.15]], vignette: 0.22, grain: 10 }
+    };
+    var FILM_ORDER = ['classic', 'noir', 'golden', 'faded'];
+    var cssFilter = function (key) { return FILMS[key].steps.map(function (s) { return s[0] + '(' + s[1] + ')'; }).join(' '); };
+
+    // Colour matrices from the CSS filter spec, as rows of [r, g, b, offset]; offsets in 0–255
+    function stepMatrix(kind, a) {
+        var x = 1 - a;
+        if (kind === 'grayscale') return [[0.2126 + 0.7874 * x, 0.7152 - 0.7152 * x, 0.0722 - 0.0722 * x, 0], [0.2126 - 0.2126 * x, 0.7152 + 0.2848 * x, 0.0722 - 0.0722 * x, 0], [0.2126 - 0.2126 * x, 0.7152 - 0.7152 * x, 0.0722 + 0.9278 * x, 0]];
+        if (kind === 'sepia') return [[0.393 + 0.607 * x, 0.769 - 0.769 * x, 0.189 - 0.189 * x, 0], [0.349 - 0.349 * x, 0.686 + 0.314 * x, 0.168 - 0.168 * x, 0], [0.272 - 0.272 * x, 0.534 - 0.534 * x, 0.131 + 0.869 * x, 0]];
+        if (kind === 'saturate') return [[0.213 + 0.787 * a, 0.715 - 0.715 * a, 0.072 - 0.072 * a, 0], [0.213 - 0.213 * a, 0.715 + 0.285 * a, 0.072 - 0.072 * a, 0], [0.213 - 0.213 * a, 0.715 - 0.715 * a, 0.072 + 0.928 * a, 0]];
+        if (kind === 'brightness') return [[a, 0, 0, 0], [0, a, 0, 0], [0, 0, a, 0]];
+        if (kind === 'contrast') { var o = (0.5 - 0.5 * a) * 255; return [[a, 0, 0, o], [0, a, 0, o], [0, 0, a, o]]; }
+        return [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
+    }
+    function then(B, A) { // apply A, then B
+        var C = [];
+        for (var i = 0; i < 3; i++) {
+            C.push([]);
+            for (var j = 0; j < 4; j++) {
+                var v = j === 3 ? B[i][3] : 0;
+                for (var k = 0; k < 3; k++) v += B[i][k] * A[k][j];
+                C[i].push(v);
+            }
+        }
+        return C;
+    }
+    function filmMatrix(key) {
+        var m = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
+        FILMS[key].steps.forEach(function (s) { m = then(stepMatrix(s[0], s[1]), m); });
+        return m;
+    }
+
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    function stampText(d) {
+        var p = {};
+        new Intl.DateTimeFormat('en-GB', { timeZone: TZ, day: '2-digit', month: '2-digit', year: '2-digit' }).formatToParts(d).forEach(function (x) { p[x.type] = x.value; });
+        return p.day + ' ' + p.month + " '" + p.year;
+    }
+
+    /** Develops one frame: crop, film colour, grain, vignette and the orange date stamp. Returns a canvas. */
+    function develop(source, crop, filmKey, when) {
+        var MAX = 2400;
+        var scale = Math.min(1, MAX / Math.max(crop.sw, crop.sh));
+        var w = Math.round(crop.sw * scale), h = Math.round(crop.sh * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(source, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, w, h);
+        var film = FILMS[filmKey], m = filmMatrix(filmKey), g = film.grain;
+        var img = ctx.getImageData(0, 0, w, h), d = img.data;
+        var m00 = m[0][0], m01 = m[0][1], m02 = m[0][2], m03 = m[0][3];
+        var m10 = m[1][0], m11 = m[1][1], m12 = m[1][2], m13 = m[1][3];
+        var m20 = m[2][0], m21 = m[2][1], m22 = m[2][2], m23 = m[2][3];
+        for (var i = 0; i < d.length; i += 4) {
+            var r = d[i], gr = d[i + 1], b = d[i + 2];
+            var n = g ? (Math.random() - 0.5) * 2 * g : 0;
+            d[i] = m00 * r + m01 * gr + m02 * b + m03 + n;
+            d[i + 1] = m10 * r + m11 * gr + m12 * b + m13 + n;
+            d[i + 2] = m20 * r + m21 * gr + m22 * b + m23 + n;
+        }
+        ctx.putImageData(img, 0, 0);
+        var grad = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.36, w / 2, h / 2, Math.sqrt(w * w + h * h) / 2);
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(1, 'rgba(0,0,0,' + film.vignette + ')');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        var size = Math.round(Math.min(w, h) * 0.042);
+        ctx.font = '700 ' + size + 'px "Courier New", ui-monospace, monospace';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#ff8c2a';
+        ctx.shadowColor = 'rgba(255, 110, 20, 0.9)';
+        ctx.shadowBlur = size * 0.5;
+        ctx.fillText(stampText(when), w - size * 1.3, h - size * 1.1);
+        ctx.shadowBlur = 0;
+        return canvas;
+    }
+    function shrink(canvas, max) {
+        var s = Math.min(1, max / Math.max(canvas.width, canvas.height));
+        var c = document.createElement('canvas');
+        c.width = Math.round(canvas.width * s); c.height = Math.round(canvas.height * s);
+        c.getContext('2d').drawImage(canvas, 0, 0, c.width, c.height);
+        return c;
+    }
+    var toBlob = function (canvas, q) { return new Promise(function (res, rej) { canvas.toBlob(function (b) { b ? res(b) : rej(new Error('blob')); }, 'image/jpeg', q); }); };
+    var toBase64 = function (blob) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1] || ''); }; r.onerror = rej; r.readAsDataURL(blob); }); };
+    var wait = function (ms) { return new Promise(function (res) { setTimeout(res, ms); }); };
+    var uid = function () { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); };
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var $ = function (id) { return document.getElementById(id); };
+    var store = {
+        get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+        set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    };
+    function whenText(iso, withDay) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        return d.toLocaleDateString('en-ZA', { timeZone: TZ, weekday: withDay ? 'long' : undefined, day: 'numeric', month: 'long' }) + ' at ' +
+            d.toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    var timeText = function (iso) { return new Date(iso).toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }); };
+
+    // ---------- Talking to the script (retries quietly when lots of guests send at once) ----------
+    var RETRY_DELAYS = [2000, 4000, 8000];
+    function postJson(payload) {
+        var attempt = 0;
+        var send = function () {
+            return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(function (r) { return r.text(); })
+                .then(function (text) {
+                    var d;
+                    try { d = JSON.parse(text); } catch (e) { d = { ok: false, error: 'busy' }; }
+                    if (d && d.error === 'busy' && attempt < RETRY_DELAYS.length) {
+                        var ms = RETRY_DELAYS[attempt++] + Math.floor(Math.random() * 1000);
+                        return wait(ms).then(send);
+                    }
+                    return d;
+                });
+        };
+        return send();
+    }
+    var getJson = function (query) { return fetch(api + '?' + query).then(function (r) { return r.json(); }); };
+
+    // ---------- Photos wait on the phone until they're safely uploaded ----------
+    var db = null;
+    function openDb() {
+        return new Promise(function (res, rej) {
+            try {
+                var req = indexedDB.open('jt-darkroom', 1);
+                req.onupgradeneeded = function () { req.result.createObjectStore('shots', { keyPath: 'id' }); };
+                req.onsuccess = function () { res(req.result); };
+                req.onerror = function () { rej(req.error); };
+            } catch (e) { rej(e); }
+        });
+    }
+    function dbDo(mode, fn) {
+        return new Promise(function (res, rej) {
+            var t = db.transaction('shots', mode);
+            var req = fn(t.objectStore('shots'));
+            t.oncomplete = function () { res(req ? req.result : undefined); };
+            t.onerror = t.onabort = function () { rej(t.error); };
+        });
+    }
+    var putShot = function (s) { return dbDo('readwrite', function (os) { return os.put(s); }); };
+    var dropShot = function (id) { return dbDo('readwrite', function (os) { return os.delete(id); }); };
+    var allShots = function () { return dbDo('readonly', function (os) { return os.getAll(); }); };
+
+    // ---------- State ----------
+    var code = '';
+    var info = null;           // camStatus answer
+    var guest = '';            // who's shooting
+    var queued = {};           // photos waiting on this phone, per guest
+    var film = FILM_ORDER.indexOf(store.get(FILM_KEY)) !== -1 ? store.get(FILM_KEY) : 'classic';
+    var mission = '';
+    var stream = null, facing = 'environment', flashOn = false, torch = false, noLiveCamera = false;
+    var shooting = false;
+
+    var guestInfo = function () { return info.guests.filter(function (g) { return g.name === guest; })[0]; };
+    var leftFor = function (name) {
+        var g = info.guests.filter(function (x) { return x.name === name; })[0];
+        return Math.max(0, info.shots - (g ? g.used : 0) - (queued[name] || 0));
+    };
+    var firstName = function (n) { return String(n).split(' ')[0]; };
+
+    /** Where the camera is right now, for this guest (admins can always shoot, to test). */
+    function phaseNow() {
+        if (!info) return 'before';
+        if (info.admin) return 'open';
+        var t = Date.now(), grace = 15 * 60 * 1000;
+        if (!info.opens || t < Date.parse(info.opens) - grace) return 'before';
+        if (t > Date.parse(info.closes) + grace) return 'closed';
+        if (info.pauseStart && t >= Date.parse(info.pauseStart) && t < Date.parse(info.pauseEnd)) return 'paused';
+        return 'open';
+    }
+    var revealedNow = function () { return !!info && !!info.reveal && Date.now() >= Date.parse(info.reveal); };
+
+    // ---------- Toast + little touches ----------
+    var toastTimer = null;
+    function toast(msg) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+    }
+    var audio = null;
+    function shutterSound() {
+        try {
+            audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+            var len = Math.floor(audio.sampleRate * 0.09);
+            var buf = audio.createBuffer(1, len, audio.sampleRate), ch = buf.getChannelData(0);
+            for (var i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 4) * (i < len * 0.12 ? 1 : 0.45);
+            var src = audio.createBufferSource(), gain = audio.createGain();
+            src.buffer = buf; gain.gain.value = 0.55;
+            src.connect(gain); gain.connect(audio.destination);
+            src.start();
+        } catch (e) {}
+        if (navigator.vibrate) navigator.vibrate(25);
+    }
+    function developingAnim() {
+        var finder = $('finder').getBoundingClientRect(), counter = $('camLeft').getBoundingClientRect();
+        var el = document.createElement('div');
+        el.className = 'developing';
+        var x = finder.left + finder.width / 2 - 32, y = finder.top + finder.height / 2 - 43;
+        el.style.left = x + 'px'; el.style.top = y + 'px';
+        el.style.setProperty('--dx', (counter.left - x) + 'px');
+        el.style.setProperty('--dy', (counter.top - y) + 'px');
+        document.body.appendChild(el);
+        setTimeout(function () { el.remove(); }, 1000);
+    }
+
+    // ---------- Intro ----------
+    function showScreen(id) {
+        ['intro', 'camera', 'gallery'].forEach(function (s) { $(s).hidden = s !== id; });
+        if (id !== 'camera') stopCamera();
+        window.scrollTo(0, 0);
+    }
+    function introMessage(lede, extra) {
+        $('introLede').innerHTML = lede;
+        $('introBody').innerHTML = extra || '';
+        $('introBody').hidden = !extra;
+        showScreen('intro');
+    }
+    function renderIntro() {
+        var phase = phaseNow(), revealed = revealedNow();
+        var g = guestInfo();
+        var html = '';
+        if (info.admin) {
+            html += '<p class="admin-note">You’re an admin: the camera is always open for you to test, and you can preview and hide photos before they develop. Clear test shots with RSVP → 7 in the sheet.</p>';
+        }
+        if (info.guests.length > 1) {
+            html += '<div class="card"><span class="eyebrow">Who’s shooting?</span><div class="who">' + info.guests.map(function (x) {
+                return '<label><input type="radio" name="who" value="' + esc(x.name) + '"' + (x.name === guest ? ' checked' : '') + '><span>' + esc(x.name) + '</span></label>';
+            }).join('') + '</div></div>';
+        }
+        html += '<div class="card roll"><div><span class="eyebrow">' + esc(firstName(g.name)) + '’s roll</span><b class="stampy">' + leftFor(g.name) + '</b><span>of ' + info.shots + ' shots left</span></div>' +
+            '<div><span class="eyebrow">Photos develop</span><b>' + (info.reveal ? esc(new Date(info.reveal).toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' })) : 'Soon') + '</b><span>' + (info.reveal ? esc(timeText(info.reveal)) + ', for everyone at once' : '') + '</span></div></div>';
+        if (info.missions.length) {
+            html += '<div class="card"><span class="eyebrow">Photo missions (optional)</span><ul class="missions">' + info.missions.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>';
+        }
+        if (phase === 'open') html += '<button class="btn btn-solid" id="openCam"' + (leftFor(g.name) ? '' : ' disabled') + '>' + (leftFor(g.name) ? 'Open the camera' : 'Roll finished') + '</button>';
+        if (revealed || info.admin) html += '<button class="btn ' + (phase === 'open' ? 'btn-ghost' : 'btn-solid') + '" id="openGal">' + (revealed ? 'See the photos' : 'Preview the photos') + '</button>';
+        html += '<p class="note">' + (phase === 'open'
+            ? 'Like a real disposable: no previews, no retakes. Your photos stay on this phone until they’ve uploaded, so it’s fine if the signal drops.'
+            : 'Every photo stays hidden until they all develop together.') + '</p>';
+
+        var lede;
+        if (revealed) lede = 'The photos have <em>developed</em>. Every guest’s roll, all in one place.';
+        else if (phase === 'open') lede = 'A disposable camera for our wedding. Shoot the night through your eyes; we’ll see it all when the photos develop.';
+        else if (phase === 'paused') lede = 'The camera is resting for the ceremony. It’s back at <span class="note-strong">' + esc(timeText(info.pauseEnd)) + '</span>.';
+        else if (phase === 'closed') lede = 'The camera is closed. Thank you for every shot! The photos develop on ' + esc(whenText(info.reveal, true)) + '.';
+        else lede = 'Your disposable camera for our wedding. It opens on ' + esc(whenText(info.opens, true)) + '.';
+        introMessage(lede, html);
+
+        document.querySelectorAll('input[name="who"]').forEach(function (r) {
+            r.addEventListener('change', function () { guest = r.value; store.set(GUEST_KEY, guest); renderIntro(); });
+        });
+        if ($('openCam')) $('openCam').addEventListener('click', openCamera);
+        if ($('openGal')) $('openGal').addEventListener('click', openGallery);
+        renderQueue();
+    }
+
+    function renderQueue() {
+        var total = Object.keys(queued).reduce(function (n, k) { return n + queued[k]; }, 0);
+        var line = $('introQueue'), pill = $('camUploads');
+        if (!total && !everQueued) { line.hidden = true; pill.hidden = true; return; }
+        var text = total ? total + ' photo' + (total === 1 ? '' : 's') + ' waiting to upload. Keep this page open.' : 'All your photos are safely uploaded ✓';
+        line.hidden = false; line.textContent = text; line.classList.toggle('pending', !!total);
+        pill.hidden = false; pill.textContent = total ? total + ' developing…' : 'All safe ✓'; pill.classList.toggle('pending', !!total);
+    }
+    var everQueued = false;
+
+    // ---------- Camera ----------
+    function stopCamera() {
+        if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+        stream = null; torch = false;
+    }
+    function fakeStream() { // localhost only: a moving test picture instead of a real camera
+        var c = document.createElement('canvas'); c.width = 960; c.height = 1280;
+        var ctx = c.getContext('2d'), t0 = Date.now();
+        (function draw() {
+            var t = (Date.now() - t0) / 1000;
+            var g = ctx.createLinearGradient(0, 0, 960, 1280);
+            g.addColorStop(0, '#5b8bd1'); g.addColorStop(0.6, '#e6a26b'); g.addColorStop(1, '#3a6b3f');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, 960, 1280);
+            ctx.fillStyle = '#f6e7cf'; ctx.beginPath(); ctx.arc(480 + Math.sin(t) * 140, 520, 150, 0, 7); ctx.fill();
+            ctx.fillStyle = '#222'; ctx.font = '700 64px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('TEST CAMERA', 480, 1000);
+            requestAnimationFrame(draw);
+        })();
+        return c.captureStream(30);
+    }
+    function startCamera() {
+        stopCamera();
+        var video = $('viewfinder');
+        $('camMsg').hidden = true;
+        var get = isLocal && params.get('fakecam')
+            ? Promise.resolve(fakeStream())
+            : (navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+                ? navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: facing }, width: { ideal: 2560 }, height: { ideal: 1920 } } })
+                : Promise.reject(new Error('no camera')));
+        return get.then(function (s) {
+            stream = s;
+            noLiveCamera = false;
+            video.srcObject = s;
+            video.classList.toggle('mirror', facing === 'user');
+            var track = s.getVideoTracks()[0];
+            var caps = track && track.getCapabilities ? track.getCapabilities() : {};
+            torch = !!(caps && caps.torch);
+            $('camFlash').hidden = !(torch || facing === 'user');
+            return video.play();
+        }).catch(function () {
+            // No live viewfinder (an older phone or an in-app browser): the shutter opens the phone's own camera instead
+            noLiveCamera = true;
+            $('camFlash').hidden = true;
+            $('camMsg').innerHTML = 'Your browser can’t show a live viewfinder here.<br>Tap the shutter to use your phone’s camera; your film look is added afterwards.<br><br><span style="font-size:.8rem">Tip: open this page in Safari or Chrome for the full camera.</span>';
+            $('camMsg').hidden = false;
+        });
+    }
+    function applyFilm() {
+        $('viewfinder').style.filter = cssFilter(film);
+        $('vignette').style.opacity = FILMS[film].vignette * 1.6;
+        document.querySelectorAll('.film').forEach(function (b) {
+            var on = b.getAttribute('data-film') === film;
+            b.classList.toggle('on', on);
+            b.setAttribute('aria-checked', String(on));
+        });
+    }
+    function renderCamTop() {
+        var g = guestInfo();
+        $('camWho').textContent = (info.guests.length > 1 ? firstName(g.name) + ' is shooting · change' : g.name);
+        $('camLeft').textContent = leftFor(g.name);
+        $('shutter').disabled = !leftFor(g.name);
+        $('datePreview').textContent = stampText(new Date());
+        var chip = $('missionChip');
+        chip.textContent = mission ? '◎ ' + mission : '◎ Pick a photo mission';
+        chip.classList.toggle('active', !!mission);
+        chip.hidden = !info.missions.length;
+    }
+    function openCamera() {
+        if (!db) return;
+        showScreen('camera');
+        applyFilm();
+        renderCamTop();
+        renderQueue();
+        startCamera();
+    }
+    function cropFor(w, h) { // the 3:4 portrait frame the viewfinder shows
+        var target = 3 / 4;
+        if (w / h > target) { var sw = h * target; return { sx: (w - sw) / 2, sy: 0, sw: sw, sh: h }; }
+        var sh = w / target;
+        return { sx: 0, sy: (h - sh) / 2, sw: w, sh: sh };
+    }
+    function saveShot(source, crop, when) {
+        var g = guestInfo();
+        var canvas = develop(source, crop, film, when);
+        return Promise.all([toBlob(canvas, 0.86), toBlob(shrink(canvas, 480), 0.72)]).then(function (b) {
+            return putShot({ id: uid(), code: code, guest: g.name, takenAt: when.getTime(), film: film, mission: mission, image: b[0], thumb: b[1] });
+        }).then(function () {
+            queued[g.name] = (queued[g.name] || 0) + 1;
+            everQueued = true;
+            renderCamTop();
+            renderQueue();
+            developingAnim();
+            if (!leftFor(g.name)) toast('That’s the whole roll! Your photos develop on ' + whenText(info.reveal, true) + '.');
+            pump();
+        });
+    }
+    function shoot() {
+        if (shooting) return;
+        var phase = phaseNow();
+        if (phase !== 'open') { toast(phase === 'paused' ? 'The camera is resting for the ceremony.' : 'The camera isn’t open right now.'); return renderIntro(); }
+        if (!leftFor(guest)) return toast('That’s the whole roll!');
+        if (noLiveCamera) return $('fileShot').click();
+        var video = $('viewfinder');
+        if (!video.videoWidth) return toast('The camera is still waking up.');
+        shooting = true;
+        var when = new Date();
+        var go = function () {
+            shutterSound();
+            var fl = $('flash');
+            fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
+            // Let the flash paint before the heavy developing work
+            setTimeout(function () {
+                saveShot(video, cropFor(video.videoWidth, video.videoHeight), when)
+                    .catch(function () { toast('That shot didn’t save. Please try again.'); })
+                    .then(function () { shooting = false; });
+            }, 40);
+        };
+        if (flashOn && torch && stream) {
+            var track = stream.getVideoTracks()[0];
+            track.applyConstraints({ advanced: [{ torch: true }] }).catch(function () {})
+                .then(function () { return wait(350); })
+                .then(function () { go(); return wait(200); })
+                .then(function () { track.applyConstraints({ advanced: [{ torch: false }] }).catch(function () {}); });
+        } else if (flashOn && facing === 'user') {
+            var fl = $('flash');
+            fl.classList.add('selfie');
+            setTimeout(function () { go(); setTimeout(function () { fl.classList.remove('selfie'); }, 120); }, 260);
+        } else go();
+    }
+
+    // ---------- Upload queue: one photo at a time, as signal allows ----------
+    var UPLOAD_ERRORS = { limit: 'One photo was over your roll and couldn’t be saved.', closed: 'One photo was taken after the camera closed.', not_open: 'One photo was taken before the camera opened.', paused: 'One photo was taken during the ceremony pause.', not_found: 'We couldn’t find your invitation for one photo.', bad_request: 'One photo couldn’t be read.' };
+    var pumping = false;
+    function pump() {
+        if (pumping || !db) return;
+        pumping = true;
+        allShots().then(function (shots) {
+            var mine = shots.filter(function (s) { return s.code === code; }).sort(function (a, b) { return a.takenAt - b.takenAt; });
+            queued = {};
+            mine.forEach(function (s) { queued[s.guest] = (queued[s.guest] || 0) + 1; });
+            renderQueue();
+            if (info && $('camera').hidden === false) renderCamTop();
+            if (!mine.length) { pumping = false; return; }
+            everQueued = true;
+            var s = mine[0];
+            return Promise.all([toBase64(s.image), toBase64(s.thumb)])
+                .then(function (b) { return postJson({ action: 'camUpload', code: s.code, guest: s.guest, id: s.id, takenAt: s.takenAt, film: s.film, mission: s.mission, image: b[0], thumb: b[1] }); })
+                .then(function (res) {
+                    if (res.ok) {
+                        var g = info && info.guests.filter(function (x) { return x.name === s.guest; })[0];
+                        if (g && typeof res.used === 'number') g.used = res.used;
+                        return dropShot(s.id).then(function () { pumping = false; pump(); });
+                    }
+                    if (res.error === 'busy') return wait(6000).then(function () { pumping = false; pump(); });
+                    // A firm no (over the roll, outside the hours): this photo can't be kept; let the rest go
+                    return dropShot(s.id).then(function () { toast(UPLOAD_ERRORS[res.error] || 'One photo couldn’t be saved.'); pumping = false; pump(); });
+                });
+        }).catch(function () {
+            // No signal: try again shortly, or as soon as the phone is back online
+            pumping = false;
+            renderQueue();
+            setTimeout(pump, 10000);
+        });
+    }
+    window.addEventListener('online', pump);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) pump(); });
+    window.addEventListener('beforeunload', function (e) {
+        var total = Object.keys(queued).reduce(function (n, k) { return n + queued[k]; }, 0);
+        if (total) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    // ---------- Gallery ----------
+    var gal = { photos: [], view: [], filter: 'all', open: -1 };
+    function openGallery() {
+        showScreen('gallery');
+        $('galGrid').innerHTML = '';
+        $('galCount').textContent = 'Loading…';
+        getJson('action=camGallery&code=' + encodeURIComponent(code)).then(function (d) {
+            if (!d.ok || (!d.revealed && !d.admin)) { renderIntro(); return; }
+            gal.photos = d.photos || [];
+            gal.admin = !!d.admin;
+            $('galAdmin').hidden = !(d.admin && !d.revealed);
+            $('galAdmin').textContent = 'Preview: only admins can see this until ' + whenText(d.reveal, true) + '. Hidden photos never reach guests.';
+            var dl = $('galDownloadAll');
+            dl.hidden = !d.folderLink;
+            if (d.folderLink) dl.href = d.folderLink;
+            var used = {};
+            gal.photos.forEach(function (p) { if (p.mission) used[p.mission] = true; });
+            var chips = [['all', 'All']].concat(d.missions.filter(function (m) { return used[m]; }).map(function (m) { return [m, m]; }));
+            $('galChips').innerHTML = chips.length > 1 ? chips.map(function (c) { return '<button class="chip" data-chip="' + esc(c[0]) + '">' + esc(c[1]) + '</button>'; }).join('') : '';
+            $('galChips').querySelectorAll('[data-chip]').forEach(function (b) {
+                b.addEventListener('click', function () { gal.filter = b.getAttribute('data-chip'); renderGrid(); });
+            });
+            gal.filter = 'all';
+            renderGrid();
+        }).catch(function () { $('galCount').textContent = 'Couldn’t load. Check your signal.'; });
+    }
+    var thumbCache = {};
+    function renderGrid() {
+        gal.view = gal.photos.filter(function (p) { return gal.filter === 'all' || p.mission === gal.filter; });
+        $('galChips').querySelectorAll('[data-chip]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-chip') === gal.filter); });
+        $('galCount').textContent = gal.view.length + ' photo' + (gal.view.length === 1 ? '' : 's');
+        $('galEmpty').hidden = !!gal.view.length;
+        $('galGrid').innerHTML = gal.view.map(function (p, i) {
+            return '<button class="tile' + (p.hidden ? ' hidden-photo' : '') + '" data-i="' + i + '" aria-label="Photo by ' + esc(p.guest) + '"><img alt="" data-id="' + esc(p.id) + '">' + (p.hidden ? '<span class="tag">Hidden</span>' : '') + '</button>';
+        }).join('');
+        $('galGrid').querySelectorAll('.tile').forEach(function (t) { t.addEventListener('click', function () { openPhoto(Number(t.getAttribute('data-i'))); }); });
+        loadThumbs();
+    }
+    var thumbRun = 0;
+    function loadThumbs() {
+        var run = ++thumbRun;
+        var ids = gal.view.map(function (p) { return p.id; });
+        var show = function (id) {
+            var img = $('galGrid').querySelector('img[data-id="' + id + '"]');
+            if (img && thumbCache[id]) { img.src = thumbCache[id]; img.onload = function () { img.classList.add('in'); }; }
+        };
+        ids.forEach(show);
+        var missing = ids.filter(function (id) { return !thumbCache[id]; });
+        var next = function () {
+            if (run !== thumbRun || !missing.length) return;
+            var batch = missing.splice(0, 12);
+            getJson('action=camImages&code=' + encodeURIComponent(code) + '&ids=' + encodeURIComponent(batch.join(','))).then(function (d) {
+                Object.keys((d && d.images) || {}).forEach(function (id) { thumbCache[id] = 'data:image/jpeg;base64,' + d.images[id]; show(id); });
+                next();
+            }).catch(function () { setTimeout(next, 4000); });
+        };
+        next();
+    }
+    var fullUrl = null;
+    function openPhoto(i) {
+        if (i < 0 || i >= gal.view.length) return;
+        gal.open = i;
+        var p = gal.view[i];
+        $('lightbox').hidden = false;
+        $('lbCap').innerHTML = esc(p.guest) + '<span>' + esc(FILMS[p.film] ? FILMS[p.film].name : '') + (p.mission ? ' · ' + esc(p.mission) : '') + ' · ' + esc(timeText(p.takenAt)) + '</span>';
+        var img = $('lbImg');
+        img.src = thumbCache[p.id] || '';
+        var save = $('lbSave');
+        save.removeAttribute('href');
+        save.textContent = 'Loading…';
+        $('lbHide').hidden = !gal.admin;
+        $('lbHide').textContent = p.hidden ? 'Unhide' : 'Hide';
+        getJson('action=camImages&full=1&code=' + encodeURIComponent(code) + '&ids=' + encodeURIComponent(p.id)).then(function (d) {
+            if (gal.open !== i || !d.images || !d.images[p.id]) return;
+            var bin = atob(d.images[p.id]), bytes = new Uint8Array(bin.length);
+            for (var k = 0; k < bin.length; k++) bytes[k] = bin.charCodeAt(k);
+            if (fullUrl) URL.revokeObjectURL(fullUrl);
+            fullUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/jpeg' }));
+            img.src = fullUrl;
+            save.href = fullUrl;
+            save.download = 'Jarrod-Telicia-' + firstName(p.guest) + '-' + p.id.slice(0, 6) + '.jpg';
+            save.textContent = 'Save photo';
+        }).catch(function () { save.textContent = 'Couldn’t load'; });
+    }
+    $('lbClose').addEventListener('click', function () { $('lightbox').hidden = true; gal.open = -1; });
+    $('lbPrev').addEventListener('click', function () { openPhoto(gal.open - 1); });
+    $('lbNext').addEventListener('click', function () { openPhoto(gal.open + 1); });
+    document.addEventListener('keydown', function (e) {
+        if ($('lightbox').hidden) return;
+        if (e.key === 'Escape') $('lbClose').click();
+        if (e.key === 'ArrowLeft') $('lbPrev').click();
+        if (e.key === 'ArrowRight') $('lbNext').click();
+    });
+    $('lbHide').addEventListener('click', function () {
+        var p = gal.view[gal.open];
+        if (!p) return;
+        var hide = !p.hidden;
+        $('lbHide').disabled = true;
+        postJson({ action: 'camHide', code: code, id: p.id, hidden: hide }).then(function (res) {
+            $('lbHide').disabled = false;
+            if (!res.ok) return toast('Couldn’t change that. Try again.');
+            p.hidden = hide;
+            $('lbHide').textContent = hide ? 'Unhide' : 'Hide';
+            toast(hide ? 'Hidden from guests' : 'Back in the gallery');
+            var tile = $('galGrid').querySelector('[data-i="' + gal.open + '"]');
+            if (tile) {
+                tile.classList.toggle('hidden-photo', hide);
+                var tag = tile.querySelector('.tag');
+                if (hide && !tag) tile.insertAdjacentHTML('beforeend', '<span class="tag">Hidden</span>');
+                if (!hide && tag) tag.remove();
+            }
+        });
+    });
+    $('galBack').addEventListener('click', function () { renderIntro(); });
+
+    // ---------- Wiring ----------
+    $('films').innerHTML = FILM_ORDER.map(function (k) {
+        return '<button class="film film-' + k + '" role="radio" data-film="' + k + '"><i></i>' + FILMS[k].name + '</button>';
+    }).join('');
+    $('films').querySelectorAll('.film').forEach(function (b) {
+        b.addEventListener('click', function () { film = b.getAttribute('data-film'); store.set(FILM_KEY, film); applyFilm(); });
+    });
+    $('missionChip').addEventListener('click', function () {
+        var list = [''].concat(info.missions);
+        mission = list[(list.indexOf(mission) + 1) % list.length];
+        renderCamTop();
+        if (mission) toast('Mission: ' + mission);
+    });
+    $('camWho').addEventListener('click', function () {
+        if (info.guests.length < 2) return;
+        var names = info.guests.map(function (g) { return g.name; });
+        guest = names[(names.indexOf(guest) + 1) % names.length];
+        store.set(GUEST_KEY, guest);
+        renderCamTop();
+        toast(firstName(guest) + ' is shooting · ' + leftFor(guest) + ' left');
+    });
+    $('camClose').addEventListener('click', renderIntro);
+    $('shutter').addEventListener('click', shoot);
+    $('camFlip').addEventListener('click', function () { facing = facing === 'user' ? 'environment' : 'user'; $('fileShot').setAttribute('capture', facing); startCamera(); });
+    $('camFlash').addEventListener('click', function () {
+        flashOn = !flashOn;
+        $('camFlash').classList.toggle('on', flashOn);
+        $('camFlash').setAttribute('aria-pressed', String(flashOn));
+    });
+    $('fileShot').addEventListener('change', function () {
+        var f = this.files && this.files[0];
+        this.value = '';
+        if (!f) return;
+        var when = new Date();
+        var img = new Image();
+        img.onload = function () {
+            var w = img.naturalWidth, h = img.naturalHeight;
+            var crop = h >= w ? cropFor(w, h) : { sx: 0, sy: 0, sw: w, sh: h };
+            shutterSound();
+            saveShot(img, crop, when).catch(function () { toast('That shot didn’t save. Please try again.'); }).then(function () { URL.revokeObjectURL(img.src); });
+        };
+        img.src = URL.createObjectURL(f);
+    });
+
+    // ---------- Start ----------
+    function start() {
+        var fromLink = (params.get('invite') || '').trim().toUpperCase();
+        code = fromLink || (store.get(STORE_KEY) || '').toUpperCase();
+        if (!code) {
+            return introMessage('This camera is for our wedding guests.', '<p class="note">Open your personal invitation link from WhatsApp once on this phone, then scan the table card again.</p>');
+        }
+        openDb().then(function (d) { db = d; }).catch(function () { db = null; }).then(function () {
+            return getJson('action=camStatus&code=' + encodeURIComponent(code));
+        }).then(function (d) {
+            if (!d.ok) {
+                return introMessage('We couldn’t find your invitation.', '<p class="note">Open your personal invitation link from WhatsApp, then try the camera again.</p>');
+            }
+            info = d;
+            if (fromLink) store.set(STORE_KEY, code);
+            var saved = store.get(GUEST_KEY);
+            guest = d.guests.some(function (g) { return g.name === saved; }) ? saved : d.guests[0].name;
+            if (!db) {
+                return introMessage('This browser can’t keep photos safe on your phone.', '<p class="note">It may be a private or incognito tab. Open the camera in a normal Safari or Chrome tab so no photo gets lost.</p>');
+            }
+            if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+            renderIntro();
+            pump();
+        }).catch(function () {
+            introMessage('We couldn’t reach the camera.', '<p class="note">Check your signal and refresh the page. Any photos already taken are safe on this phone.</p>');
+            setTimeout(start, 15000);
+        });
+    }
+    start();
+})();
+</script>
+</body>
+</html>
