@@ -86,11 +86,26 @@
         .icon-btn svg { width: 20px; height: 20px; }
         .icon-btn.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
         .who-pill { flex: 1; min-width: 0; text-align: center; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 12px 10px; border: 1px solid var(--night-line); border-radius: 999px; }
-        .counter { min-width: 58px; text-align: right; line-height: 1; }
+        .counter { flex: none; min-width: 64px; text-align: right; line-height: 1; }
         .counter b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.9rem; }
         .counter span { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--night-muted); }
-        .finder-wrap { flex: 1; display: grid; place-items: center; min-height: 0; }
-        .finder { position: relative; width: min(100vw, calc((100dvh - 262px - var(--safe-top) - var(--safe-bottom)) * 0.75)); aspect-ratio: 3 / 4; overflow: hidden; background: #111; }
+        /* The viewfinder takes exactly the room left between the top bar and the controls, on any screen
+           (including WhatsApp's in-app browser, which is shorter): 3:4, as big as fits, never overlapping. */
+        .finder-wrap { flex: 1 1 0; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 4px 16px; container-type: size; overflow: hidden; }
+        .finder { position: relative; flex: none; width: min(100vw - 32px, (100dvh - 360px) * 0.75); width: min(100cqw, 75cqh); aspect-ratio: 3 / 4; overflow: hidden; background: #111; border-radius: 4px; }
+        .corners { position: absolute; inset: 6px; pointer-events: none; opacity: 0.85;
+            background:
+                linear-gradient(#fff, #fff) left top / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) left top / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) right top / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) right top / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) left bottom / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) left bottom / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) right bottom / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) right bottom / 1.5px 16px no-repeat; }
+        /* Shutter curtains: closed until the camera is live, then they slide open */
+        .curtain { position: absolute; left: 0; right: 0; height: 50.5%; background: #050505; z-index: 3; transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1); pointer-events: none; }
+        .curtain.top { top: 0; border-bottom: 1px solid #1d1d1d; }
+        .curtain.bottom { bottom: 0; border-top: 1px solid #1d1d1d; }
+        .finder.live .curtain.top { transform: translateY(-101%); }
+        .finder.live .curtain.bottom { transform: translateY(101%); }
+        .finder.blink .curtain { transition-duration: 0.09s; transform: none !important; }
         .finder video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
         .finder video.mirror { transform: scaleX(-1); }
         .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 1) 100%); opacity: 0.3; transition: opacity 0.3s; }
@@ -190,6 +205,9 @@
             <div class="finder" id="finder">
                 <video id="viewfinder" playsinline muted autoplay></video>
                 <div class="vignette" id="vignette"></div>
+                <div class="corners" aria-hidden="true"></div>
+                <div class="curtain top" aria-hidden="true"></div>
+                <div class="curtain bottom" aria-hidden="true"></div>
                 <div class="date-preview" id="datePreview"></div>
                 <div class="cam-msg" id="camMsg" hidden></div>
                 <div class="uploads" id="camUploads" hidden></div>
@@ -572,7 +590,10 @@
     function stopCamera() {
         if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
         stream = null; torch = false;
+        $('finder').classList.remove('live');
     }
+    // The shutter curtains slide open once there's a picture to show
+    var openCurtains = function () { setTimeout(function () { $('finder').classList.add('live'); }, 120); };
     function fakeStream() { // localhost only: a moving test picture instead of a real camera
         var c = document.createElement('canvas'); c.width = 960; c.height = 1280;
         var ctx = c.getContext('2d'), t0 = Date.now();
@@ -605,8 +626,9 @@
             var caps = track && track.getCapabilities ? track.getCapabilities() : {};
             torch = !!(caps && caps.torch);
             $('camFlash').hidden = !(torch || facing === 'user');
-            return video.play();
+            return video.play().then(openCurtains);
         }).catch(function () {
+            openCurtains();
             // No live viewfinder (an older phone or an in-app browser): the shutter opens the phone's own camera instead
             noLiveCamera = true;
             $('camFlash').hidden = true;
@@ -693,6 +715,10 @@
             shutterSound();
             var fl = $('flash');
             fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
+            // The curtains snap shut and open again, like a real shutter
+            var finder = $('finder');
+            finder.classList.add('blink');
+            setTimeout(function () { finder.classList.remove('blink'); }, 110);
             // Let the flash paint before the heavy developing work
             setTimeout(function () {
                 saveShot(video, cropFor(video.videoWidth, video.videoHeight), when)
