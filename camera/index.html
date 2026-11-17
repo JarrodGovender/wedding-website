@@ -4,142 +4,160 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#0b0b0b">
+    <meta name="theme-color" content="#ffffff">
     <title>The Darkroom | Jarrod & Telicia</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230b0b0b'/%3E%3Ccircle cx='32' cy='34' r='14' fill='none' stroke='%23ff8c2a' stroke-width='4'/%3E%3Crect x='14' y='18' width='12' height='6' rx='2' fill='%23ff8c2a'/%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ccircle cx='32' cy='34' r='14' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3Crect x='14' y='18' width='12' height='6' rx='2' fill='%23ffffff'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* Black and white, like the wedding site: paper pages, an ink-black camera, Playfair + Inter */
         :root {
-            --bg: #0b0b0b;
-            --panel: #161616;
-            --line: rgba(255, 255, 255, 0.14);
-            --ink: #f5f2ec;
-            --muted: rgba(245, 242, 236, 0.62);
-            --stamp: #ff8c2a;
-            --serif: 'Playfair Display', Georgia, serif;
+            --ink: #0a0a0a;
+            --paper: #ffffff;
+            --stone: #f3f3f3;
+            --muted: #555555;
+            --line: rgba(0, 0, 0, 0.14);
+            --night: #000000;
+            --night-line: rgba(255, 255, 255, 0.18);
+            --night-muted: rgba(255, 255, 255, 0.62);
+            --serif: 'Playfair Display', 'Didot', Georgia, serif;
             --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        html, body { min-height: 100%; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
         body { overscroll-behavior: none; }
         button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
         a.btn, a.small-btn { color: inherit; text-decoration: none; text-align: center; }
         [hidden] { display: none !important; }
         .screen { min-height: 100dvh; }
+        .eyebrow { display: block; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 
-        /* ---------- Intro ---------- */
-        .intro { max-width: 520px; margin: 0 auto; padding: calc(40px + var(--safe-top)) 24px calc(40px + var(--safe-bottom)); display: flex; flex-direction: column; gap: 28px; }
+        /* ---------- Intro (paper) ---------- */
+        .intro { max-width: 540px; margin: 0 auto; padding: calc(48px + var(--safe-top)) 24px calc(48px + var(--safe-bottom)); display: flex; flex-direction: column; gap: 28px; }
         .brand { text-align: center; }
-        .brand-mark { width: 56px; height: 56px; margin: 0 auto 18px; }
-        .brand h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 11vw, 3.4rem); line-height: 1; letter-spacing: -0.01em; }
+        .brand .kicker { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--muted); }
+        .brand h1 { margin: 14px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 14vw, 4.2rem); line-height: 0.95; letter-spacing: -0.02em; }
         .brand h1 em { font-style: italic; }
-        .brand p { margin-top: 12px; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
-        .lede { font-family: var(--serif); font-size: 1.15rem; line-height: 1.5; text-align: center; color: var(--ink); }
-        .card { border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px; background: var(--panel); }
-        .eyebrow { display: block; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-        .roll { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .roll b { display: block; font-family: var(--serif); font-size: 1.6rem; font-weight: 400; }
-        .roll .stampy { color: var(--stamp); }
+        .brand .rule { width: 1px; height: 36px; margin: 22px auto 0; background: var(--ink); }
+        .brand p { margin-top: 18px; font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; }
+        .lede { font-family: var(--serif); font-size: 1.2rem; line-height: 1.5; text-align: center; }
+        .lede em { font-style: italic; }
+        .card { border-top: 1px solid var(--ink); padding-top: 18px; }
+        .roll { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .roll b { display: block; font-family: var(--serif); font-size: 2.2rem; font-weight: 400; line-height: 1.05; }
         .roll span { font-size: 0.8rem; color: var(--muted); }
         .who { display: flex; flex-wrap: wrap; gap: 8px; }
         .who label { position: relative; }
         .who input { position: absolute; opacity: 0; pointer-events: none; }
-        .who span { display: inline-block; padding: 9px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 0.9rem; }
-        .who input:checked + span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-        .who input:focus-visible + span { outline: 2px solid var(--stamp); outline-offset: 2px; }
-        .missions { list-style: none; display: grid; gap: 8px; }
-        .missions li { font-size: 0.95rem; line-height: 1.4; padding-left: 22px; position: relative; }
-        .missions li::before { content: '◎'; position: absolute; left: 0; color: var(--stamp); }
-        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border-radius: 999px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
-        .btn-solid { background: var(--ink); color: var(--bg); }
-        .btn-ghost { border: 1px solid var(--line); }
-        .btn[disabled] { opacity: 0.4; }
-        .note { font-size: 0.85rem; line-height: 1.5; color: var(--muted); text-align: center; }
+        .who span { display: inline-block; padding: 10px 16px; border: 1px solid var(--ink); font-size: 0.88rem; }
+        .who input:checked + span { background: var(--ink); color: var(--paper); }
+        .who input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
+        .game-line { font-family: var(--serif); font-size: 1.05rem; line-height: 1.5; margin-bottom: 14px; }
+        .game-line em { font-style: italic; }
+        .missions { list-style: none; counter-reset: m; border-bottom: 1px solid var(--line); }
+        .missions li { counter-increment: m; display: grid; grid-template-columns: 34px 1fr auto; align-items: baseline; gap: 6px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 0.95rem; line-height: 1.4; }
+        .missions li::before { content: counter(m, decimal-leading-zero); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--muted); }
+        .missions li.done { color: var(--muted); }
+        .missions li.done span { text-decoration: line-through; }
+        .missions li i { font-style: normal; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 18px 20px; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+        .btn-solid { background: var(--ink); color: var(--paper); }
+        .btn-ghost { border: 1px solid var(--ink); }
+        .btn[disabled] { opacity: 0.35; }
+        .note { font-size: 0.85rem; line-height: 1.55; color: var(--muted); text-align: center; }
         .note-strong { color: var(--ink); }
-        .admin-note { border: 1px dashed var(--stamp); color: var(--ink); border-radius: 12px; padding: 12px 14px; font-size: 0.85rem; line-height: 1.5; }
-        .queue-line { font-size: 0.82rem; text-align: center; color: var(--muted); }
-        .queue-line.pending { color: var(--stamp); }
+        .admin-note { border: 1px solid var(--ink); padding: 14px 16px; font-size: 0.84rem; line-height: 1.55; }
+        .queue-line { font-size: 0.8rem; text-align: center; color: var(--muted); }
+        .queue-line.pending { color: var(--ink); font-weight: 600; }
+        .board { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .board th { text-align: left; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 0 0 8px; }
+        .board td { padding: 10px 0; border-top: 1px solid var(--line); vertical-align: top; }
+        .board td small { display: block; color: var(--muted); font-size: 0.74rem; }
+        .board .num { text-align: right; white-space: nowrap; }
+        .board tr.top td { font-weight: 600; }
 
-        /* ---------- Camera ---------- */
-        .cam { position: fixed; inset: 0; display: flex; flex-direction: column; background: #000; }
+        /* ---------- Camera (ink black) ---------- */
+        .cam { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--night); color: var(--paper); }
         .cam-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(10px + var(--safe-top)) 14px 10px; }
-        .icon-btn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.08); }
-        .icon-btn svg { width: 22px; height: 22px; }
-        .icon-btn.on { background: var(--stamp); color: #000; }
-        .who-pill { flex: 1; min-width: 0; text-align: center; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 10px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
-        .counter { min-width: 64px; text-align: right; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; color: var(--stamp); text-shadow: 0 0 10px rgba(255, 120, 20, 0.6); line-height: 1; }
-        .counter b { display: block; font-size: 1.6rem; }
-        .counter span { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; }
-        .finder-wrap { flex: 1; display: grid; place-items: center; min-height: 0; padding: 0 0; }
-        .finder { position: relative; width: min(100vw, calc((100dvh - 250px - var(--safe-top) - var(--safe-bottom)) * 0.75)); aspect-ratio: 3 / 4; overflow: hidden; background: #111; border-radius: 6px; }
-        .finder video, .finder .still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--night-line); }
+        .icon-btn svg { width: 20px; height: 20px; }
+        .icon-btn.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        .who-pill { flex: 1; min-width: 0; text-align: center; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 12px 10px; border: 1px solid var(--night-line); border-radius: 999px; }
+        .counter { min-width: 58px; text-align: right; line-height: 1; }
+        .counter b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.9rem; }
+        .counter span { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--night-muted); }
+        .finder-wrap { flex: 1; display: grid; place-items: center; min-height: 0; }
+        .finder { position: relative; width: min(100vw, calc((100dvh - 262px - var(--safe-top) - var(--safe-bottom)) * 0.75)); aspect-ratio: 3 / 4; overflow: hidden; background: #111; }
+        .finder video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
         .finder video.mirror { transform: scaleX(-1); }
         .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 1) 100%); opacity: 0.3; transition: opacity 0.3s; }
-        .finder .date-preview { position: absolute; right: 6%; bottom: 4.5%; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; font-size: clamp(0.8rem, 3.6vw, 1rem); color: var(--stamp); text-shadow: 0 0 8px rgba(255, 110, 20, 0.9); pointer-events: none; }
+        .finder .date-preview { position: absolute; right: 6%; bottom: 4.5%; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; font-size: clamp(0.8rem, 3.6vw, 1rem); color: #fdf8ee; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); pointer-events: none; }
         .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 30; }
         .flash.go { animation: flash 0.42s ease-out; }
         @keyframes flash { 0% { opacity: 0.95; } 100% { opacity: 0; } }
         .flash.selfie { opacity: 1; animation: none; }
-        .cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: 0.95rem; line-height: 1.5; color: var(--muted); background: #111; }
-        .mission-bar { display: flex; justify-content: center; padding: 12px 14px 4px; }
-        .mission-chip { max-width: 100%; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mission-chip.active { border-color: var(--stamp); color: var(--stamp); }
-        .films { display: flex; justify-content: center; gap: 8px; padding: 8px 10px; overflow-x: auto; scrollbar-width: none; }
+        .cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: 0.92rem; line-height: 1.55; color: var(--night-muted); background: #111; }
+        .mission-bar { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 12px 14px 4px; }
+        .mission-chip { max-width: 100%; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--night-line); border-radius: 999px; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mission-chip.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        .mission-count { flex: none; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--night-muted); }
+        .films { display: flex; justify-content: center; gap: 6px; padding: 8px 10px; overflow-x: auto; scrollbar-width: none; }
         .films::-webkit-scrollbar { display: none; }
-        .film { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 10px; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-        .film i { width: 38px; height: 38px; border-radius: 8px; border: 2px solid transparent; }
-        .film.on { color: var(--ink); }
-        .film.on i { border-color: var(--stamp); }
-        .film-classic i { background: linear-gradient(135deg, #e9b38a, #6b8fb3); }
-        .film-noir i { background: linear-gradient(135deg, #f0f0f0, #1a1a1a); }
-        .film-golden i { background: linear-gradient(135deg, #ffd27a, #b8572f); }
-        .film-faded i { background: linear-gradient(135deg, #e7dccb, #8fa3a1); }
+        .film { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 8px; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--night-muted); }
+        .film i { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--night-line); outline: 2px solid transparent; outline-offset: 3px; }
+        .film.on { color: var(--paper); }
+        .film.on i { outline-color: var(--paper); }
+        .film-classic i { background: linear-gradient(135deg, #d9b79c, #7d93ab); }
+        .film-noir i { background: linear-gradient(135deg, #f2f2f2, #161616); }
+        .film-golden i { background: linear-gradient(135deg, #f0d39a, #9a6a45); }
+        .film-faded i { background: linear-gradient(135deg, #e9e2d6, #9aa6a4); }
         .controls { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 10px 28px calc(18px + var(--safe-bottom)); }
         .controls .left { justify-self: start; }
         .controls .right { justify-self: end; }
-        .shutter { width: 78px; height: 78px; border-radius: 50%; border: 4px solid var(--ink); display: grid; place-items: center; }
-        .shutter i { width: 60px; height: 60px; border-radius: 50%; background: var(--ink); transition: transform 0.12s; }
+        .shutter { width: 78px; height: 78px; border-radius: 50%; border: 3px solid var(--paper); display: grid; place-items: center; }
+        .shutter i { width: 62px; height: 62px; border-radius: 50%; background: var(--paper); transition: transform 0.12s; }
         .shutter:active i { transform: scale(0.88); }
-        .shutter[disabled] { opacity: 0.35; }
-        .uploads { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.6); font-size: 0.72rem; color: var(--ink); white-space: nowrap; }
-        .uploads.pending { color: var(--stamp); }
-        .toast { position: fixed; left: 50%; top: calc(76px + var(--safe-top)); transform: translateX(-50%); z-index: 40; max-width: calc(100vw - 32px); padding: 10px 16px; border-radius: 12px; background: rgba(20, 20, 20, 0.92); border: 1px solid var(--line); font-size: 0.88rem; line-height: 1.4; text-align: center; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+        .shutter[disabled] { opacity: 0.3; }
+        .uploads { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.6); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--paper); white-space: nowrap; }
+        .uploads.pending { background: rgba(255, 255, 255, 0.9); color: var(--ink); }
+        .toast { position: fixed; left: 50%; top: calc(76px + var(--safe-top)); transform: translateX(-50%); z-index: 40; max-width: calc(100vw - 32px); padding: 12px 18px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); font-size: 0.86rem; line-height: 1.45; text-align: center; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
         .toast.show { opacity: 1; }
-        .developing { position: fixed; z-index: 35; width: 64px; aspect-ratio: 3 / 4; border-radius: 4px; background: #2a2016; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5); pointer-events: none; animation: develop 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) forwards; }
+        .developing { position: fixed; z-index: 35; width: 64px; aspect-ratio: 3 / 4; background: #e9e5dc; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5); pointer-events: none; animation: develop 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) forwards; }
         @keyframes develop { 0% { opacity: 1; transform: translate(0, 0) scale(1.4) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(8deg); } }
 
-        /* ---------- Gallery ---------- */
+        /* ---------- Gallery (paper) ---------- */
         .gallery { max-width: 1100px; margin: 0 auto; padding: calc(16px + var(--safe-top)) 14px calc(40px + var(--safe-bottom)); }
-        .gal-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-        .gal-top h2 { flex: 1; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; }
+        .gal-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+        .gallery .icon-btn { border-color: var(--line); }
+        .gal-top h2 { flex: 1; font-family: var(--serif); font-weight: 400; font-size: 1.7rem; }
         .gal-top h2 em { font-style: italic; }
-        .gal-count { font-size: 0.8rem; color: var(--muted); }
-        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 8px; scrollbar-width: none; }
+        .gal-count { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+        .gallery .admin-note { margin-bottom: 14px; }
+        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 6px; scrollbar-width: none; }
         .chips::-webkit-scrollbar { display: none; }
-        .chip { flex: none; padding: 8px 13px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); }
-        .chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+        .chip { flex: none; padding: 8px 14px; border: 1px solid var(--ink); font-size: 0.78rem; }
+        .chip.on { background: var(--ink); color: var(--paper); }
         .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
         @media (min-width: 700px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; } }
-        .tile { position: relative; aspect-ratio: 3 / 4; background: #1b1b1b; overflow: hidden; border-radius: 3px; }
+        .tile { position: relative; aspect-ratio: 3 / 4; background: var(--stone); overflow: hidden; }
         .tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.6s; }
         .tile img.in { opacity: 1; }
         .tile.hidden-photo img { opacity: 0.25; }
-        .tile .tag { position: absolute; left: 4px; bottom: 4px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 0, 0, 0.65); font-size: 0.62rem; }
-        .gal-actions { display: grid; gap: 10px; margin: 18px 0 8px; }
-        .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, 0.96); display: flex; flex-direction: column; }
+        .tile .tag { position: absolute; left: 4px; bottom: 4px; padding: 2px 6px; background: var(--ink); color: var(--paper); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .gal-actions { display: grid; gap: 10px; margin: 20px 0 8px; }
+        .lightbox { position: fixed; inset: 0; z-index: 50; background: var(--night); color: var(--paper); display: flex; flex-direction: column; }
         .lb-top { display: flex; justify-content: space-between; align-items: center; padding: calc(10px + var(--safe-top)) 14px 10px; gap: 10px; }
-        .lb-cap { flex: 1; min-width: 0; font-size: 0.85rem; line-height: 1.4; }
-        .lb-cap span { display: block; color: var(--muted); font-size: 0.75rem; }
+        .lb-cap { flex: 1; min-width: 0; font-family: var(--serif); font-size: 1.05rem; line-height: 1.35; }
+        .lb-cap span { display: block; font-family: var(--sans); color: var(--night-muted); font-size: 0.72rem; letter-spacing: 0.04em; }
         .lb-img { flex: 1; min-height: 0; display: grid; place-items: center; padding: 0 8px; }
         .lb-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .lb-bar { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px 14px calc(16px + var(--safe-bottom)); }
         .lb-bar .mid { display: flex; gap: 8px; justify-content: center; }
-        .small-btn { padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-        .small-btn.warn { border-color: var(--stamp); color: var(--stamp); }
+        .small-btn { padding: 12px 16px; border: 1px solid var(--night-line); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+        .small-btn.solid { background: var(--paper); color: var(--ink); border-color: var(--paper); }
         @media (prefers-reduced-motion: reduce) { .flash.go, .developing { animation: none; opacity: 0; } }
     </style>
 </head>
@@ -150,9 +168,10 @@
     <section id="intro" class="screen">
         <div class="intro">
             <header class="brand">
-                <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="52" height="38" rx="6" fill="none" stroke="#f5f2ec" stroke-width="2.5"/><circle cx="32" cy="35" r="11" fill="none" stroke="#ff8c2a" stroke-width="2.5"/><rect x="12" y="10" width="12" height="6" rx="1.5" fill="#f5f2ec"/><circle cx="49" cy="24" r="2.5" fill="#ff8c2a"/></svg>
+                <span class="kicker">Jarrod &amp; Telicia present</span>
                 <h1>The <em>Darkroom</em></h1>
-                <p>Jarrod &amp; Telicia · 25.04.2027</p>
+                <div class="rule"></div>
+                <p>25 · 04 · 2027</p>
             </header>
             <p class="lede" id="introLede">Opening your camera…</p>
             <div id="introBody" hidden></div>
@@ -176,7 +195,7 @@
                 <div class="uploads" id="camUploads" hidden></div>
             </div>
         </div>
-        <div class="mission-bar"><button class="mission-chip" id="missionChip">◎ Pick a photo mission</button></div>
+        <div class="mission-bar"><button class="mission-chip" id="missionChip">Pick a photo mission</button><span class="mission-count" id="missionCount"></span></div>
         <div class="films" id="films" role="radiogroup" aria-label="Film"></div>
         <div class="controls">
             <button class="icon-btn left" id="camFlip" aria-label="Switch camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13.5a2.5 2.5 0 0 0 4.6 1.3M14.5 12.5a2.5 2.5 0 0 0-4.6-1.3"/><path d="M14.4 15.6l-.3-.8.8-.3M9.6 10.4l-.3.8.8.3"/></svg></button>
@@ -209,7 +228,7 @@
         <div class="lb-img"><img id="lbImg" alt=""></div>
         <div class="lb-bar">
             <button class="icon-btn" id="lbPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-            <div class="mid"><a class="small-btn" id="lbSave" download>Save photo</a><button class="small-btn warn" id="lbHide" hidden>Hide</button></div>
+            <div class="mid"><a class="small-btn solid" id="lbSave" download>Save photo</a><button class="small-btn" id="lbHide" hidden>Hide</button></div>
             <button class="icon-btn" id="lbNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
         </div>
     </div>
@@ -309,9 +328,9 @@
         ctx.font = '700 ' + size + 'px "Courier New", ui-monospace, monospace';
         ctx.textAlign = 'right';
         ctx.textBaseline = 'alphabetic';
-        ctx.fillStyle = '#ff8c2a';
-        ctx.shadowColor = 'rgba(255, 110, 20, 0.9)';
-        ctx.shadowBlur = size * 0.5;
+        ctx.fillStyle = '#fdf8ee';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+        ctx.shadowBlur = size * 0.45;
         ctx.fillText(stampText(when), w - size * 1.3, h - size * 1.1);
         ctx.shadowBlur = 0;
         return canvas;
@@ -396,10 +415,19 @@
     var stream = null, facing = 'environment', flashOn = false, torch = false, noLiveCamera = false;
     var shooting = false;
 
+    var queuedMissions = {};   // missions shot on this phone but not uploaded yet, per guest
     var guestInfo = function () { return info.guests.filter(function (g) { return g.name === guest; })[0]; };
+    var guestBy = function (name) { return info.guests.filter(function (x) { return x.name === name; })[0]; };
     var leftFor = function (name) {
-        var g = info.guests.filter(function (x) { return x.name === name; })[0];
+        var g = guestBy(name);
+        if (g && g.unlimited) return Infinity;
         return Math.max(0, info.shots - (g ? g.used : 0) - (queued[name] || 0));
+    };
+    /** One photo per mission each: the ones done (uploaded or still waiting on this phone) */
+    var missionsDoneFor = function (name) {
+        var g = guestBy(name), done = ((g && g.missionsDone) || []).slice();
+        (queuedMissions[name] || []).forEach(function (m) { if (done.indexOf(m) === -1) done.push(m); });
+        return done.filter(function (m) { return info.missions.indexOf(m) !== -1; });
     };
     var firstName = function (n) { return String(n).split(' ')[0]; };
 
@@ -474,13 +502,22 @@
                 return '<label><input type="radio" name="who" value="' + esc(x.name) + '"' + (x.name === guest ? ' checked' : '') + '><span>' + esc(x.name) + '</span></label>';
             }).join('') + '</div></div>';
         }
-        html += '<div class="card roll"><div><span class="eyebrow">' + esc(firstName(g.name)) + '’s roll</span><b class="stampy">' + leftFor(g.name) + '</b><span>of ' + info.shots + ' shots left</span></div>' +
+        var left = leftFor(g.name);
+        html += '<div class="card roll"><div><span class="eyebrow">' + esc(firstName(g.name)) + '’s roll</span>' +
+            (left === Infinity ? '<b>No limit</b><span>shoot as much as you like</span>' : '<b>' + left + '</b><span>of ' + info.shots + ' shots left</span>') + '</div>' +
             '<div><span class="eyebrow">Photos develop</span><b>' + (info.reveal ? esc(new Date(info.reveal).toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' })) : 'Soon') + '</b><span>' + (info.reveal ? esc(timeText(info.reveal)) + ', for everyone at once' : '') + '</span></div></div>';
         if (info.missions.length) {
-            html += '<div class="card"><span class="eyebrow">Photo missions (optional)</span><ul class="missions">' + info.missions.map(function (m) { return '<li>' + esc(m) + '</li>'; }).join('') + '</ul></div>';
+            var done = missionsDoneFor(g.name);
+            html += '<div class="card"><span class="eyebrow">The mission game · ' + done.length + ' of ' + info.missions.length + ' done</span>' +
+                '<p class="game-line">Be the <em>first</em> to complete every mission and win a prize, announced at the reception. One photo per mission, so make it count.</p>' +
+                '<ul class="missions">' + info.missions.map(function (m) {
+                    var isDone = done.indexOf(m) !== -1;
+                    return '<li' + (isDone ? ' class="done"' : '') + '><span>' + esc(m) + '</span>' + (isDone ? '<i>Done</i>' : '<i></i>') + '</li>';
+                }).join('') + '</ul></div>';
         }
-        if (phase === 'open') html += '<button class="btn btn-solid" id="openCam"' + (leftFor(g.name) ? '' : ' disabled') + '>' + (leftFor(g.name) ? 'Open the camera' : 'Roll finished') + '</button>';
+        if (phase === 'open') html += '<button class="btn btn-solid" id="openCam"' + (left ? '' : ' disabled') + '>' + (left ? 'Open the camera' : 'Roll finished') + '</button>';
         if (revealed || info.admin) html += '<button class="btn ' + (phase === 'open' ? 'btn-ghost' : 'btn-solid') + '" id="openGal">' + (revealed ? 'See the photos' : 'Preview the photos') + '</button>';
+        if (info.admin && info.missions.length) html += '<button class="btn btn-ghost" id="openBoard">Mission leaderboard</button><div id="boardBox" hidden></div>';
         html += '<p class="note">' + (phase === 'open'
             ? 'Like a real disposable: no previews, no retakes. Your photos stay on this phone until they’ve uploaded, so it’s fine if the signal drops.'
             : 'Every photo stays hidden until they all develop together.') + '</p>';
@@ -490,8 +527,9 @@
         else if (phase === 'open') lede = 'A disposable camera for our wedding. Shoot the night through your eyes; we’ll see it all when the photos develop.';
         else if (phase === 'paused') lede = 'The camera is resting for the ceremony. It’s back at <span class="note-strong">' + esc(timeText(info.pauseEnd)) + '</span>.';
         else if (phase === 'closed') lede = 'The camera is closed. Thank you for every shot! The photos develop on ' + esc(whenText(info.reveal, true)) + '.';
-        else lede = 'Your disposable camera for our wedding. It opens on ' + esc(whenText(info.opens, true)) + '.';
+        else lede = 'Your disposable camera for our wedding. It opens on the day itself, ' + esc(new Date(info.opens).toLocaleDateString('en-ZA', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' })) + '.';
         introMessage(lede, html);
+        if ($('openBoard')) $('openBoard').addEventListener('click', showBoard);
 
         document.querySelectorAll('input[name="who"]').forEach(function (r) {
             r.addEventListener('change', function () { guest = r.value; store.set(GUEST_KEY, guest); renderIntro(); });
@@ -499,6 +537,25 @@
         if ($('openCam')) $('openCam').addEventListener('click', openCamera);
         if ($('openGal')) $('openGal').addEventListener('click', openGallery);
         renderQueue();
+    }
+
+    /** Admins: who's winning the mission game (the hosts see the same board on their host page). */
+    function showBoard() {
+        var box = $('boardBox');
+        box.hidden = false;
+        box.innerHTML = '<p class="note">Loading the leaderboard…</p>';
+        getJson('action=camBoard&code=' + encodeURIComponent(code)).then(function (d) {
+            if (!d.ok) { box.innerHTML = '<p class="note">Couldn’t load the leaderboard.</p>'; return; }
+            var b = d.board;
+            var html = '<div class="card"><span class="eyebrow">First to finish all ' + b.total + ' missions</span>';
+            html += b.leaders.length ? '<table class="board"><thead><tr><th>Guest</th><th class="num">Missions</th><th class="num">' + 'Time' + '</th></tr></thead><tbody>' + b.leaders.map(function (p, i) {
+                return '<tr' + (i === 0 && p.finished ? ' class="top"' : '') + '><td>' + esc(p.guest) + '<small>' + esc(p.invite) + '</small></td><td class="num">' + p.done + '/' + b.total + '</td><td class="num">' + (p.finished ? esc(timeText(p.at)) : '–') + '</td></tr>';
+            }).join('') + '</tbody></table>' : '<p class="note">Nobody has shot a mission yet.</p>';
+            html += '</div><div class="card"><span class="eyebrow">First on each mission</span><table class="board"><tbody>' + b.firsts.map(function (f) {
+                return '<tr><td>' + esc(f.mission) + '<small>' + (f.guest ? esc(f.guest) + ' · ' + esc(f.invite) : 'Not yet') + '</small></td><td class="num">' + (f.at ? esc(timeText(f.at)) : '') + '</td></tr>';
+            }).join('') + '</tbody></table></div>';
+            box.innerHTML = html;
+        }).catch(function () { box.innerHTML = '<p class="note">Couldn’t load the leaderboard. Check your signal.</p>'; });
     }
 
     function renderQueue() {
@@ -568,14 +625,22 @@
     }
     function renderCamTop() {
         var g = guestInfo();
-        $('camWho').textContent = (info.guests.length > 1 ? firstName(g.name) + ' is shooting · change' : g.name);
-        $('camLeft').textContent = leftFor(g.name);
-        $('shutter').disabled = !leftFor(g.name);
+        $('camWho').textContent = (info.guests.length > 1 ? firstName(g.name) + ' · switch' : firstName(g.name));
+        var left = leftFor(g.name);
+        $('camLeft').textContent = left === Infinity ? '∞' : left;
+        $('camLeft').nextElementSibling.textContent = left === Infinity ? 'no limit' : 'left';
+        $('shutter').disabled = !left;
         $('datePreview').textContent = stampText(new Date());
+        // A mission already shot can't be picked again
+        var done = missionsDoneFor(g.name);
+        if (mission && done.indexOf(mission) !== -1) mission = '';
         var chip = $('missionChip');
-        chip.textContent = mission ? '◎ ' + mission : '◎ Pick a photo mission';
+        var allDone = info.missions.length && done.length === info.missions.length;
+        chip.textContent = mission ? mission : (allDone ? 'Every mission complete' : 'Pick a photo mission');
         chip.classList.toggle('active', !!mission);
+        chip.disabled = !!allDone;
         chip.hidden = !info.missions.length;
+        $('missionCount').textContent = info.missions.length ? done.length + '/' + info.missions.length : '';
     }
     function openCamera() {
         if (!db) return;
@@ -598,11 +663,19 @@
             return putShot({ id: uid(), code: code, guest: g.name, takenAt: when.getTime(), film: film, mission: mission, image: b[0], thumb: b[1] });
         }).then(function () {
             queued[g.name] = (queued[g.name] || 0) + 1;
+            var shotMission = mission;
+            if (shotMission) {
+                (queuedMissions[g.name] = queuedMissions[g.name] || []).push(shotMission);
+                mission = '';
+            }
             everQueued = true;
             renderCamTop();
             renderQueue();
             developingAnim();
-            if (!leftFor(g.name)) toast('That’s the whole roll! Your photos develop on ' + whenText(info.reveal, true) + '.');
+            var done = missionsDoneFor(g.name).length;
+            if (shotMission && done === info.missions.length) toast('Every mission complete! The first to finish wins a prize.');
+            else if (shotMission) toast('Mission complete: ' + done + ' of ' + info.missions.length);
+            else if (!leftFor(g.name)) toast('That’s the whole roll! Your photos develop on ' + whenText(info.reveal, true) + '.');
             pump();
         });
     }
@@ -641,7 +714,7 @@
     }
 
     // ---------- Upload queue: one photo at a time, as signal allows ----------
-    var UPLOAD_ERRORS = { limit: 'One photo was over your roll and couldn’t be saved.', closed: 'One photo was taken after the camera closed.', not_open: 'One photo was taken before the camera opened.', paused: 'One photo was taken during the ceremony pause.', not_found: 'We couldn’t find your invitation for one photo.', bad_request: 'One photo couldn’t be read.' };
+    var UPLOAD_ERRORS = { limit: 'One photo was over your roll and couldn’t be saved.', closed: 'One photo was taken after the camera closed.', not_open: 'One photo was taken before the camera opened.', paused: 'One photo was taken during the ceremony pause.', not_found: 'We couldn’t find your invitation for one photo.', bad_request: 'One photo couldn’t be read.', mission_done: 'You’d already shot that mission, so one photo wasn’t counted.' };
     var pumping = false;
     function pump() {
         if (pumping || !db) return;
@@ -649,7 +722,11 @@
         allShots().then(function (shots) {
             var mine = shots.filter(function (s) { return s.code === code; }).sort(function (a, b) { return a.takenAt - b.takenAt; });
             queued = {};
-            mine.forEach(function (s) { queued[s.guest] = (queued[s.guest] || 0) + 1; });
+            queuedMissions = {};
+            mine.forEach(function (s) {
+                queued[s.guest] = (queued[s.guest] || 0) + 1;
+                if (s.mission) (queuedMissions[s.guest] = queuedMissions[s.guest] || []).push(s.mission);
+            });
             renderQueue();
             if (info && $('camera').hidden === false) renderCamTop();
             if (!mine.length) { pumping = false; return; }
@@ -661,6 +738,7 @@
                     if (res.ok) {
                         var g = info && info.guests.filter(function (x) { return x.name === s.guest; })[0];
                         if (g && typeof res.used === 'number') g.used = res.used;
+                        if (g && s.mission && (g.missionsDone = g.missionsDone || []).indexOf(s.mission) === -1) g.missionsDone.push(s.mission);
                         return dropShot(s.id).then(function () { pumping = false; pump(); });
                     }
                     if (res.error === 'busy') return wait(6000).then(function () { pumping = false; pump(); });
@@ -804,10 +882,11 @@
         b.addEventListener('click', function () { film = b.getAttribute('data-film'); store.set(FILM_KEY, film); applyFilm(); });
     });
     $('missionChip').addEventListener('click', function () {
-        var list = [''].concat(info.missions);
+        var done = missionsDoneFor(guest);
+        var list = [''].concat(info.missions.filter(function (m) { return done.indexOf(m) === -1; }));
         mission = list[(list.indexOf(mission) + 1) % list.length];
         renderCamTop();
-        if (mission) toast('Mission: ' + mission);
+        if (mission) toast('Mission: ' + mission + '. Your next photo counts for it.');
     });
     $('camWho').addEventListener('click', function () {
         if (info.guests.length < 2) return;
