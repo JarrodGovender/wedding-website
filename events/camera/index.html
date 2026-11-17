@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#ffffff">
+    <title>The Darkroom</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ccircle cx='32' cy='34' r='14' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3Crect x='14' y='18' width='12' height='6' rx='2' fill='%23ffffff'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base look: black and white editorial, paper pages, an ink-black camera, Playfair + Inter. Event themes override it below. */
+        :root {
+            --ink: #0a0a0a;
+            --paper: #ffffff;
+            --stone: #f3f3f3;
+            --muted: #555555;
+            --line: rgba(0, 0, 0, 0.14);
+            --night: #000000;
+            --night-line: rgba(255, 255, 255, 0.18);
+            --night-muted: rgba(255, 255, 255, 0.62);
+            --serif: 'Playfair Display', 'Didot', Georgia, serif;
+            --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { min-height: 100%; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        body { overscroll-behavior: none; }
+        button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        a.btn, a.small-btn { color: inherit; text-decoration: none; text-align: center; }
+        [hidden] { display: none !important; }
+        .screen { min-height: 100dvh; }
+        .eyebrow { display: block; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+
+        /* ---------- Intro (paper) ---------- */
+        .intro { max-width: 540px; margin: 0 auto; padding: calc(48px + var(--safe-top)) 24px calc(48px + var(--safe-bottom)); display: flex; flex-direction: column; gap: 28px; }
+        .brand { text-align: center; }
+        .brand .kicker { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--muted); }
+        .brand h1 { margin: 14px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 14vw, 4.2rem); line-height: 0.95; letter-spacing: -0.02em; }
+        .brand h1 em { font-style: italic; }
+        .brand .rule { width: 1px; height: 36px; margin: 22px auto 0; background: var(--ink); }
+        .brand p { margin-top: 18px; font-size: 0.66rem; letter-spacing: 0.3em; text-transform: uppercase; }
+        .lede { font-family: var(--serif); font-size: 1.2rem; line-height: 1.5; text-align: center; }
+        .lede em { font-style: italic; }
+        .card { border-top: 1px solid var(--ink); padding-top: 18px; }
+        .roll { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .roll b { display: block; font-family: var(--serif); font-size: 2.2rem; font-weight: 400; line-height: 1.05; }
+        .roll span { font-size: 0.8rem; color: var(--muted); }
+        .who { display: flex; flex-wrap: wrap; gap: 8px; }
+        .who label { position: relative; }
+        .who input { position: absolute; opacity: 0; pointer-events: none; }
+        .who span { display: inline-block; padding: 10px 16px; border: 1px solid var(--ink); font-size: 0.88rem; }
+        .who input:checked + span { background: var(--ink); color: var(--paper); }
+        .who input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 3px; }
+        .game-line { font-family: var(--serif); font-size: 1.05rem; line-height: 1.5; margin-bottom: 14px; }
+        .game-line em { font-style: italic; }
+        .missions { list-style: none; counter-reset: m; border-bottom: 1px solid var(--line); }
+        .missions li { counter-increment: m; display: grid; grid-template-columns: 34px 1fr auto; align-items: baseline; gap: 6px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 0.95rem; line-height: 1.4; }
+        .missions li::before { content: counter(m, decimal-leading-zero); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--muted); }
+        .missions li.done { color: var(--muted); }
+        .missions li.done span { text-decoration: line-through; }
+        .missions li i { font-style: normal; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 18px 20px; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+        .btn-solid { background: var(--ink); color: var(--paper); }
+        .btn-ghost { border: 1px solid var(--ink); }
+        .btn[disabled] { opacity: 0.35; }
+        .note { font-size: 0.85rem; line-height: 1.55; color: var(--muted); text-align: center; }
+        .note-strong { color: var(--ink); }
+        .admin-note { border: 1px solid var(--ink); padding: 14px 16px; font-size: 0.84rem; line-height: 1.55; }
+        .queue-line { font-size: 0.8rem; text-align: center; color: var(--muted); }
+        .queue-line.pending { color: var(--ink); font-weight: 600; }
+        .board { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .board th { text-align: left; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 0 0 8px; }
+        .board td { padding: 10px 0; border-top: 1px solid var(--line); vertical-align: top; }
+        .board td small { display: block; color: var(--muted); font-size: 0.74rem; }
+        .board .num { text-align: right; white-space: nowrap; }
+        .board tr.top td { font-weight: 600; }
+
+        /* ---------- Camera (ink black) ---------- */
+        .cam { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--night); color: var(--paper); }
+        .cam-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: calc(10px + var(--safe-top)) 14px 10px; }
+        .icon-btn { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--night-line); }
+        .icon-btn svg { width: 20px; height: 20px; }
+        .icon-btn.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        .who-pill { flex: 1; min-width: 0; text-align: center; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 12px 10px; border: 1px solid var(--night-line); border-radius: 999px; }
+        .counter { flex: none; min-width: 64px; text-align: right; line-height: 1; }
+        .counter b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.9rem; }
+        .counter span { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--night-muted); }
+        /* The viewfinder takes exactly the room left between the top bar and the controls, on any screen
+           (including WhatsApp's in-app browser, which is shorter): 3:4, as big as fits, never overlapping. */
+        .finder-wrap { flex: 1 1 0; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 4px 16px; container-type: size; overflow: hidden; }
+        .finder { position: relative; flex: none; width: min(100vw - 32px, (100dvh - 360px) * 0.75); width: min(100cqw, 75cqh); aspect-ratio: 3 / 4; overflow: hidden; background: #111; border-radius: 4px; }
+        .corners { position: absolute; inset: 6px; pointer-events: none; opacity: 0.85;
+            background:
+                linear-gradient(#fff, #fff) left top / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) left top / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) right top / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) right top / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) left bottom / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) left bottom / 1.5px 16px no-repeat,
+                linear-gradient(#fff, #fff) right bottom / 16px 1.5px no-repeat, linear-gradient(#fff, #fff) right bottom / 1.5px 16px no-repeat; }
+        /* Shutter curtains: closed until the camera is live, then they slide open */
+        .curtain { position: absolute; left: 0; right: 0; height: 50.5%; background: #050505; z-index: 3; transition: transform 0.55s cubic-bezier(0.7, 0, 0.2, 1); pointer-events: none; }
+        .curtain.top { top: 0; border-bottom: 1px solid #1d1d1d; }
+        .curtain.bottom { bottom: 0; border-top: 1px solid #1d1d1d; }
+        .finder.live .curtain.top { transform: translateY(-101%); }
+        .finder.live .curtain.bottom { transform: translateY(101%); }
+        .finder.blink .curtain { transition-duration: 0.09s; transform: none !important; }
+        .finder video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .finder video.mirror { transform: scaleX(-1); }
+        .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, 1) 100%); opacity: 0.3; transition: opacity 0.3s; }
+        .finder .date-preview { position: absolute; right: 6%; bottom: 4.5%; font-family: 'Courier New', ui-monospace, monospace; font-weight: 700; font-size: clamp(0.8rem, 3.6vw, 1rem); color: #fdf8ee; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); pointer-events: none; }
+        .flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 30; }
+        .flash.go { animation: flash 0.42s ease-out; }
+        @keyframes flash { 0% { opacity: 0.95; } 100% { opacity: 0; } }
+        .flash.selfie { opacity: 1; animation: none; }
+        .cam-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; font-size: 0.92rem; line-height: 1.55; color: var(--night-muted); background: #111; }
+        .mission-bar { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 12px 14px 4px; }
+        .mission-chip { max-width: 100%; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--night-line); border-radius: 999px; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mission-chip.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        .mission-count { flex: none; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--night-muted); }
+        .films { display: flex; justify-content: center; gap: 6px; padding: 8px 10px; overflow-x: auto; scrollbar-width: none; }
+        .films::-webkit-scrollbar { display: none; }
+        .film { flex: none; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px 8px; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--night-muted); }
+        .film i { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--night-line); outline: 2px solid transparent; outline-offset: 3px; }
+        .film.on { color: var(--paper); }
+        .film.on i { outline-color: var(--paper); }
+        .film-classic i { background: linear-gradient(135deg, #d9b79c, #7d93ab); }
+        .film-noir i { background: linear-gradient(135deg, #f2f2f2, #161616); }
+        .film-golden i { background: linear-gradient(135deg, #f0d39a, #9a6a45); }
+        .film-faded i { background: linear-gradient(135deg, #e9e2d6, #9aa6a4); }
+        .controls { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 10px 28px calc(18px + var(--safe-bottom)); }
+        .controls .left { justify-self: start; }
+        .controls .right { justify-self: end; }
+        .shutter { width: 78px; height: 78px; border-radius: 50%; border: 3px solid var(--paper); display: grid; place-items: center; }
+        .shutter i { width: 62px; height: 62px; border-radius: 50%; background: var(--paper); transition: transform 0.12s; }
+        .shutter:active i { transform: scale(0.88); }
+        .shutter[disabled] { opacity: 0.3; }
+        .uploads { position: absolute; left: 50%; transform: translateX(-50%); bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.6); font-size: 0.68rem; letter-spacing: 0.08em; color: var(--paper); white-space: nowrap; }
+        .uploads.pending { background: rgba(255, 255, 255, 0.9); color: var(--ink); }
+        .toast { position: fixed; left: 50%; top: calc(76px + var(--safe-top)); transform: translateX(-50%); z-index: 40; max-width: calc(100vw - 32px); padding: 12px 18px; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); font-size: 0.86rem; line-height: 1.45; text-align: center; opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+        .toast.show { opacity: 1; }
+        .developing { position: fixed; z-index: 35; width: 64px; aspect-ratio: 3 / 4; background: #e9e5dc; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5); pointer-events: none; animation: develop 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) forwards; }
+        @keyframes develop { 0% { opacity: 1; transform: translate(0, 0) scale(1.4) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(8deg); } }
+
+        /* ---------- Gallery (paper) ---------- */
+        .gallery { max-width: 1100px; margin: 0 auto; padding: calc(16px + var(--safe-top)) 14px calc(40px + var(--safe-bottom)); }
+        .gal-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+        .gallery .icon-btn { border-color: var(--line); }
+        .gal-top h2 { flex: 1; font-family: var(--serif); font-weight: 400; font-size: 1.7rem; }
+        .gal-top h2 em { font-style: italic; }
+        .gal-count { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+        .gallery .admin-note { margin-bottom: 14px; }
+        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 6px; scrollbar-width: none; }
+        .chips::-webkit-scrollbar { display: none; }
+        .chip { flex: none; padding: 8px 14px; border: 1px solid var(--ink); font-size: 0.78rem; }
+        .chip.on { background: var(--ink); color: var(--paper); }
+        .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+        @media (min-width: 700px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; } }
+        .tile { position: relative; aspect-ratio: 3 / 4; background: var(--stone); overflow: hidden; }
+        .tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity 0.6s; }
+        .tile img.in { opacity: 1; }
+        .tile.hidden-photo img { opacity: 0.25; }
+        .tile .tag { position: absolute; left: 4px; bottom: 4px; padding: 2px 6px; background: var(--ink); color: var(--paper); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .gal-actions { display: grid; gap: 10px; margin: 20px 0 8px; }
+        .lightbox { position: fixed; inset: 0; z-index: 50; background: var(--night); color: var(--paper); display: flex; flex-direction: column; }
+        .lb-top { display: flex; justify-content: space-between; align-items: center; padding: calc(10px + var(--safe-top)) 14px 10px; gap: 10px; }
+        .lb-cap { flex: 1; min-width: 0; font-family: var(--serif); font-size: 1.05rem; line-height: 1.35; }
+        .lb-cap span { display: block; font-family: var(--sans); color: var(--night-muted); font-size: 0.72rem; letter-spacing: 0.04em; }
+        .lb-img { flex: 1; min-height: 0; display: grid; place-items: center; padding: 0 8px; }
+        .lb-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .lb-bar { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 12px 14px calc(16px + var(--safe-bottom)); }
+        .lb-bar .mid { display: flex; gap: 8px; justify-content: center; }
+        .small-btn { padding: 12px 16px; border: 1px solid var(--night-line); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+        .small-btn.solid { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+        @media (prefers-reduced-motion: reduce) { .flash.go, .developing { animation: none; opacity: 0; } }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* The bachelorette's camera: the same pink look as her event page (gothic headline, pink light-box glow, quilted hearts) */
+        html.theme-clg {
+            --ink: #1c0612; --paper: #fff2f8; --stone: #ffe3f0; --muted: #6e4057; --line: rgba(28, 6, 18, 0.18);
+            --night: #1c0612; --night-line: rgba(255, 190, 220, 0.3); --night-muted: rgba(255, 214, 233, 0.78);
+            --serif: 'Grenze Gotisch', 'Times New Roman', serif; --sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+            --pink: #ff5aa9; --hot: #d80f6e;
+        }
+        html.theme-clg body { background-color: var(--paper); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath d='M28 44C12 33 8 25 8 18a10 10 0 0 1 20-3a10 10 0 0 1 20 3c0 7-4 15-20 26z' fill='none' stroke='%23ff2d87' stroke-opacity='.16' stroke-width='1.5'/%3E%3C/svg%3E"); }
+        .theme-clg .brand .kicker { color: var(--hot); font-weight: 700; }
+        .theme-clg .brand h1 { font-weight: 800; font-size: clamp(3.4rem, 16vw, 4.8rem); text-shadow: 0 0 26px rgba(255, 90, 169, 0.45); }
+        .theme-clg .brand h1 em { font-style: normal; color: var(--hot); }
+        .theme-clg .brand .rule { background: var(--hot); width: 2px; }
+        .theme-clg .brand p { font-weight: 700; }
+        .theme-clg .lede { font-family: var(--sans); font-size: 1.05rem; font-weight: 500; }
+        .theme-clg .lede em { font-style: normal; color: var(--hot); }
+        .theme-clg .card { border: 2px solid var(--ink); border-radius: 14px; padding: 16px; background: #ffffff; box-shadow: 5px 5px 0 var(--pink); }
+        .theme-clg .eyebrow { color: var(--hot); font-weight: 700; }
+        .theme-clg .roll b { font-weight: 800; color: var(--hot); }
+        .theme-clg .game-line { font-family: var(--sans); font-size: 0.98rem; }
+        .theme-clg .game-line em { font-style: normal; font-weight: 700; color: var(--hot); }
+        .theme-clg .missions li::before { color: var(--hot); font-weight: 700; }
+        .theme-clg .missions li i { color: var(--hot); font-weight: 700; }
+        .theme-clg .btn { border-radius: 999px; }
+        .theme-clg .btn-solid { background: var(--hot); color: #ffffff; box-shadow: 0 0 24px rgba(255, 90, 169, 0.55); }
+        .theme-clg .btn-ghost { border: 2px solid var(--ink); background: #ffffff; }
+        .theme-clg .who span { border: 2px solid var(--ink); border-radius: 999px; background: #ffffff; }
+        .theme-clg .who input:checked + span { background: var(--hot); border-color: var(--hot); color: #ffffff; }
+        .theme-clg .admin-note { border: 2px dashed var(--hot); border-radius: 12px; background: #ffffff; }
+        .theme-clg .note { color: var(--muted); }
+        /* Camera: deep plum, with the pink light-box glow around the viewfinder */
+        .theme-clg .cam { background: radial-gradient(ellipse at 50% 42%, #3d0c27 0%, #1c0612 72%); }
+        .theme-clg .finder { border-radius: 12px; box-shadow: 0 0 0 2px var(--pink), 0 0 42px 10px rgba(255, 90, 169, 0.45); }
+        .theme-clg .shutter { border-color: var(--pink); }
+        .theme-clg .shutter i { background: linear-gradient(135deg, #ff3d9a, #ff9cc8); }
+        .theme-clg .film.on i { outline-color: var(--pink); }
+        .theme-clg .film.on { color: #ffd6e9; }
+        .theme-clg .mission-chip.active { background: var(--pink); border-color: var(--pink); color: var(--ink); }
+        .theme-clg .icon-btn.on { background: var(--pink); border-color: var(--pink); color: var(--ink); }
+        .theme-clg .counter b { font-weight: 800; color: var(--pink); }
+        .theme-clg .who-pill { font-weight: 700; }
+        .theme-clg .toast { border: 2px solid var(--ink); border-radius: 12px; box-shadow: 4px 4px 0 var(--pink); }
+        .theme-clg .uploads.pending { background: var(--pink); color: var(--ink); }
+        /* Gallery */
+        .theme-clg .gal-top { border-bottom: 2px solid var(--ink); }
+        .theme-clg .gal-top h2 { font-weight: 800; font-size: 2rem; }
+        .theme-clg .gal-top h2 em { font-style: normal; color: var(--hot); }
+        .theme-clg .chip { border: 2px solid var(--ink); border-radius: 999px; background: #ffffff; }
+        .theme-clg .chip.on { background: var(--hot); border-color: var(--hot); color: #ffffff; }
+        .theme-clg .tile { border-radius: 8px; }
+        .theme-clg .tile .tag { background: var(--hot); }
+        .theme-clg .lightbox { background: #1c0612; }
+        .theme-clg .lb-cap { font-family: var(--sans); font-weight: 700; }
+        .theme-clg .small-btn.solid { background: var(--pink); border-color: var(--pink); color: var(--ink); }
+        .theme-clg .board tr.top td { color: var(--hot); }
+    </style>
+</head>
+<body>
+<main id="app">
+
+    <!-- Intro: who's shooting, the roll, the missions -->
+    <section id="intro" class="screen">
+        <div class="intro">
+            <header class="brand">
+                <span class="kicker" id="brandKicker"></span>
+                <h1>The <em>Darkroom</em></h1>
+                <div class="rule"></div>
+                <p id="brandDate"></p>
+            </header>
+            <p class="lede" id="introLede">Opening your camera…</p>
+            <div id="introBody" hidden></div>
+            <p class="queue-line" id="introQueue" hidden></p>
+        </div>
+    </section>
+
+    <!-- Camera -->
+    <section id="camera" class="cam" hidden aria-label="Camera">
+        <div class="cam-top">
+            <button class="icon-btn" id="camClose" aria-label="Close the camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+            <button class="who-pill" id="camWho" aria-label="Change who is shooting"></button>
+            <div class="counter" aria-live="polite"><b id="camLeft">24</b><span>left</span></div>
+        </div>
+        <div class="finder-wrap">
+            <div class="finder" id="finder">
+                <video id="viewfinder" playsinline muted autoplay></video>
+                <div class="vignette" id="vignette"></div>
+                <div class="corners" aria-hidden="true"></div>
+                <div class="curtain top" aria-hidden="true"></div>
+                <div class="curtain bottom" aria-hidden="true"></div>
+                <div class="date-preview" id="datePreview"></div>
+                <div class="cam-msg" id="camMsg" hidden></div>
+                <div class="uploads" id="camUploads" hidden></div>
+            </div>
+        </div>
+        <div class="mission-bar"><button class="mission-chip" id="missionChip">Pick a photo mission</button><span class="mission-count" id="missionCount"></span></div>
+        <div class="films" id="films" role="radiogroup" aria-label="Film"></div>
+        <div class="controls">
+            <button class="icon-btn left" id="camFlip" aria-label="Switch camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9.5 13.5a2.5 2.5 0 0 0 4.6 1.3M14.5 12.5a2.5 2.5 0 0 0-4.6-1.3"/><path d="M14.4 15.6l-.3-.8.8-.3M9.6 10.4l-.3.8.8.3"/></svg></button>
+            <button class="shutter" id="shutter" aria-label="Take a photo"><i></i></button>
+            <button class="icon-btn right" id="camFlash" aria-label="Flash" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg></button>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="screen" hidden>
+        <div class="gallery">
+            <div class="gal-top">
+                <button class="icon-btn" id="galBack" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+                <h2>The <em>Darkroom</em></h2>
+                <span class="gal-count" id="galCount"></span>
+            </div>
+            <p class="admin-note" id="galAdmin" hidden></p>
+            <div class="chips" id="galChips"></div>
+            <div class="grid" id="galGrid"></div>
+            <p class="note" id="galEmpty" hidden>No photos here yet.</p>
+            <div class="gal-actions"><a class="btn btn-ghost" id="galDownloadAll" target="_blank" rel="noopener" hidden>Download all the photos ↗</a></div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo">
+        <div class="lb-top">
+            <div class="lb-cap" id="lbCap"></div>
+            <button class="icon-btn" id="lbClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <div class="lb-img"><img id="lbImg" alt=""></div>
+        <div class="lb-bar">
+            <button class="icon-btn" id="lbPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <div class="mid"><a class="small-btn solid" id="lbSave" download>Save photo</a><button class="small-btn" id="lbHide" hidden>Hide</button></div>
+            <button class="icon-btn" id="lbNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+    </div>
+
+    <div class="flash" id="flash"></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <input type="file" id="fileShot" accept="image/*" capture="environment" hidden>
+</main>
+
+<script>
+(function () {
+    'use strict';
+
+    // Which camera this is. rsvp/dev/build.js publishes this file twice: as the wedding camera (these
+    // settings, at /camera/) and as the event camera (its own settings swapped in, at /events/camera/).
+    var CONFIG = /*CONFIG*/{
+        "api": "",
+        "events": {
+            "bachelorette": "https://script.google.com/macros/s/AKfycbxWjhxwmW72jOfvbvPRsbwtz_qns3DLE3oCuPtecixpRdpkxtLRCYCwsSAVKMgnGQhEZA/exec"
+        },
+        "remember": false,
+        "storeKey": "",
+        "theme": "theme-clg",
+        "title": "The Darkroom | Certified Lover Girl",
+        "kicker": "Certified Lover Girl presents",
+        "dateLine": "12 · 02 · 2027",
+        "occasion": "the bachelorette",
+        "openLede": "A disposable camera for the bachelorette. Shoot the night for the bride-to-be; nobody sees a thing until the photos <em>develop</em>.",
+        "prizeWhere": "handed over by the girls",
+        "fileName": "Bachelorette",
+        "clearHint": "Event RSVP → 4 in the bachelorette sheet",
+        "noInvite": "<div class=\"card\"><span class=\"eyebrow\">Two taps to get in</span><ol class=\"missions\"><li><span>Open WhatsApp and tap your personal bachelorette invite link.</span><i></i></li><li><span>On the bachelorette page, tap <b>Open the Darkroom</b>.</span><i></i></li></ol></div><p class=\"note\">That opens your own camera. It’s for invited guests only.</p>",
+        "notFound": "<p class=\"note\">Open your personal bachelorette invite link in WhatsApp, then tap <b>Open the Darkroom</b>.</p>"
+    }/*END CONFIG*/;
+    var params = new URLSearchParams(location.search);
+    var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    // An event camera serves one or more events, picked by ?event=; the wedding camera has one script
+    var eventSlug = CONFIG.events ? String(params.get('event') || '').trim().toLowerCase() : '';
+    var api = (isLocal && params.get('api')) || (CONFIG.events ? CONFIG.events[eventSlug] : CONFIG.api) || '';
+    var STORE_KEY = CONFIG.storeKey;
+    var GUEST_KEY = 'jt-cam-guest';
+    var FILM_KEY = 'jt-cam-film';
+    var TZ = 'Africa/Johannesburg';
+    document.title = CONFIG.title;
+
+    // ---------- Film stocks: the same recipe drives the live preview (CSS) and the saved photo (pixels) ----------
+    var FILMS = {
+        classic: { name: 'Classic', steps: [['saturate', 1.15], ['contrast', 1.05], ['sepia', 0.12], ['brightness', 1.03]], vignette: 0.28, grain: 0 },
+        noir: { name: 'Noir', steps: [['grayscale', 1], ['contrast', 1.25], ['brightness', 1.05]], vignette: 0.4, grain: 14 },
+        golden: { name: 'Golden Hour', steps: [['sepia', 0.35], ['saturate', 1.3], ['brightness', 1.06], ['contrast', 1.02]], vignette: 0.3, grain: 6 },
+        faded: { name: 'Faded', steps: [['contrast', 0.85], ['saturate', 0.75], ['brightness', 1.08], ['sepia', 0.15]], vignette: 0.22, grain: 10 }
+    };
+    var FILM_ORDER = ['classic', 'noir', 'golden', 'faded'];
+    var cssFilter = function (key) { return FILMS[key].steps.map(function (s) { return s[0] + '(' + s[1] + ')'; }).join(' '); };
+
+    // Colour matrices from the CSS filter spec, as rows of [r, g, b, offset]; offsets in 0–255
+    function stepMatrix(kind, a) {
+        var x = 1 - a;
+        if (kind === 'grayscale') return [[0.2126 + 0.7874 * x, 0.7152 - 0.7152 * x, 0.0722 - 0.0722 * x, 0], [0.2126 - 0.2126 * x, 0.7152 + 0.2848 * x, 0.0722 - 0.0722 * x, 0], [0.2126 - 0.2126 * x, 0.7152 - 0.7152 * x, 0.0722 + 0.9278 * x, 0]];
+        if (kind === 'sepia') return [[0.393 + 0.607 * x, 0.769 - 0.769 * x, 0.189 - 0.189 * x, 0], [0.349 - 0.349 * x, 0.686 + 0.314 * x, 0.168 - 0.168 * x, 0], [0.272 - 0.272 * x, 0.534 - 0.534 * x, 0.131 + 0.869 * x, 0]];
+        if (kind === 'saturate') return [[0.213 + 0.787 * a, 0.715 - 0.715 * a, 0.072 - 0.072 * a, 0], [0.213 - 0.213 * a, 0.715 + 0.285 * a, 0.072 - 0.072 * a, 0], [0.213 - 0.213 * a, 0.715 - 0.715 * a, 0.072 + 0.928 * a, 0]];
+        if (kind === 'brightness') return [[a, 0, 0, 0], [0, a, 0, 0], [0, 0, a, 0]];
+        if (kind === 'contrast') { var o = (0.5 - 0.5 * a) * 255; return [[a, 0, 0, o], [0, a, 0, o], [0, 0, a, o]]; }
+        return [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
+    }
+    function then(B, A) { // apply A, then B
+        var C = [];
+        for (var i = 0; i < 3; i++) {
+            C.push([]);
+            for (var j = 0; j < 4; j++) {
+                var v = j === 3 ? B[i][3] : 0;
+                for (var k = 0; k < 3; k++) v += B[i][k] * A[k][j];
+                C[i].push(v);
+            }
+        }
+        return C;
+    }
+    function filmMatrix(key) {
+        var m = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]];
+        FILMS[key].steps.forEach(function (s) { m = then(stepMatrix(s[0], s[1]), m); });
+        return m;
+    }
+
+    var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    function stampText(d) {
+        var p = {};
+        new Intl.DateTimeFormat('en-GB', { timeZone: TZ, day: '2-digit', month: '2-digit', year: '2-digit' }).formatToParts(d).forEach(function (x) { p[x.type] = x.value; });
+        return p.day + ' ' + p.month + " '" + p.year;
+    }
+
+    /** Develops one frame: crop, film colour, grain, vignette and the orange date stamp. Returns a canvas. */
+    function develop(source, crop, filmKey, when) {
+        var MAX = 2400;
+        var scale = Math.min(1, MAX / Math.max(crop.sw, crop.sh));
+        var w = Math.round(crop.sw * scale), h = Math.round(crop.sh * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(source, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, w, h);
+        var film = FILMS[filmKey], m = filmMatrix(filmKey), g = film.grain;
+        var img = ctx.getImageData(0, 0, w, h), d = img.data;
+        var m00 = m[0][0], m01 = m[0][1], m02 = m[0][2], m03 = m[0][3];
+        var m10 = m[1][0], m11 = m[1][1], m12 = m[1][2], m13 = m[1][3];
+        var m20 = m[2][0], m21 = m[2][1], m22 = m[2][2], m23 = m[2][3];
+        for (var i = 0; i < d.length; i += 4) {
+            var r = d[i], gr = d[i + 1], b = d[i + 2];
+            var n = g ? (Math.random() - 0.5) * 2 * g : 0;
+            d[i] = m00 * r + m01 * gr + m02 * b + m03 + n;
+            d[i + 1] = m10 * r + m11 * gr + m12 * b + m13 + n;
+            d[i + 2] = m20 * r + m21 * gr + m22 * b + m23 + n;
+        }
+        ctx.putImageData(img, 0, 0);
+        var grad = ctx.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.36, w / 2, h / 2, Math.sqrt(w * w + h * h) / 2);
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(1, 'rgba(0,0,0,' + film.vignette + ')');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        var size = Math.round(Math.min(w, h) * 0.042);
+        ctx.font = '700 ' + size + 'px "Courier New", ui-monospace, monospace';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#fdf8ee';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+        ctx.shadowBlur = size * 0.45;
+        ctx.fillText(stampText(when), w - size * 1.3, h - size * 1.1);
+        ctx.shadowBlur = 0;
+        return canvas;
+    }
+    function shrink(canvas, max) {
+        var s = Math.min(1, max / Math.max(canvas.width, canvas.height));
+        var c = document.createElement('canvas');
+        c.width = Math.round(canvas.width * s); c.height = Math.round(canvas.height * s);
+        c.getContext('2d').drawImage(canvas, 0, 0, c.width, c.height);
+        return c;
+    }
+    var toBlob = function (canvas, q) { return new Promise(function (res, rej) { canvas.toBlob(function (b) { b ? res(b) : rej(new Error('blob')); }, 'image/jpeg', q); }); };
+    var toBase64 = function (blob) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result).split(',')[1] || ''); }; r.onerror = rej; r.readAsDataURL(blob); }); };
+    var wait = function (ms) { return new Promise(function (res) { setTimeout(res, ms); }); };
+    var uid = function () { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); };
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var $ = function (id) { return document.getElementById(id); };
+    // Event cameras remember nothing on the phone (like the event pages); the wedding camera remembers the invite
+    var store = {
+        get: function (k) { if (!CONFIG.remember) return null; try { return window.localStorage.getItem(k); } catch (e) { return null; } },
+        set: function (k, v) { if (!CONFIG.remember) return; try { window.localStorage.setItem(k, v); } catch (e) {} }
+    };
+    function whenText(iso, withDay) {
+        if (!iso) return '';
+        var d = new Date(iso);
+        return d.toLocaleDateString('en-ZA', { timeZone: TZ, weekday: withDay ? 'long' : undefined, day: 'numeric', month: 'long' }) + ' at ' +
+            d.toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    var timeText = function (iso) { return new Date(iso).toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }); };
+
+    // ---------- Talking to the script (retries quietly when lots of guests send at once) ----------
+    var RETRY_DELAYS = [2000, 4000, 8000];
+    function postJson(payload) {
+        if (eventSlug) payload.event = eventSlug;
+        var attempt = 0;
+        var send = function () {
+            return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
+                .then(function (r) { return r.text(); })
+                .then(function (text) {
+                    var d;
+                    try { d = JSON.parse(text); } catch (e) { d = { ok: false, error: 'busy' }; }
+                    if (d && d.error === 'busy' && attempt < RETRY_DELAYS.length) {
+                        var ms = RETRY_DELAYS[attempt++] + Math.floor(Math.random() * 1000);
+                        return wait(ms).then(send);
+                    }
+                    return d;
+                });
+        };
+        return send();
+    }
+    var getJson = function (query) { return fetch(api + '?' + query + (eventSlug ? '&event=' + encodeURIComponent(eventSlug) : '')).then(function (r) { return r.json(); }); };
+
+    // ---------- Photos wait on the phone until they're safely uploaded ----------
+    var db = null;
+    function openDb() {
+        return new Promise(function (res, rej) {
+            try {
+                var req = indexedDB.open('jt-darkroom', 1);
+                req.onupgradeneeded = function () { req.result.createObjectStore('shots', { keyPath: 'id' }); };
+                req.onsuccess = function () { res(req.result); };
+                req.onerror = function () { rej(req.error); };
+            } catch (e) { rej(e); }
+        });
+    }
+    function dbDo(mode, fn) {
+        return new Promise(function (res, rej) {
+            var t = db.transaction('shots', mode);
+            var req = fn(t.objectStore('shots'));
+            t.oncomplete = function () { res(req ? req.result : undefined); };
+            t.onerror = t.onabort = function () { rej(t.error); };
+        });
+    }
+    var putShot = function (s) { return dbDo('readwrite', function (os) { return os.put(s); }); };
+    var dropShot = function (id) { return dbDo('readwrite', function (os) { return os.delete(id); }); };
+    var allShots = function () { return dbDo('readonly', function (os) { return os.getAll(); }); };
+
+    // ---------- State ----------
+    var code = '';
+    var info = null;           // camStatus answer
+    var guest = '';            // who's shooting
+    var queued = {};           // photos waiting on this phone, per guest
+    var film = FILM_ORDER.indexOf(store.get(FILM_KEY)) !== -1 ? store.get(FILM_KEY) : 'classic';
+    var mission = '';
+    var stream = null, facing = 'environment', flashOn = false, torch = false, noLiveCamera = false;
+    var shooting = false;
+
+    var queuedMissions = {};   // missions shot on this phone but not uploaded yet, per guest
+    var guestInfo = function () { return info.guests.filter(function (g) { return g.name === guest; })[0]; };
+    var guestBy = function (name) { return info.guests.filter(function (x) { return x.name === name; })[0]; };
+    var leftFor = function (name) {
+        var g = guestBy(name);
+        if (g && g.unlimited) return Infinity;
+        return Math.max(0, info.shots - (g ? g.used : 0) - (queued[name] || 0));
+    };
+    /** One photo per mission each: the ones done (uploaded or still waiting on this phone) */
+    var missionsDoneFor = function (name) {
+        var g = guestBy(name), done = ((g && g.missionsDone) || []).slice();
+        (queuedMissions[name] || []).forEach(function (m) { if (done.indexOf(m) === -1) done.push(m); });
+        return done.filter(function (m) { return info.missions.indexOf(m) !== -1; });
+    };
+    var firstName = function (n) { return String(n).split(' ')[0]; };
+
+    /** Where the camera is right now, for this guest (admins can always shoot, to test). */
+    function phaseNow() {
+        if (!info) return 'before';
+        if (info.admin) return 'open';
+        var t = Date.now(), grace = 15 * 60 * 1000;
+        if (!info.opens || t < Date.parse(info.opens) - grace) return 'before';
+        if (t > Date.parse(info.closes) + grace) return 'closed';
+        if (info.pauseStart && t >= Date.parse(info.pauseStart) && t < Date.parse(info.pauseEnd)) return 'paused';
+        return 'open';
+    }
+    var revealedNow = function () { return !!info && !!info.reveal && Date.now() >= Date.parse(info.reveal); };
+
+    // ---------- Toast + little touches ----------
+    var toastTimer = null;
+    function toast(msg) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2600);
+    }
+    var audio = null;
+    function shutterSound() {
+        try {
+            audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+            var len = Math.floor(audio.sampleRate * 0.09);
+            var buf = audio.createBuffer(1, len, audio.sampleRate), ch = buf.getChannelData(0);
+            for (var i = 0; i < len; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 4) * (i < len * 0.12 ? 1 : 0.45);
+            var src = audio.createBufferSource(), gain = audio.createGain();
+            src.buffer = buf; gain.gain.value = 0.55;
+            src.connect(gain); gain.connect(audio.destination);
+            src.start();
+        } catch (e) {}
+        if (navigator.vibrate) navigator.vibrate(25);
+    }
+    function developingAnim() {
+        var finder = $('finder').getBoundingClientRect(), counter = $('camLeft').getBoundingClientRect();
+        var el = document.createElement('div');
+        el.className = 'developing';
+        var x = finder.left + finder.width / 2 - 32, y = finder.top + finder.height / 2 - 43;
+        el.style.left = x + 'px'; el.style.top = y + 'px';
+        el.style.setProperty('--dx', (counter.left - x) + 'px');
+        el.style.setProperty('--dy', (counter.top - y) + 'px');
+        document.body.appendChild(el);
+        setTimeout(function () { el.remove(); }, 1000);
+    }
+
+    // ---------- Intro ----------
+    function showScreen(id) {
+        ['intro', 'camera', 'gallery'].forEach(function (s) { $(s).hidden = s !== id; });
+        if (id !== 'camera') stopCamera();
+        window.scrollTo(0, 0);
+    }
+    function introMessage(lede, extra) {
+        $('introLede').innerHTML = lede;
+        $('introBody').innerHTML = extra || '';
+        $('introBody').hidden = !extra;
+        showScreen('intro');
+    }
+    function renderIntro() {
+        var phase = phaseNow(), revealed = revealedNow();
+        var g = guestInfo();
+        var html = '';
+        if (info.admin) {
+            html += '<p class="admin-note">You’re an admin: the camera is always open for you to test, and you can preview and hide photos before they develop. Clear test shots with ' + CONFIG.clearHint + '.</p>';
+        }
+        if (info.guests.length > 1) {
+            html += '<div class="card"><span class="eyebrow">Who’s shooting?</span><div class="who">' + info.guests.map(function (x) {
+                return '<label><input type="radio" name="who" value="' + esc(x.name) + '"' + (x.name === guest ? ' checked' : '') + '><span>' + esc(x.name) + '</span></label>';
+            }).join('') + '</div></div>';
+        }
+        var left = leftFor(g.name);
+        html += '<div class="card roll"><div><span class="eyebrow">' + esc(firstName(g.name)) + '’s roll</span>' +
+            (left === Infinity ? '<b>No limit</b><span>shoot as much as you like</span>' : '<b>' + left + '</b><span>of ' + info.shots + ' shots left</span>') + '</div>' +
+            '<div><span class="eyebrow">Photos develop</span><b>' + (info.reveal ? esc(new Date(info.reveal).toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' })) : 'Soon') + '</b><span>' + (info.reveal ? esc(timeText(info.reveal)) + ', for everyone at once' : '') + '</span></div></div>';
+        if (info.missions.length) {
+            var done = missionsDoneFor(g.name);
+            html += '<div class="card"><span class="eyebrow">The mission game · ' + done.length + ' of ' + info.missions.length + ' done</span>' +
+                '<p class="game-line">Be the <em>first</em> to complete every mission and win a prize, ' + CONFIG.prizeWhere + '. One photo per mission, so make it count.</p>' +
+                '<ul class="missions">' + info.missions.map(function (m) {
+                    var isDone = done.indexOf(m) !== -1;
+                    return '<li' + (isDone ? ' class="done"' : '') + '><span>' + esc(m) + '</span>' + (isDone ? '<i>Done</i>' : '<i></i>') + '</li>';
+                }).join('') + '</ul></div>';
+        }
+        if (phase === 'open') html += '<button class="btn btn-solid" id="openCam"' + (left ? '' : ' disabled') + '>' + (left ? 'Open the camera' : 'Roll finished') + '</button>';
+        if (revealed || info.admin) html += '<button class="btn ' + (phase === 'open' ? 'btn-ghost' : 'btn-solid') + '" id="openGal">' + (revealed ? 'See the photos' : 'Preview the photos') + '</button>';
+        if (info.admin && info.missions.length) html += '<button class="btn btn-ghost" id="openBoard">Mission leaderboard</button><div id="boardBox" hidden></div>';
+        html += '<p class="note">' + (phase === 'open'
+            ? 'Like a real disposable: no previews, no retakes. Your photos stay on this phone until they’ve uploaded, so it’s fine if the signal drops.'
+            : 'Every photo stays hidden until they all develop together.') + '</p>';
+
+        var lede;
+        if (revealed) lede = 'The photos have <em>developed</em>. Every guest’s roll, all in one place.';
+        else if (phase === 'open') lede = CONFIG.openLede;
+        else if (phase === 'paused') lede = 'The camera is resting for the ceremony. It’s back at <span class="note-strong">' + esc(timeText(info.pauseEnd)) + '</span>.';
+        else if (phase === 'closed') lede = 'The camera is closed. Thank you for every shot! The photos develop on ' + esc(whenText(info.reveal, true)) + '.';
+        else lede = 'Your disposable camera for ' + CONFIG.occasion + '. It opens on ' + esc(new Date(info.opens).toLocaleDateString('en-ZA', { timeZone: TZ, weekday: 'long', day: 'numeric', month: 'long' })) + '.';
+        introMessage(lede, html);
+        if ($('openBoard')) $('openBoard').addEventListener('click', showBoard);
+
+        document.querySelectorAll('input[name="who"]').forEach(function (r) {
+            r.addEventListener('change', function () { guest = r.value; store.set(GUEST_KEY, guest); renderIntro(); });
+        });
+        if ($('openCam')) $('openCam').addEventListener('click', openCamera);
+        if ($('openGal')) $('openGal').addEventListener('click', openGallery);
+        renderQueue();
+    }
+
+    /** Admins: who's winning the mission game (the hosts see the same board on their host page). */
+    function showBoard() {
+        var box = $('boardBox');
+        box.hidden = false;
+        box.innerHTML = '<p class="note">Loading the leaderboard…</p>';
+        getJson('action=camBoard&code=' + encodeURIComponent(code)).then(function (d) {
+            if (!d.ok) { box.innerHTML = '<p class="note">Couldn’t load the leaderboard.</p>'; return; }
+            var b = d.board;
+            var html = '<div class="card"><span class="eyebrow">First to finish all ' + b.total + ' missions</span>';
+            html += b.leaders.length ? '<table class="board"><thead><tr><th>Guest</th><th class="num">Missions</th><th class="num">' + 'Time' + '</th></tr></thead><tbody>' + b.leaders.map(function (p, i) {
+                return '<tr' + (i === 0 && p.finished ? ' class="top"' : '') + '><td>' + esc(p.guest) + '<small>' + esc(p.invite) + '</small></td><td class="num">' + p.done + '/' + b.total + '</td><td class="num">' + (p.finished ? esc(timeText(p.at)) : '–') + '</td></tr>';
+            }).join('') + '</tbody></table>' : '<p class="note">Nobody has shot a mission yet.</p>';
+            html += '</div><div class="card"><span class="eyebrow">First on each mission</span><table class="board"><tbody>' + b.firsts.map(function (f) {
+                return '<tr><td>' + esc(f.mission) + '<small>' + (f.guest ? esc(f.guest) + ' · ' + esc(f.invite) : 'Not yet') + '</small></td><td class="num">' + (f.at ? esc(timeText(f.at)) : '') + '</td></tr>';
+            }).join('') + '</tbody></table></div>';
+            box.innerHTML = html;
+        }).catch(function () { box.innerHTML = '<p class="note">Couldn’t load the leaderboard. Check your signal.</p>'; });
+    }
+
+    function renderQueue() {
+        var total = Object.keys(queued).reduce(function (n, k) { return n + queued[k]; }, 0);
+        var line = $('introQueue'), pill = $('camUploads');
+        if (!total && !everQueued) { line.hidden = true; pill.hidden = true; return; }
+        var text = total ? total + ' photo' + (total === 1 ? '' : 's') + ' waiting to upload. Keep this page open.' : 'All your photos are safely uploaded ✓';
+        line.hidden = false; line.textContent = text; line.classList.toggle('pending', !!total);
+        pill.hidden = false; pill.textContent = total ? total + ' developing…' : 'All safe ✓'; pill.classList.toggle('pending', !!total);
+    }
+    var everQueued = false;
+
+    // ---------- Camera ----------
+    function stopCamera() {
+        if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+        stream = null; torch = false;
+        $('finder').classList.remove('live');
+    }
+    // The shutter curtains slide open once there's a picture to show
+    var openCurtains = function () { setTimeout(function () { $('finder').classList.add('live'); }, 120); };
+    function fakeStream() { // localhost only: a moving test picture instead of a real camera
+        var c = document.createElement('canvas'); c.width = 960; c.height = 1280;
+        var ctx = c.getContext('2d'), t0 = Date.now();
+        (function draw() {
+            var t = (Date.now() - t0) / 1000;
+            var g = ctx.createLinearGradient(0, 0, 960, 1280);
+            g.addColorStop(0, '#5b8bd1'); g.addColorStop(0.6, '#e6a26b'); g.addColorStop(1, '#3a6b3f');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, 960, 1280);
+            ctx.fillStyle = '#f6e7cf'; ctx.beginPath(); ctx.arc(480 + Math.sin(t) * 140, 520, 150, 0, 7); ctx.fill();
+            ctx.fillStyle = '#222'; ctx.font = '700 64px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('TEST CAMERA', 480, 1000);
+            requestAnimationFrame(draw);
+        })();
+        return c.captureStream(30);
+    }
+    function startCamera() {
+        stopCamera();
+        var video = $('viewfinder');
+        $('camMsg').hidden = true;
+        var get = isLocal && params.get('fakecam')
+            ? Promise.resolve(fakeStream())
+            : (navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+                ? navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: facing }, width: { ideal: 2560 }, height: { ideal: 1920 } } })
+                : Promise.reject(new Error('no camera')));
+        return get.then(function (s) {
+            stream = s;
+            noLiveCamera = false;
+            video.srcObject = s;
+            video.classList.toggle('mirror', facing === 'user');
+            var track = s.getVideoTracks()[0];
+            var caps = track && track.getCapabilities ? track.getCapabilities() : {};
+            torch = !!(caps && caps.torch);
+            $('camFlash').hidden = !(torch || facing === 'user');
+            return video.play().then(openCurtains);
+        }).catch(function () {
+            openCurtains();
+            // No live viewfinder (an older phone or an in-app browser): the shutter opens the phone's own camera instead
+            noLiveCamera = true;
+            $('camFlash').hidden = true;
+            $('camMsg').innerHTML = 'Your browser can’t show a live viewfinder here.<br>Tap the shutter to use your phone’s camera; your film look is added afterwards.<br><br><span style="font-size:.8rem">Tip: open this page in Safari or Chrome for the full camera.</span>';
+            $('camMsg').hidden = false;
+        });
+    }
+    function applyFilm() {
+        $('viewfinder').style.filter = cssFilter(film);
+        $('vignette').style.opacity = FILMS[film].vignette * 1.6;
+        document.querySelectorAll('.film').forEach(function (b) {
+            var on = b.getAttribute('data-film') === film;
+            b.classList.toggle('on', on);
+            b.setAttribute('aria-checked', String(on));
+        });
+    }
+    function renderCamTop() {
+        var g = guestInfo();
+        $('camWho').textContent = (info.guests.length > 1 ? firstName(g.name) + ' · switch' : firstName(g.name));
+        var left = leftFor(g.name);
+        $('camLeft').textContent = left === Infinity ? '∞' : left;
+        $('camLeft').nextElementSibling.textContent = left === Infinity ? 'no limit' : 'left';
+        $('shutter').disabled = !left;
+        $('datePreview').textContent = stampText(new Date());
+        // A mission already shot can't be picked again
+        var done = missionsDoneFor(g.name);
+        if (mission && done.indexOf(mission) !== -1) mission = '';
+        var chip = $('missionChip');
+        var allDone = info.missions.length && done.length === info.missions.length;
+        chip.textContent = mission ? mission : (allDone ? 'Every mission complete' : 'Pick a photo mission');
+        chip.classList.toggle('active', !!mission);
+        chip.disabled = !!allDone;
+        chip.hidden = !info.missions.length;
+        $('missionCount').textContent = info.missions.length ? done.length + '/' + info.missions.length : '';
+    }
+    function openCamera() {
+        if (!db) return;
+        showScreen('camera');
+        applyFilm();
+        renderCamTop();
+        renderQueue();
+        startCamera();
+    }
+    function cropFor(w, h) { // the 3:4 portrait frame the viewfinder shows
+        var target = 3 / 4;
+        if (w / h > target) { var sw = h * target; return { sx: (w - sw) / 2, sy: 0, sw: sw, sh: h }; }
+        var sh = w / target;
+        return { sx: 0, sy: (h - sh) / 2, sw: w, sh: sh };
+    }
+    function saveShot(source, crop, when) {
+        var g = guestInfo();
+        var canvas = develop(source, crop, film, when);
+        return Promise.all([toBlob(canvas, 0.86), toBlob(shrink(canvas, 480), 0.72)]).then(function (b) {
+            return putShot({ id: uid(), code: code, guest: g.name, takenAt: when.getTime(), film: film, mission: mission, image: b[0], thumb: b[1] });
+        }).then(function () {
+            queued[g.name] = (queued[g.name] || 0) + 1;
+            var shotMission = mission;
+            if (shotMission) {
+                (queuedMissions[g.name] = queuedMissions[g.name] || []).push(shotMission);
+                mission = '';
+            }
+            everQueued = true;
+            renderCamTop();
+            renderQueue();
+            developingAnim();
+            var done = missionsDoneFor(g.name).length;
+            if (shotMission && done === info.missions.length) toast('Every mission complete! The first to finish wins a prize.');
+            else if (shotMission) toast('Mission complete: ' + done + ' of ' + info.missions.length);
+            else if (!leftFor(g.name)) toast('That’s the whole roll! Your photos develop on ' + whenText(info.reveal, true) + '.');
+            pump();
+        });
+    }
+    function shoot() {
+        if (shooting) return;
+        var phase = phaseNow();
+        if (phase !== 'open') { toast(phase === 'paused' ? 'The camera is resting for the ceremony.' : 'The camera isn’t open right now.'); return renderIntro(); }
+        if (!leftFor(guest)) return toast('That’s the whole roll!');
+        if (noLiveCamera) return $('fileShot').click();
+        var video = $('viewfinder');
+        if (!video.videoWidth) return toast('The camera is still waking up.');
+        shooting = true;
+        var when = new Date();
+        var go = function () {
+            shutterSound();
+            var fl = $('flash');
+            fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
+            // The curtains snap shut and open again, like a real shutter
+            var finder = $('finder');
+            finder.classList.add('blink');
+            setTimeout(function () { finder.classList.remove('blink'); }, 110);
+            // Let the flash paint before the heavy developing work
+            setTimeout(function () {
+                saveShot(video, cropFor(video.videoWidth, video.videoHeight), when)
+                    .catch(function () { toast('That shot didn’t save. Please try again.'); })
+                    .then(function () { shooting = false; });
+            }, 40);
+        };
+        if (flashOn && torch && stream) {
+            var track = stream.getVideoTracks()[0];
+            track.applyConstraints({ advanced: [{ torch: true }] }).catch(function () {})
+                .then(function () { return wait(350); })
+                .then(function () { go(); return wait(200); })
+                .then(function () { track.applyConstraints({ advanced: [{ torch: false }] }).catch(function () {}); });
+        } else if (flashOn && facing === 'user') {
+            var fl = $('flash');
+            fl.classList.add('selfie');
+            setTimeout(function () { go(); setTimeout(function () { fl.classList.remove('selfie'); }, 120); }, 260);
+        } else go();
+    }
+
+    // ---------- Upload queue: one photo at a time, as signal allows ----------
+    var UPLOAD_ERRORS = { limit: 'One photo was over your roll and couldn’t be saved.', closed: 'One photo was taken after the camera closed.', not_open: 'One photo was taken before the camera opened.', paused: 'One photo was taken during the ceremony pause.', not_found: 'We couldn’t find your invitation for one photo.', bad_request: 'One photo couldn’t be read.', mission_done: 'You’d already shot that mission, so one photo wasn’t counted.' };
+    var pumping = false;
+    function pump() {
+        if (pumping || !db) return;
+        pumping = true;
+        allShots().then(function (shots) {
+            var mine = shots.filter(function (s) { return s.code === code; }).sort(function (a, b) { return a.takenAt - b.takenAt; });
+            queued = {};
+            queuedMissions = {};
+            mine.forEach(function (s) {
+                queued[s.guest] = (queued[s.guest] || 0) + 1;
+                if (s.mission) (queuedMissions[s.guest] = queuedMissions[s.guest] || []).push(s.mission);
+            });
+            renderQueue();
+            if (info && $('camera').hidden === false) renderCamTop();
+            if (!mine.length) { pumping = false; return; }
+            everQueued = true;
+            var s = mine[0];
+            return Promise.all([toBase64(s.image), toBase64(s.thumb)])
+                .then(function (b) { return postJson({ action: 'camUpload', code: s.code, guest: s.guest, id: s.id, takenAt: s.takenAt, film: s.film, mission: s.mission, image: b[0], thumb: b[1] }); })
+                .then(function (res) {
+                    if (res.ok) {
+                        var g = info && info.guests.filter(function (x) { return x.name === s.guest; })[0];
+                        if (g && typeof res.used === 'number') g.used = res.used;
+                        if (g && s.mission && (g.missionsDone = g.missionsDone || []).indexOf(s.mission) === -1) g.missionsDone.push(s.mission);
+                        return dropShot(s.id).then(function () { pumping = false; pump(); });
+                    }
+                    if (res.error === 'busy') return wait(6000).then(function () { pumping = false; pump(); });
+                    // A firm no (over the roll, outside the hours): this photo can't be kept; let the rest go
+                    return dropShot(s.id).then(function () { toast(UPLOAD_ERRORS[res.error] || 'One photo couldn’t be saved.'); pumping = false; pump(); });
+                });
+        }).catch(function () {
+            // No signal: try again shortly, or as soon as the phone is back online
+            pumping = false;
+            renderQueue();
+            setTimeout(pump, 10000);
+        });
+    }
+    window.addEventListener('online', pump);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) pump(); });
+    window.addEventListener('beforeunload', function (e) {
+        var total = Object.keys(queued).reduce(function (n, k) { return n + queued[k]; }, 0);
+        if (total) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    // ---------- Gallery ----------
+    var gal = { photos: [], view: [], filter: 'all', open: -1 };
+    function openGallery() {
+        showScreen('gallery');
+        $('galGrid').innerHTML = '';
+        $('galCount').textContent = 'Loading…';
+        getJson('action=camGallery&code=' + encodeURIComponent(code)).then(function (d) {
+            if (!d.ok || (!d.revealed && !d.admin)) { renderIntro(); return; }
+            gal.photos = d.photos || [];
+            gal.admin = !!d.admin;
+            $('galAdmin').hidden = !(d.admin && !d.revealed);
+            $('galAdmin').textContent = 'Preview: only admins can see this until ' + whenText(d.reveal, true) + '. Hidden photos never reach guests.';
+            var dl = $('galDownloadAll');
+            dl.hidden = !d.folderLink;
+            if (d.folderLink) dl.href = d.folderLink;
+            var used = {};
+            gal.photos.forEach(function (p) { if (p.mission) used[p.mission] = true; });
+            var chips = [['all', 'All']].concat(d.missions.filter(function (m) { return used[m]; }).map(function (m) { return [m, m]; }));
+            $('galChips').innerHTML = chips.length > 1 ? chips.map(function (c) { return '<button class="chip" data-chip="' + esc(c[0]) + '">' + esc(c[1]) + '</button>'; }).join('') : '';
+            $('galChips').querySelectorAll('[data-chip]').forEach(function (b) {
+                b.addEventListener('click', function () { gal.filter = b.getAttribute('data-chip'); renderGrid(); });
+            });
+            gal.filter = 'all';
+            renderGrid();
+        }).catch(function () { $('galCount').textContent = 'Couldn’t load. Check your signal.'; });
+    }
+    var thumbCache = {};
+    function renderGrid() {
+        gal.view = gal.photos.filter(function (p) { return gal.filter === 'all' || p.mission === gal.filter; });
+        $('galChips').querySelectorAll('[data-chip]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-chip') === gal.filter); });
+        $('galCount').textContent = gal.view.length + ' photo' + (gal.view.length === 1 ? '' : 's');
+        $('galEmpty').hidden = !!gal.view.length;
+        $('galGrid').innerHTML = gal.view.map(function (p, i) {
+            return '<button class="tile' + (p.hidden ? ' hidden-photo' : '') + '" data-i="' + i + '" aria-label="Photo by ' + esc(p.guest) + '"><img alt="" data-id="' + esc(p.id) + '">' + (p.hidden ? '<span class="tag">Hidden</span>' : '') + '</button>';
+        }).join('');
+        $('galGrid').querySelectorAll('.tile').forEach(function (t) { t.addEventListener('click', function () { openPhoto(Number(t.getAttribute('data-i'))); }); });
+        loadThumbs();
+    }
+    var thumbRun = 0;
+    function loadThumbs() {
+        var run = ++thumbRun;
+        var ids = gal.view.map(function (p) { return p.id; });
+        var show = function (id) {
+            var img = $('galGrid').querySelector('img[data-id="' + id + '"]');
+            if (img && thumbCache[id]) { img.src = thumbCache[id]; img.onload = function () { img.classList.add('in'); }; }
+        };
+        ids.forEach(show);
+        var missing = ids.filter(function (id) { return !thumbCache[id]; });
+        var next = function () {
+            if (run !== thumbRun || !missing.length) return;
+            var batch = missing.splice(0, 12);
+            getJson('action=camImages&code=' + encodeURIComponent(code) + '&ids=' + encodeURIComponent(batch.join(','))).then(function (d) {
+                Object.keys((d && d.images) || {}).forEach(function (id) { thumbCache[id] = 'data:image/jpeg;base64,' + d.images[id]; show(id); });
+                next();
+            }).catch(function () { setTimeout(next, 4000); });
+        };
+        next();
+    }
+    var fullUrl = null;
+    function openPhoto(i) {
+        if (i < 0 || i >= gal.view.length) return;
+        gal.open = i;
+        var p = gal.view[i];
+        $('lightbox').hidden = false;
+        $('lbCap').innerHTML = esc(p.guest) + '<span>' + esc(FILMS[p.film] ? FILMS[p.film].name : '') + (p.mission ? ' · ' + esc(p.mission) : '') + ' · ' + esc(timeText(p.takenAt)) + '</span>';
+        var img = $('lbImg');
+        img.src = thumbCache[p.id] || '';
+        var save = $('lbSave');
+        save.removeAttribute('href');
+        save.textContent = 'Loading…';
+        $('lbHide').hidden = !gal.admin;
+        $('lbHide').textContent = p.hidden ? 'Unhide' : 'Hide';
+        getJson('action=camImages&full=1&code=' + encodeURIComponent(code) + '&ids=' + encodeURIComponent(p.id)).then(function (d) {
+            if (gal.open !== i || !d.images || !d.images[p.id]) return;
+            var bin = atob(d.images[p.id]), bytes = new Uint8Array(bin.length);
+            for (var k = 0; k < bin.length; k++) bytes[k] = bin.charCodeAt(k);
+            if (fullUrl) URL.revokeObjectURL(fullUrl);
+            fullUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/jpeg' }));
+            img.src = fullUrl;
+            save.href = fullUrl;
+            save.download = CONFIG.fileName + '-' + firstName(p.guest) + '-' + p.id.slice(0, 6) + '.jpg';
+            save.textContent = 'Save photo';
+        }).catch(function () { save.textContent = 'Couldn’t load'; });
+    }
+    $('lbClose').addEventListener('click', function () { $('lightbox').hidden = true; gal.open = -1; });
+    $('lbPrev').addEventListener('click', function () { openPhoto(gal.open - 1); });
+    $('lbNext').addEventListener('click', function () { openPhoto(gal.open + 1); });
+    document.addEventListener('keydown', function (e) {
+        if ($('lightbox').hidden) return;
+        if (e.key === 'Escape') $('lbClose').click();
+        if (e.key === 'ArrowLeft') $('lbPrev').click();
+        if (e.key === 'ArrowRight') $('lbNext').click();
+    });
+    $('lbHide').addEventListener('click', function () {
+        var p = gal.view[gal.open];
+        if (!p) return;
+        var hide = !p.hidden;
+        $('lbHide').disabled = true;
+        postJson({ action: 'camHide', code: code, id: p.id, hidden: hide }).then(function (res) {
+            $('lbHide').disabled = false;
+            if (!res.ok) return toast('Couldn’t change that. Try again.');
+            p.hidden = hide;
+            $('lbHide').textContent = hide ? 'Unhide' : 'Hide';
+            toast(hide ? 'Hidden from guests' : 'Back in the gallery');
+            var tile = $('galGrid').querySelector('[data-i="' + gal.open + '"]');
+            if (tile) {
+                tile.classList.toggle('hidden-photo', hide);
+                var tag = tile.querySelector('.tag');
+                if (hide && !tag) tile.insertAdjacentHTML('beforeend', '<span class="tag">Hidden</span>');
+                if (!hide && tag) tag.remove();
+            }
+        });
+    });
+    $('galBack').addEventListener('click', function () { renderIntro(); });
+
+    // ---------- Wiring ----------
+    $('films').innerHTML = FILM_ORDER.map(function (k) {
+        return '<button class="film film-' + k + '" role="radio" data-film="' + k + '"><i></i>' + FILMS[k].name + '</button>';
+    }).join('');
+    $('films').querySelectorAll('.film').forEach(function (b) {
+        b.addEventListener('click', function () { film = b.getAttribute('data-film'); store.set(FILM_KEY, film); applyFilm(); });
+    });
+    $('missionChip').addEventListener('click', function () {
+        var done = missionsDoneFor(guest);
+        var list = [''].concat(info.missions.filter(function (m) { return done.indexOf(m) === -1; }));
+        mission = list[(list.indexOf(mission) + 1) % list.length];
+        renderCamTop();
+        if (mission) toast('Mission: ' + mission + '. Your next photo counts for it.');
+    });
+    $('camWho').addEventListener('click', function () {
+        if (info.guests.length < 2) return;
+        var names = info.guests.map(function (g) { return g.name; });
+        guest = names[(names.indexOf(guest) + 1) % names.length];
+        store.set(GUEST_KEY, guest);
+        renderCamTop();
+        toast(firstName(guest) + ' is shooting · ' + leftFor(guest) + ' left');
+    });
+    $('camClose').addEventListener('click', renderIntro);
+    $('shutter').addEventListener('click', shoot);
+    $('camFlip').addEventListener('click', function () { facing = facing === 'user' ? 'environment' : 'user'; $('fileShot').setAttribute('capture', facing); startCamera(); });
+    $('camFlash').addEventListener('click', function () {
+        flashOn = !flashOn;
+        $('camFlash').classList.toggle('on', flashOn);
+        $('camFlash').setAttribute('aria-pressed', String(flashOn));
+    });
+    $('fileShot').addEventListener('change', function () {
+        var f = this.files && this.files[0];
+        this.value = '';
+        if (!f) return;
+        var when = new Date();
+        var img = new Image();
+        img.onload = function () {
+            var w = img.naturalWidth, h = img.naturalHeight;
+            var crop = h >= w ? cropFor(w, h) : { sx: 0, sy: 0, sw: w, sh: h };
+            shutterSound();
+            saveShot(img, crop, when).catch(function () { toast('That shot didn’t save. Please try again.'); }).then(function () { URL.revokeObjectURL(img.src); });
+        };
+        img.src = URL.createObjectURL(f);
+    });
+
+    // ---------- Start ----------
+    if (CONFIG.theme) document.documentElement.classList.add(CONFIG.theme);
+    $('brandKicker').innerHTML = CONFIG.kicker;
+    $('brandDate').textContent = CONFIG.dateLine;
+    function start() {
+        var fromLink = (params.get('invite') || '').trim().toUpperCase();
+        code = fromLink || (store.get(STORE_KEY) || '').toUpperCase();
+        if (!code || !api) {
+            return introMessage('This phone doesn’t know who you are yet.', CONFIG.noInvite);
+        }
+        openDb().then(function (d) { db = d; }).catch(function () { db = null; }).then(function () {
+            return getJson('action=camStatus&code=' + encodeURIComponent(code));
+        }).then(function (d) {
+            if (!d.ok) {
+                return introMessage('We couldn’t find your invitation.', CONFIG.notFound);
+            }
+            info = d;
+            if (fromLink) store.set(STORE_KEY, code);
+            var saved = store.get(GUEST_KEY);
+            guest = d.guests.some(function (g) { return g.name === saved; }) ? saved : d.guests[0].name;
+            if (!db) {
+                return introMessage('This browser can’t keep photos safe on your phone.', '<p class="note">It may be a private or incognito tab. Open the camera in a normal Safari or Chrome tab so no photo gets lost.</p>');
+            }
+            if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
+            renderIntro();
+            pump();
+        }).catch(function () {
+            introMessage('We couldn’t reach the camera.', '<p class="note">Check your signal and refresh the page. Any photos already taken are safe on this phone.</p>');
+            setTimeout(start, 15000);
+        });
+    }
+    start();
+})();
+</script>
+</body>
+</html>
