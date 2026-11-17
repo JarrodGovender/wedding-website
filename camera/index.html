@@ -950,13 +950,13 @@
         var fromLink = (params.get('invite') || '').trim().toUpperCase();
         code = fromLink || (store.get(STORE_KEY) || '').toUpperCase();
         if (!code) {
-            return introMessage('This camera is for our wedding guests.', '<p class="note">Open your personal invitation link from WhatsApp once on this phone, then scan the table card again.</p>');
+            return introMessage('This phone doesn’t know who you are yet.', '<div class="card"><span class="eyebrow">Two taps to get in</span><ol class="missions"><li><span>Open WhatsApp and tap your personal invitation link from us.</span><i></i></li><li><span>On the wedding site, tap <b>Open the Darkroom</b>.</span><i></i></li></ol></div><p class="note">That opens your own camera. This page is for our wedding guests only.</p>');
         }
         openDb().then(function (d) { db = d; }).catch(function () { db = null; }).then(function () {
             return getJson('action=camStatus&code=' + encodeURIComponent(code));
         }).then(function (d) {
             if (!d.ok) {
-                return introMessage('We couldn’t find your invitation.', '<p class="note">Open your personal invitation link from WhatsApp, then try the camera again.</p>');
+                return introMessage('We couldn’t find your invitation.', '<p class="note">Open your personal invitation link in WhatsApp, then tap <b>Open the Darkroom</b> on the wedding site.</p>');
             }
             info = d;
             if (fromLink) store.set(STORE_KEY, code);
