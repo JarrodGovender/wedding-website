@@ -63,6 +63,24 @@
         .requests li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
         .requests li small { color: var(--muted); }
         .empty { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
+        /* Send desk */
+        ul.desk { list-style: none; margin-top: 18px; border-top: 1px solid var(--ink); }
+        ul.desk li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+        ul.desk .who b { font-weight: 600; }
+        ul.desk .who small { display: block; margin-top: 3px; color: var(--muted); font-size: 0.8rem; }
+        ul.desk .who small.status { color: var(--ink); }
+        ul.desk .warn { color: #8b1d1d; }
+        ul.desk .acts { display: flex; flex-wrap: wrap; gap: 6px; }
+        ul.desk .send, ul.desk .copy { padding: 9px 12px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--ink); }
+        ul.desk .send { background: var(--ink); color: var(--paper); }
+        ul.desk .send.again { background: var(--paper); color: var(--ink); }
+        ul.desk .undo { font-size: 0.75rem; text-decoration: underline; color: var(--muted); }
+        .done-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; color: var(--muted); }
+        .tools .done-toggle input { flex: none; min-width: 0; width: 16px; height: 16px; padding: 0; border: 0; }
+        .btn[disabled] { opacity: 0.35; }
+        .confirm { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 20; max-width: 560px; margin: 0 auto; padding: 16px; background: var(--paper); border: 1px solid var(--ink); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+        .confirm p { font-family: var(--serif); font-size: 1.05rem; line-height: 1.4; margin-bottom: 12px; }
+        .confirm div { display: flex; gap: 8px; }
         footer { padding: 48px 0 calc(40px + env(safe-area-inset-bottom, 0px)); font-size: 0.75rem; color: var(--muted); }
         .center { min-height: 80vh; display: grid; place-items: center; text-align: center; padding: 24px; }
         .center p { margin-top: 12px; font-family: var(--serif); font-size: 1.15rem; }
@@ -87,6 +105,12 @@
     var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
     var api = (isLocal && params.get('api')) || RSVP_ENDPOINT;
     var code = (params.get('vendor') || '').trim().toUpperCase();
+    // Jarrod and Telicia's own link (?admin=KEY): every panel plus the send desk
+    var adminKey = (params.get('admin') || '').trim().toUpperCase();
+    var sideFilter = 'all';          // Everyone / Jarrod's / Telicia's, for the send desk and the guest list
+    var deskStage = 'invite';        // which message is being sent
+    var deskShowDone = false;
+    var pending = null;              // a WhatsApp just opened, waiting for "yes, sent"
     var TZ = 'Africa/Johannesburg';
     var app = document.getElementById('app');
     var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
@@ -98,8 +122,8 @@
     }
 
     function load(quiet) {
-        if (!code) return fail('This page needs your personal planning link. Please check it with Jarrod or Telicia.');
-        return fetch(api + '?action=plan&vendor=' + encodeURIComponent(code))
+        if (!code && !adminKey) return fail('This page needs your personal planning link. Please check it with Jarrod or Telicia.');
+        return fetch(api + '?action=plan&' + (adminKey ? 'admin=' + encodeURIComponent(adminKey) : 'vendor=' + encodeURIComponent(code)))
             .then(function (r) { return r.json(); })
             .then(function (d) {
                 if (!d.ok) return fail('This planning link doesn’t work. Please check it with Jarrod or Telicia.');
@@ -119,10 +143,22 @@
         var html = '<header class="top"><div class="wrap">' +
             '<span class="eyebrow">Jarrod &amp; Telicia · 25 · 04 · 2027</span>' +
             '<h1>The <em>planning</em> room</h1>' +
-            '<p class="hello">Hi ' + esc(first) + (v.role ? ', our ' + esc(v.role.toLowerCase()) : '') + '. Everything you need for the day, live from our own planning sheet.</p>' +
-            (v.note ? '<p class="note">' + esc(v.note) + '</p>' : '') +
-            '<div class="links"><a class="btn btn-solid" href="../?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">Wedding website →</a>' +
-            (v.access.indexOf('camera') !== -1 ? '<a class="btn" href="../camera/?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">The Darkroom →</a>' : '') + '</div>';
+            (data.couple
+                ? '<p class="hello">Your planning room: send invites and reminders, and see everything your vendors see, live from your sheet.</p><p class="note">Keep this link to yourselves. It shows guests’ phone numbers.</p>'
+                : '<p class="hello">Hi ' + esc(first) + (v.role ? ', our ' + esc(v.role.toLowerCase()) : '') + '. Everything you need for the day, live from our own planning sheet.</p>' +
+                    (v.note ? '<p class="note">' + esc(v.note) + '</p>' : '') +
+                    '<div class="links"><a class="btn btn-solid" href="../?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">Wedding website →</a>' +
+                    (v.access.indexOf('camera') !== -1 ? '<a class="btn" href="../camera/?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">The Darkroom →</a>' : '') + '</div>');
+
+        if (data.desk) {
+            jump.push(['desk', 'Send desk']);
+            sections.push('<section class="panel" id="desk"><div class="wrap"><span class="eyebrow">Invitations &amp; reminders</span><h2>The send <em>desk</em></h2>' +
+                '<p class="lede">Tap a button and WhatsApp opens with the message written and their personal link in it. Press Send in WhatsApp, come back here and confirm, and it’s ticked off.</p>' +
+                '<div class="tools" id="deskSides"></div><div class="tools" id="deskStages"></div>' +
+                '<div class="stats" id="deskStats"></div>' +
+                '<div class="tools"><button class="btn btn-solid" id="deskNext">Send the next one →</button><label class="done-toggle"><input type="checkbox" id="deskDone"' + (deskShowDone ? ' checked' : '') + '> Show ones already done</label></div>' +
+                '<ul class="desk" id="deskList"></ul><p class="empty" id="deskEmpty" hidden></p></div></section>');
+        }
 
         if (data.day) {
             jump.push(['day', 'The day']);
@@ -163,7 +199,7 @@
                 [['Attending', g.yes], ['Still to reply', g.waiting], ['Declined', g.no], ['Invited', g.total], ['Dietary needs', g.dietary]].map(function (x) {
                     return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>';
                 }).join('') + '</div>' +
-                '<div class="tools" id="guestTools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
+                (data.couple ? '<div class="tools" id="guestSides"></div>' : '') + '<div class="tools" id="guestTools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
                     return '<button class="chip" data-filter="' + c[0] + '">' + c[1] + '</button>';
                 }).join('') + '<input type="search" id="guestSearch" placeholder="Find a guest" value="' + esc(guestSearch) + '"><button class="chip" id="guestCsv">Download CSV</button></div>' +
                 '<table class="list guests"><thead><tr><th>Guest</th><th>Invite</th><th>Reply</th><th>Dietary</th></tr></thead><tbody id="guestRows"></tbody></table>' +
@@ -179,15 +215,149 @@
         window.scrollTo(0, y);
         document.getElementById('refresh').addEventListener('click', function () { load(); });
         if (data.guests) wireGuests();
+        if (data.desk) wireDesk();
     }
 
     function guestMatches(x) {
+        if (data.couple && sideFilter !== 'all' && x.side !== sideFilter) return false;
         if (guestFilter === 'diet' && !x.dietary) return false;
         if (guestFilter !== 'all' && guestFilter !== 'diet' && x.attending !== guestFilter) return false;
         var q = guestSearch.trim().toLowerCase();
         return !q || (x.guest + ' ' + x.invite + ' ' + x.dietary).toLowerCase().indexOf(q) !== -1;
     }
+    // ---------- The send desk (couple only) ----------
+    var STAGES = [['invite', 'Invites'], ['reminder', 'January reminder'], ['followup', 'March follow-up'], ['all', 'Everything']];
+    var STAGE_WORD = { invite: 'invite', reminder: 'reminder', followup: 'follow-up' };
+    var shortDate = function (iso) { return iso ? new Date(iso).toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' }) : ''; };
+    var sideOf = function (i) { return sideFilter === 'all' || i.side === sideFilter; };
+    /** Does this invitation still need this stage's message? */
+    function needs(i, stage) {
+        if (stage === 'invite') return !i.sent.invite && !i.replied; // replied = they already have the link
+        if (stage === 'reminder') return !!i.sent.invite && !i.replied && !i.sent.reminder;
+        if (stage === 'followup') return !!i.sent.invite && !i.replied && !i.sent.followup;
+        return true;
+    }
+    function messageFor(i, kind) {
+        return String(data.desk.messages[kind] || '{link}').replace(/\{name\}/g, i.name).replace(/\{link\}/g, i.link).replace(/\{deadline\}/g, data.desk.deadline || '');
+    }
+    function sideChips(id) {
+        var all = data.desk ? data.desk.invites : [];
+        var count = function (side) { return all.filter(function (i) { return side === 'all' || i.side === side; }).length; };
+        document.getElementById(id).innerHTML = [['all', 'Everyone'], ['Jarrod', 'Jarrod’s'], ['Telicia', 'Telicia’s']].map(function (c) {
+            return '<button class="chip' + (sideFilter === c[0] ? ' on' : '') + '" data-side="' + c[0] + '">' + c[1] + ' · ' + count(c[0]) + '</button>';
+        }).join('');
+        document.getElementById(id).querySelectorAll('[data-side]').forEach(function (b) {
+            b.addEventListener('click', function () { sideFilter = b.getAttribute('data-side'); renderDesk(); if (data.guests) { sideChips('guestSides'); renderGuests(); } });
+        });
+    }
+    function deskRows() {
+        var rows = data.desk.invites.filter(sideOf);
+        if (deskStage !== 'all' && !deskShowDone) rows = rows.filter(function (i) { return needs(i, deskStage); });
+        return rows.sort(function (a, b) { return a.side.localeCompare(b.side) || a.name.localeCompare(b.name); });
+    }
+    function renderDesk() {
+        sideChips('deskSides');
+        var mine = data.desk.invites.filter(sideOf);
+        var n = function (f) { return mine.filter(f).length; };
+        document.getElementById('deskStages').innerHTML = STAGES.map(function (st) {
+            var todo = st[0] === 'all' ? '' : ' · ' + n(function (i) { return needs(i, st[0]); }) + ' to send';
+            return '<button class="chip' + (deskStage === st[0] ? ' on' : '') + '" data-stage="' + st[0] + '">' + st[1] + todo + '</button>';
+        }).join('');
+        document.getElementById('deskStages').querySelectorAll('[data-stage]').forEach(function (b) {
+            b.addEventListener('click', function () { deskStage = b.getAttribute('data-stage'); renderDesk(); });
+        });
+        document.getElementById('deskStats').innerHTML = [
+            ['Invites sent', n(function (i) { return i.sent.invite; }) + '/' + mine.length],
+            ['Replied', n(function (i) { return i.replied; })],
+            ['Reminders sent', n(function (i) { return i.sent.reminder; })],
+            ['Follow-ups sent', n(function (i) { return i.sent.followup; })],
+            ['No number', n(function (i) { return !i.phone; })]
+        ].map(function (x) { return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>'; }).join('');
+
+        var rows = deskRows();
+        var kinds = deskStage === 'all' ? ['invite', 'reminder', 'followup'] : [deskStage];
+        document.getElementById('deskList').innerHTML = rows.map(function (i) {
+            var status = ['invite', 'reminder', 'followup'].filter(function (k) { return i.sent[k]; }).map(function (k) {
+                return STAGE_WORD[k].charAt(0).toUpperCase() + STAGE_WORD[k].slice(1) + ' sent ' + shortDate(i.sent[k]) + ' <button class="undo" data-undo="' + k + '" data-code="' + i.code + '">undo</button>';
+            });
+            if (i.replied) status.push('<b>Replied</b>');
+            var buttons = kinds.map(function (k) {
+                var done = !!i.sent[k];
+                return (i.phone ? '<button class="send' + (done ? ' again' : '') + '" data-send="' + k + '" data-code="' + i.code + '">' + (done ? 'Send ' + STAGE_WORD[k] + ' again' : 'Send ' + STAGE_WORD[k]) + '</button>' : '') +
+                    '<button class="copy" data-copy="' + k + '" data-code="' + i.code + '">Copy ' + STAGE_WORD[k] + '</button>';
+            }).join('');
+            return '<li><div class="who"><b>' + esc(i.name) + '</b><small>' + i.guests + ' guest' + (i.guests === 1 ? '' : 's') + ' · ' + esc(i.side ? i.side + '’s' : '') + (i.phone ? '' : ' · <span class="warn">no number</span>') + '</small>' +
+                (status.length ? '<small class="status">' + status.join(' · ') + '</small>' : '') + '</div><div class="acts">' + buttons + '</div></li>';
+        }).join('');
+        var empty = document.getElementById('deskEmpty');
+        empty.hidden = !!rows.length;
+        empty.textContent = deskStage === 'invite' ? 'Every invitation here has been sent.' : 'Nobody here needs this message right now.';
+        document.getElementById('deskNext').disabled = !rows.some(function (i) { return i.phone && needs(i, deskStage === 'all' ? 'invite' : deskStage); });
+
+        var byCode = function (c) { return data.desk.invites.filter(function (i) { return i.code === c; })[0]; };
+        document.querySelectorAll('[data-send]').forEach(function (b) {
+            b.addEventListener('click', function () { send(byCode(b.getAttribute('data-code')), b.getAttribute('data-send')); });
+        });
+        document.querySelectorAll('[data-copy]').forEach(function (b) {
+            b.addEventListener('click', function () { copy(byCode(b.getAttribute('data-code')), b.getAttribute('data-copy')); });
+        });
+        document.querySelectorAll('[data-undo]').forEach(function (b) {
+            b.addEventListener('click', function () { mark(byCode(b.getAttribute('data-code')), b.getAttribute('data-undo'), true); });
+        });
+    }
+    function send(i, kind) {
+        var url = 'https://api.whatsapp.com/send?phone=' + i.phone + '&text=' + encodeURIComponent(messageFor(i, kind));
+        window.open(url, '_blank');
+        askSent(i, kind, 'Did you send the ' + STAGE_WORD[kind] + ' to ' + i.name + ' in WhatsApp?');
+    }
+    function copy(i, kind) {
+        var text = messageFor(i, kind);
+        var done = function () { askSent(i, kind, 'Copied the ' + STAGE_WORD[kind] + ' for ' + i.name + '. Once you’ve sent it, tick it off.'); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this message:', text); done(); });
+        else { window.prompt('Copy this message:', text); done(); }
+    }
+    function askSent(i, kind, question) {
+        pending = { i: i, kind: kind };
+        var bar = document.getElementById('confirmBar');
+        bar.querySelector('p').textContent = question;
+        bar.hidden = false;
+    }
+    function mark(i, kind, undo) {
+        return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'deskMark', key: adminKey, code: i.code, kind: kind, undo: !!undo }) })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.ok) throw res;
+                i.sent[kind] = res.at || '';
+                renderDesk();
+            })
+            .catch(function () { alert('Couldn’t save that. Check your signal and try again.'); });
+    }
+    function wireDesk() {
+        document.getElementById('deskDone').addEventListener('change', function () { deskShowDone = this.checked; renderDesk(); });
+        document.getElementById('deskNext').addEventListener('click', function () {
+            var kind = deskStage === 'all' ? 'invite' : deskStage;
+            var next = deskRows().filter(function (i) { return i.phone && needs(i, kind); })[0];
+            if (next) send(next, kind);
+        });
+        renderDesk();
+    }
+    // The "did you send it?" bar lives outside the redrawn page, so a refresh never loses it
+    var bar = document.createElement('div');
+    bar.id = 'confirmBar';
+    bar.className = 'confirm';
+    bar.hidden = true;
+    bar.innerHTML = '<p></p><div><button class="btn btn-solid" id="confirmYes">Yes, sent</button><button class="btn" id="confirmNo">Not yet</button></div>';
+    document.body.appendChild(bar);
+    document.getElementById('confirmYes').addEventListener('click', function () {
+        var p = pending;
+        pending = null;
+        bar.hidden = true;
+        if (p) mark(p.i, p.kind, false);
+    });
+    document.getElementById('confirmNo').addEventListener('click', function () { pending = null; bar.hidden = true; });
+
     function renderGuests() {
+        if (data.couple && document.getElementById('guestSides')) sideChips('guestSides');
         var rows = data.guests.list.filter(guestMatches);
         document.querySelectorAll('[data-filter]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-filter') === guestFilter); });
         document.getElementById('guestRows').innerHTML = rows.map(function (x) {
@@ -222,7 +392,7 @@
     // Live: quietly refresh every minute while the page is open
     setInterval(function () {
         var typing = document.activeElement && document.activeElement.id === 'guestSearch';
-        if (!document.hidden && !typing) load(true);
+        if (!document.hidden && !typing && !pending) load(true);
     }, 60000);
 })();
 </script>
