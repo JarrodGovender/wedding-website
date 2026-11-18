@@ -192,6 +192,37 @@
         .linkish { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
         #evInvHelp:empty { display: none; }
         #evInvHelp .sample { display: block; margin-top: 8px; padding: 10px 12px; border-left: 2px solid var(--accent, var(--ink)); background: var(--stone); color: var(--ink); font-size: 0.86rem; }
+        .glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 22px; }
+        .gcard { border: 1px solid var(--ink); padding: 14px 16px; background: var(--paper); }
+        .gcard > span { display: block; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+        .gcard > b { display: block; margin-top: 8px; font-family: var(--serif); font-weight: 400; font-size: 2rem; line-height: 1; }
+        .gcard p { margin-top: 8px; font-size: 0.95rem; }
+        .gcard p b { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; }
+        .gcard small { display: block; margin-top: 8px; font-size: 0.78rem; line-height: 1.45; color: var(--muted); }
+        .gcard.alert { border-width: 2px; border-color: var(--accent, var(--ink)); }
+        .gcard .bar { display: block; height: 6px; margin-top: 10px; background: var(--stone); }
+        .gcard .bar i { display: block; height: 100%; background: var(--accent, var(--ink)); }
+        .whoami { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 24px; font-size: 0.9rem; }
+        .whoami select, .costform select, .costform input { padding: 10px 12px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); font: inherit; font-size: 0.92rem; }
+        .costforms { display: grid; gap: 8px; margin-top: 14px; }
+        .costform { border: 1px solid var(--ink); background: var(--paper); }
+        .costform summary { padding: 13px 16px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; list-style: none; }
+        .costform summary::-webkit-details-marker { display: none; }
+        .costform[open] summary { border-bottom: 1px solid var(--line); }
+        .costform form { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; padding: 16px; }
+        .costform label { display: grid; gap: 6px; font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+        .costform label.wide { grid-column: 1 / -1; }
+        .costform button[type="submit"] { justify-self: start; }
+        ul.ledger { list-style: none; margin-top: 14px; border-top: 1px solid var(--ink); }
+        ul.ledger li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+        ul.ledger li small { display: block; margin-top: 3px; font-size: 0.78rem; color: var(--muted); }
+        ul.ledger .acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+        ul.ledger .undo { font-size: 0.75rem; text-decoration: underline; color: var(--muted); }
+        .pill { display: inline-block; padding: 3px 9px; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line); }
+        .pill.ok { border-color: var(--ink); }
+        .pill.warn { border-color: var(--accent, #8b1d1d); color: var(--accent, #8b1d1d); font-weight: 600; }
+        details.breakdown { margin-top: 30px; border-top: 1px solid var(--ink); }
+        details.breakdown > summary { padding: 16px 0 6px; font-family: var(--serif); font-size: 1.3rem; cursor: pointer; }
         .ev-midnight { --paper: #0e1726; --stone: #19273e; --ink: #f4eee2; --muted: #a9b3c5; --line: rgba(244, 238, 226, 0.16); --accent: #d6b06c; --on-accent: #0e1726;
             --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
             --cover: radial-gradient(circle at 50% 26%, #233455 0%, #121d31 42%, #0a111d 78%); --cover-fg: #f4eee2; }
@@ -1022,6 +1053,7 @@
         document.getElementById('evCsv').addEventListener('click', evCsv);
         renderEvRows();
         renderEvInvites();
+        if (d.costs) wireMoney();
     }
     function evMatches(g) {
         if (evFilter === 'diet' && !g.dietary) return false;
@@ -1169,19 +1201,110 @@
             });
         });
     }
-    // ---------- An event's money: its night of the Weekend Costs sheet (read-only; edits happen on the sheet) ----------
+    // ---------- An event's money: its night of the Weekend Costs sheet ----------
+    // Anyone with the event's password can record payments, spending and guest contributions; every entry
+    // carries the name of whoever recorded it. Removing an entry keeps it on the sheet, marked "Removed".
     var noR = function (s) { return String(s || '').replace(/\s*\(R\)\s*$/, ''); };
     var owesMoney = function (v) { return /[1-9]/.test(String(v || '')); };
+    var rands = function (n) { n = Math.round(Number(n) || 0); return (n < 0 ? '−R ' : 'R ') + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); };
+    var today = function () { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); };
+    function whoAmI() { try { return localStorage.getItem('jtplan:who') || ''; } catch (e) { return ''; } }
+    function setWho(v) { try { if (v) localStorage.setItem('jtplan:who', v); else localStorage.removeItem('jtplan:who'); } catch (e) {} }
+    var opts = function (list, chosen) { return list.map(function (x) { return '<option' + (x === chosen ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join(''); };
     function evMoneyHtml(c) {
         if (!c) return '';
-        var head = '<section class="panel" id="evMoney"><div class="wrap"><span class="eyebrow">From the Weekend Costs sheet' + (c.night ? ' · ' + esc(c.night) : '') + '</span><h2>The <em>money</em></h2>';
+        var head = '<section class="panel" id="evMoney"><div class="wrap"><span class="eyebrow">Weekend money' + (c.night ? ' · ' + esc(c.night) + ' night' : '') + '</span><h2>The <em>money</em></h2>';
         if (c.error) return head + '<p class="empty">Couldn’t read the Weekend Costs sheet just now. It refreshes every minute.</p></div></section>';
+        var col = c.collectors || { airbnb: 'Jada', other: 'Danae' };
+        var g = c.glance || { held: {}, owed: [], airbnbIn: 0, otherIn: 0, guestIn: 0 };
+        var first = function (n) { return String(n || '').split(' ')[0]; };
+        var html = head + '<p class="lede">' + esc(first(col.airbnb)) + ' collects the Airbnb money and ' + esc(first(col.other)) + ' collects everything else. Record payments and spending here and everyone with the password sees it straight away. <a href="' + esc(c.url) + '" target="_blank" rel="noopener">Open the costs sheet ↗</a></p>';
+
+        // At a glance
+        var pct = c.airbnbTarget ? Math.min(100, Math.round(g.airbnbIn / c.airbnbTarget * 100)) : 0;
+        var guestsHere = c.guests.filter(function (x) { return /[1-9]/.test(x.paid); }).length;
+        var guestNight = c.guests.reduce(function (n, x) { return n + (Number(String(x.paid).replace(/[^0-9.]/g, '')) || 0); }, 0);
+        var others = Object.keys(g.held).filter(function (k) { return k && k !== col.airbnb && k !== col.other && Math.round(g.held[k]); });
+        html += '<div class="glance">' +
+            '<div class="gcard"><span>Airbnb</span><b>' + rands(g.airbnbIn) + '</b><small>of ' + rands(c.airbnbTarget) + ' collected by ' + esc(first(col.airbnb)) + (c.airbnbPaid ? ' · paid to the host ✓' : '') + '</small><i class="bar"><i style="width:' + pct + '%"></i></i></div>' +
+            '<div class="gcard"><span>The kitty</span><b>' + rands(g.held[col.other] || 0) + '</b><small>' + esc(first(col.other)) + ' should be holding this: shares in, plus guests, less spending and pay-backs</small></div>' +
+            '<div class="gcard"><span>Guests</span><b>' + rands(guestNight) + '</b><small>' + (c.guests.length ? guestsHere + ' of ' + c.guests.length + ' guest' + (c.guests.length === 1 ? '' : 's') + ' on ' + esc(c.night) + ' have chipped in' : 'No guests listed for ' + esc(c.night) + ' yet. Add one below.') + '</small></div>' +
+            '<div class="gcard' + (g.owed.length ? ' alert' : '') + '"><span>To pay back</span>' + (g.owed.length ? g.owed.map(function (o) {
+                return '<p><b>' + rands(o.amount) + '</b> to ' + esc(o.name) + '</p>';
+            }).join('') + '<small>' + esc(first(col.other)) + ' pays these back from the kitty</small>' : '<b>R 0</b><small>No one is out of pocket</small>') + '</div>' +
+            '</div>' + (others.length ? '<p class="small-note">Also holding money: ' + others.map(function (k) { return esc(k) + ' ' + rands(g.held[k]); }).join(', ') + '.</p>' : '');
+
+        if (!c.ready) {
+            html += '<p class="note">Recording from this page switches on once Jarrod upgrades the costs sheet.</p>';
+        } else {
+            var me = whoAmI();
+            var everyone = c.everyone || [];
+            var cats = c.budget.map(function (b) { return b.category; });
+            if (cats.indexOf('Other') === -1) cats.push('Other');
+            html += '<div class="whoami"><label for="costWho">Recording as</label><select id="costWho"><option value="">Pick your name</option>' + opts(everyone, me) + '</select></div>' +
+                '<div class="costforms">' +
+                '<details class="costform"><summary>+ Record a payment</summary><form data-cost="payment">' +
+                    '<label>Who paid<select name="name" required><option value="">Choose</option>' + opts(everyone) + '</select></label>' +
+                    '<label>For<select name="for"><option value="Airbnb">The Airbnb (to ' + esc(first(col.airbnb)) + ')</option><option value="Other costs">Everything else (to ' + esc(first(col.other)) + ')</option></select></label>' +
+                    '<label>Amount (R)<input name="amount" inputmode="decimal" required placeholder="600"></label>' +
+                    '<label>Paid on<input name="date" type="date" value="' + today() + '"></label>' +
+                    '<label class="wide">Note<input name="note" maxlength="300" placeholder="Optional, e.g. EFT, cash"></label>' +
+                    '<button class="btn btn-solid" type="submit">Save payment</button></form></details>' +
+                '<details class="costform"><summary>+ Add spending</summary><form data-cost="spend">' +
+                    '<label>Night<select name="night">' + opts(['Friday', 'Saturday'], c.night) + '</select></label>' +
+                    '<label>Category<select name="category">' + opts(cats) + '</select></label>' +
+                    '<label>Who spent it<select name="spentBy" required><option value="">Choose</option>' + opts(everyone, me) + '</select></label>' +
+                    '<label>Amount (R)<input name="amount" inputmode="decimal" required placeholder="850"></label>' +
+                    '<label>Paid from<select name="from"><option value="Own money">Their own money: pay them back</option><option value="Kitty">' + esc(first(col.other)) + '’s kitty</option></select></label>' +
+                    '<label>Spent on<input name="date" type="date" value="' + today() + '"></label>' +
+                    '<label class="wide">What it was for<input name="what" maxlength="300" required placeholder="e.g. Balloons, banners and a neon sign"></label>' +
+                    '<button class="btn btn-solid" type="submit">Save spending</button></form></details>' +
+                '<details class="costform"><summary>+ Guest contribution</summary><form data-cost="guest">' +
+                    '<label>Guest’s name<input name="name" maxlength="60" required></label>' +
+                    '<label>Promised (R)<input name="promised" inputmode="decimal" placeholder="200"></label>' +
+                    '<label>Paid so far (R)<input name="amount" inputmode="decimal" placeholder="Leave blank if not yet"></label>' +
+                    '<label class="wide">Note<input name="note" maxlength="200" placeholder="Optional"></label>' +
+                    '<button class="btn btn-solid" type="submit">Add guest</button></form></details>' +
+                '</div>';
+        }
+
+        // Spending on this night
+        var spend = (c.spend || []).filter(function (s) { return s.night === c.night; });
+        html += '<h3 class="sub">Spending · ' + esc(c.night) + '</h3>';
+        html += spend.length ? '<ul class="ledger">' + spend.map(function (s) {
+            var state = s.from === 'Kitty' ? '<span class="pill">From the kitty</span>'
+                : s.backOn ? '<span class="pill ok">Paid back' + (s.backBy ? ' by ' + esc(first(s.backBy)) : '') + '</span> <button class="undo" data-cost-act="payback-undo" data-id="' + esc(s.id) + '">undo</button>'
+                : '<span class="pill warn">Owed to ' + esc(first(s.spentBy)) + '</span>' + (c.ready ? ' <button class="chip" data-cost-act="payback" data-id="' + esc(s.id) + '">Mark paid back</button>' : '');
+            return '<li><div><b>' + rands(s.amount) + '</b> · ' + esc(s.category) + (s.what ? ' · ' + esc(s.what) : '') +
+                '<small>' + esc(s.spentBy) + ' · ' + esc(s.date) + (s.by && s.by !== s.spentBy ? ' · added by ' + esc(s.by) : '') + '</small></div>' +
+                '<div class="acts">' + state + (c.ready ? ' <button class="undo" data-cost-act="remove" data-tab="spend" data-id="' + esc(s.id) + '" aria-label="Remove">remove</button>' : '') + '</div></li>';
+        }).join('') + '</ul>' : '<p class="empty">Nothing spent yet.</p>';
+
+        // Payments in (the whole weekend: shares aren't split by night)
+        var pays = c.payments || [];
+        html += '<h3 class="sub">Payments in · whole weekend</h3>';
+        html += pays.length ? '<ul class="ledger">' + pays.map(function (p) {
+            return '<li><div><b>' + rands(p.amount) + '</b> from ' + esc(p.name) + ' · ' + esc(p.kind === 'Airbnb' ? 'Airbnb' : 'other costs') + ' · to ' + esc(first(p.to)) +
+                '<small>' + esc(p.date) + (p.note ? ' · ' + esc(p.note) : '') + (p.by ? ' · recorded by ' + esc(p.by) : '') + '</small></div>' +
+                (c.ready ? '<div class="acts"><button class="undo" data-cost-act="remove" data-tab="payments" data-id="' + esc(p.id) + '">remove</button></div>' : '') + '</li>';
+        }).join('') + '</ul>' : '<p class="empty">No payments recorded yet.</p>';
+
+        // Guests chipping in on this night
+        if (c.guests.length) {
+            html += '<h3 class="sub">Guest contributions · ' + esc(c.night) + '</h3><ul class="ledger">' + c.guests.map(function (x) {
+                var paid = /[1-9]/.test(x.paid);
+                return '<li><div><b>' + esc(x.name) + '</b>' + (x.promised ? ' · promised ' + esc(x.promised) : '') + '<small>' + (paid ? 'Paid ' + esc(x.paid) + (x.date ? ' on ' + esc(x.date) : '') : 'Not paid yet') + (x.notes ? ' · ' + esc(x.notes) : '') + '</small></div>' +
+                    (c.ready ? '<div class="acts">' + (paid ? '<span class="pill ok">Paid</span> <button class="undo" data-cost-act="guest-undo" data-name="' + esc(x.name) + '">undo</button>' : '<button class="chip" data-cost-act="guest" data-name="' + esc(x.name) + '">Mark paid</button>') + '</div>' : '') + '</li>';
+            }).join('') + '</ul>';
+        }
+
+        // The sheet's own breakdown
         var table = function (cols, rows) {
             return '<div class="scrollx"><table class="list money"><thead><tr>' + cols.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' +
                 rows.map(function (r) { return '<tr>' + r.join('') + '</tr>'; }).join('') + '</tbody></table></div>';
         };
         var td = function (v, cls) { return '<td' + (cls ? ' class="' + cls + '"' : '') + '>' + esc(v || '') + '</td>'; };
-        var html = head + '<p class="lede">Live from the costs sheet. Make changes there; this page catches up within a minute. <a href="' + esc(c.url) + '" target="_blank" rel="noopener">Open the costs sheet ↗</a></p>';
+        html += '<details class="breakdown"><summary>The full breakdown from the sheet</summary>';
         if (c.pots.length) {
             html += '<div class="pots">' + c.pots.map(function (p) {
                 var share = p.lines.filter(function (l) { return /share/i.test(l[0]); })[0];
@@ -1196,19 +1319,72 @@
         }
         if (c.people.length) {
             var shareCols = c.people[0].shares.map(function (s) { return s[0]; });
-            html += '<h3 class="sub">Who pays what</h3>' + table(['Name', 'Side'].concat(shareCols, ['Due, whole weekend', 'Paid', 'Still owes']), c.people.map(function (p) {
-                return [td(p.name), td(p.side)].concat(p.shares.map(function (s) { return td(s[1], 'num'); }), [td(p.due, 'num'), td(p.paid, 'num'), td(p.owes, 'num' + (owesMoney(p.owes) ? ' owes' : ''))]);
+            var split = c.people.some(function (p) { return p.paidAirbnb !== '' || p.paidOther !== ''; });
+            html += '<h3 class="sub">Who pays what</h3>' + table(['Name', 'Side'].concat(shareCols, ['Due, whole weekend'], split ? ['Paid for Airbnb', 'Paid for other'] : [], ['Paid', 'Still owes']), c.people.map(function (p) {
+                return [td(p.name), td(p.side)].concat(p.shares.map(function (s) { return td(s[1], 'num'); }), [td(p.due, 'num')],
+                    split ? [td(p.paidAirbnb, 'num'), td(p.paidOther, 'num')] : [], [td(p.paid, 'num'), td(p.owes, 'num' + (owesMoney(p.owes) ? ' owes' : ''))]);
             })) + '<p class="small-note">Payments aren’t split by night, so Paid and Still owes cover the whole weekend.</p>';
-        }
-        if (c.guests.length) {
-            html += '<h3 class="sub">Guest contributions</h3>' + table(['Name', 'Promised', 'Paid', 'Date'], c.guests.map(function (g) {
-                return [td(g.name), td(g.promised, 'num'), td(g.paid, 'num'), td(g.date)];
-            }));
         }
         if (c.money.length) {
             html += '<h3 class="sub">The whole weekend</h3><dl class="moneylist">' + c.money.map(function (m) { return '<div><dt>' + esc(noR(m[0])) + '</dt><dd>' + esc(m[1]) + '</dd></div>'; }).join('') + '</dl>';
         }
-        return html + '</div></section>';
+        return html + '</details></div></section>';
+    }
+    var COST_ERR = {
+        who: 'Pick your name under “Recording as” first.',
+        bad_name: 'Pick who paid from the list.',
+        bad_request: 'Check the amount and the other boxes, then try again.',
+        not_found: 'That entry has changed on the sheet. The page has been refreshed.',
+        not_set_up: 'Recording switches on once Jarrod upgrades the costs sheet.',
+        busy: 'Lots happening at once. Try again in a moment.'
+    };
+    function costPost(body, button) {
+        var slug = current;
+        var who = whoAmI();
+        if (!who) { alert(COST_ERR.who); var sel = document.getElementById('costWho'); if (sel) sel.focus(); return; }
+        if (button) { button.disabled = true; button.dataset.label = button.textContent; button.textContent = 'Saving…'; }
+        var open = [].map.call(document.querySelectorAll('#evMoney details[open]'), function (d) { return d.className; });
+        return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(Object.assign({ event: slug, pass: savedPass(slug), by: who }, body)) })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.ok) throw res;
+                if (evData[slug]) evData[slug].costs = res.costs;
+                if (current === slug) {
+                    renderEvent();
+                    open.filter(function (c) { return c.indexOf('breakdown') !== -1; }).forEach(function () { var d = document.querySelector('#evMoney details.breakdown'); if (d) d.open = true; });
+                }
+            })
+            .catch(function (err) {
+                if (button) { button.disabled = false; button.textContent = button.dataset.label; }
+                if (err && LOCK_MSG[err.error]) { keepPass(slug, ''); delete evData[slug]; if (current === slug) renderLock(LOCK_MSG[err.error]); return; }
+                alert((err && COST_ERR[err.error]) || 'Couldn’t save that. Check your signal and try again.');
+                if (err && err.error === 'not_found') loadEvent(slug, true);
+            });
+    }
+    function wireMoney() {
+        var who = document.getElementById('costWho');
+        if (who) who.addEventListener('change', function () { setWho(who.value); });
+        document.querySelectorAll('#evMoney form[data-cost]').forEach(function (f) {
+            f.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var body = { action: 'costAdd', kind: f.getAttribute('data-cost') };
+                [].forEach.call(f.elements, function (el) { if (el.name) body[el.name] = el.value.trim(); });
+                costPost(body, f.querySelector('button[type="submit"]'));
+            });
+        });
+        document.querySelectorAll('#evMoney [data-cost-act]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var act = b.getAttribute('data-cost-act'), id = b.getAttribute('data-id'), name = b.getAttribute('data-name');
+                if (act === 'remove') { if (confirm('Remove this entry? It stays on the sheet, marked as removed.')) costPost({ action: 'costUpdate', kind: 'remove', tab: b.getAttribute('data-tab'), id: id }, b); }
+                else if (act === 'payback') costPost({ action: 'costUpdate', kind: 'payback', id: id }, b);
+                else if (act === 'payback-undo') costPost({ action: 'costUpdate', kind: 'payback', id: id, undo: true }, b);
+                else if (act === 'guest') {
+                    var amt = prompt('How much did ' + name + ' pay? (R)', '200');
+                    if (amt) costPost({ action: 'costUpdate', kind: 'guestPaid', name: name, amount: amt }, b);
+                }
+                else if (act === 'guest-undo') costPost({ action: 'costUpdate', kind: 'guestPaid', name: name, undo: true }, b);
+            });
+        });
     }
 
     show();
@@ -1217,6 +1393,7 @@
         if (document.hidden) return;
         if (current !== 'wedding') {
             var busy = document.activeElement && (document.activeElement.id === 'evSearch' || document.activeElement.id === 'evPass');
+            busy = busy || !!document.querySelector('#evMoney details.costform[open]');
             if (current && savedPass(current) && evData[current] && !busy && !evPending) loadEvent(current, true);
             return;
         }
