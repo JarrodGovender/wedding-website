@@ -1218,7 +1218,7 @@
         var col = c.collectors || { airbnb: 'Jada', other: 'Danae' };
         var g = c.glance || { held: {}, owed: [], airbnbIn: 0, otherIn: 0, guestIn: 0 };
         var first = function (n) { return String(n || '').split(' ')[0]; };
-        var html = head + '<p class="lede">' + esc(first(col.airbnb)) + ' collects the Airbnb money and ' + esc(first(col.other)) + ' collects everything else. Record payments and spending here and everyone with the password sees it straight away. <a href="' + esc(c.url) + '" target="_blank" rel="noopener">Open the costs sheet ↗</a></p>';
+        var html = head + '<p class="lede">' + esc(first(col.airbnb)) + ' collects the Airbnb money for both nights, ' + esc(first(col.Friday || 'Danae')) + ' collects the rest of Friday’s money and ' + esc(first(col.Saturday || 'Jarrod')) + ' collects the braai money. Record payments and spending here and everyone with the password sees it straight away. <a href="' + esc(c.url) + '" target="_blank" rel="noopener">Open the costs sheet ↗</a></p>';
 
         // At a glance
         var pct = c.airbnbTarget ? Math.min(100, Math.round(g.airbnbIn / c.airbnbTarget * 100)) : 0;
@@ -1231,7 +1231,7 @@
             '<div class="gcard"><span>Guests</span><b>' + rands(guestNight) + '</b><small>' + (c.guests.length ? guestsHere + ' of ' + c.guests.length + ' guest' + (c.guests.length === 1 ? '' : 's') + ' on ' + esc(c.night) + ' have chipped in' : 'No guests listed for ' + esc(c.night) + ' yet. Add one below.') + '</small></div>' +
             '<div class="gcard' + (g.owed.length ? ' alert' : '') + '"><span>To pay back</span>' + (g.owed.length ? g.owed.map(function (o) {
                 return '<p><b>' + rands(o.amount) + '</b> to ' + esc(o.name) + '</p>';
-            }).join('') + '<small>' + esc(first(col.other)) + ' pays these back from the kitty</small>' : '<b>R 0</b><small>No one is out of pocket</small>') + '</div>' +
+            }).join('') + '<small>Paid back from that night’s kitty</small>' : '<b>R 0</b><small>No one is out of pocket</small>') + '</div>' +
             '</div>' + (others.length ? '<p class="small-note">Also holding money: ' + others.map(function (k) { return esc(k) + ' ' + rands(g.held[k]); }).join(', ') + '.</p>' : '');
 
         if (!c.ready) {
@@ -1245,7 +1245,7 @@
                 '<div class="costforms">' +
                 '<details class="costform"><summary>+ Record a payment</summary><form data-cost="payment">' +
                     '<label>Who paid<select name="name" required><option value="">Choose</option>' + opts(everyone) + '</select></label>' +
-                    '<label>For<select name="for"><option value="Airbnb">The Airbnb (to ' + esc(first(col.airbnb)) + ')</option><option value="Other costs">Everything else (to ' + esc(first(col.other)) + ')</option></select></label>' +
+                    '<label>For<select name="for"><option value="Airbnb">The Airbnb (to ' + esc(first(col.airbnb)) + ')</option><option value="Friday costs"' + (c.night === 'Friday' ? ' selected' : '') + '>Friday’s costs (to ' + esc(first(col.Friday || 'Danae')) + ')</option><option value="Saturday braai"' + (c.night === 'Saturday' ? ' selected' : '') + '>The Saturday braai (to ' + esc(first(col.Saturday || 'Jarrod')) + ')</option></select></label>' +
                     '<label>Amount (R)<input name="amount" inputmode="decimal" required placeholder="600"></label>' +
                     '<label>Paid on<input name="date" type="date" value="' + today() + '"></label>' +
                     '<label class="wide">Note<input name="note" maxlength="300" placeholder="Optional, e.g. EFT, cash"></label>' +
@@ -1255,7 +1255,7 @@
                     '<label>Category<select name="category">' + opts(cats) + '</select></label>' +
                     '<label>Who spent it<select name="spentBy" required><option value="">Choose</option>' + opts(everyone, me) + '</select></label>' +
                     '<label>Amount (R)<input name="amount" inputmode="decimal" required placeholder="850"></label>' +
-                    '<label>Paid from<select name="from"><option value="Own money">Their own money: pay them back</option><option value="Kitty">' + esc(first(col.other)) + '’s kitty</option></select></label>' +
+                    '<label>Paid from<select name="from"><option value="Own money">Their own money: pay them back</option><option value="Kitty">That night’s kitty (' + esc(first(col.Friday || 'Danae')) + ' Friday, ' + esc(first(col.Saturday || 'Jarrod')) + ' Saturday)</option></select></label>' +
                     '<label>Spent on<input name="date" type="date" value="' + today() + '"></label>' +
                     '<label class="wide">What it was for<input name="what" maxlength="300" required placeholder="e.g. Balloons, banners and a neon sign"></label>' +
                     '<button class="btn btn-solid" type="submit">Save spending</button></form></details>' +
@@ -1284,7 +1284,7 @@
         var pays = c.payments || [];
         html += '<h3 class="sub">Payments in · whole weekend</h3>';
         html += pays.length ? '<ul class="ledger">' + pays.map(function (p) {
-            return '<li><div><b>' + rands(p.amount) + '</b> from ' + esc(p.name) + ' · ' + esc(p.kind === 'Airbnb' ? 'Airbnb' : 'other costs') + ' · to ' + esc(first(p.to)) +
+            return '<li><div><b>' + rands(p.amount) + '</b> from ' + esc(p.name) + ' · ' + esc(p.kind === 'Other costs' ? 'Friday costs' : p.kind) + ' · to ' + esc(first(p.to)) +
                 '<small>' + esc(p.date) + (p.note ? ' · ' + esc(p.note) : '') + (p.by ? ' · recorded by ' + esc(p.by) : '') + '</small></div>' +
                 (c.ready ? '<div class="acts"><button class="undo" data-cost-act="remove" data-tab="payments" data-id="' + esc(p.id) + '">remove</button></div>' : '') + '</li>';
         }).join('') + '</ul>' : '<p class="empty">No payments recorded yet.</p>';
