@@ -148,7 +148,66 @@
         @media (max-width: 560px) {
             .list.guests td:nth-child(2), .list.guests th:nth-child(2) { display: none; } /* phones: the invite name moves under the guest */
         }
-        @media print { nav.jump, .links, .tools, .meta button { display: none !important; } section.panel { break-inside: avoid-page; } }
+        /* Event tabs: the wedding plus each pre-wedding event, each in that event's own look */
+        .evbar { position: sticky; top: 0; z-index: 30; background: var(--paper); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top, 0px); }
+        .evbar .wrap { display: flex; align-items: center; gap: 12px; }
+        .evbar-label { flex: none; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+        .evtabs { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .evtabs::-webkit-scrollbar { display: none; }
+        .evtab { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px solid var(--line); font-size: 0.78rem; white-space: nowrap; }
+        .evtab.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .evtab .lock { width: 11px; height: 11px; opacity: 0.7; }
+        .evbar + header.top { padding-top: 34px; }
+        @media (max-width: 560px) { .evbar-label { display: none; } }
+        .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px 24px; margin-top: 24px; }
+        .facts span { display: block; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; }
+        .facts b { display: block; margin-top: 4px; font-weight: 500; font-size: 0.98rem; line-height: 1.4; }
+        .evhead .emblem { display: block; width: 46px; height: 46px; margin-bottom: 14px; }
+        .evhead .meta { color: inherit; opacity: 0.85; }
+        .unlock { margin-top: 24px; max-width: 540px; }
+        .unlock label { display: block; font-size: 1.05rem; line-height: 1.5; }
+        .unlock div { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .unlock input { flex: 1; min-width: 200px; padding: 13px 14px; border: 1px solid currentColor; background: var(--paper); color: var(--ink); font: inherit; font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; }
+        .unlock .err { margin-top: 12px; font-weight: 600; line-height: 1.45; }
+        .unlock .hint { margin-top: 10px; font-size: 0.85rem; opacity: 0.8; line-height: 1.5; }
+        ul.desk .who small.ok { color: var(--ink); }
+
+        /* The six looks, taken from each event's own page */
+        .ev-midnight { --paper: #0e1726; --stone: #19273e; --ink: #f4eee2; --muted: #a9b3c5; --line: rgba(244, 238, 226, 0.16); --accent: #d6b06c; --on-accent: #0e1726;
+            --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+            --cover: radial-gradient(circle at 50% 26%, #233455 0%, #121d31 42%, #0a111d 78%); --cover-fg: #f4eee2; }
+        .ev-blossom { --paper: #fbf0f2; --stone: #f6e2e8; --ink: #4a1f30; --muted: #85586a; --line: rgba(74, 31, 48, 0.14); --accent: #b0175a; --on-accent: #ffffff;
+            --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+            --cover: radial-gradient(ellipse 70% 60% at 50% 45%, #fffafb 0%, #fbeef2 55%, #f2d8e1 100%); --cover-fg: #4a1f30; }
+        .ev-major { --paper: #0e1b3a; --stone: #13265a; --ink: #f4ecd6; --muted: #b8c1d9; --line: rgba(212, 175, 95, 0.3); --accent: #d4af5f; --on-accent: #0e1b3a;
+            --serif: 'Cinzel', 'Trajan Pro', Georgia, serif; --sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+            --cover: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(40, 68, 136, 0.6), transparent 72%), repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 56px, transparent 56px 112px), #0a1630; --cover-fg: #f4ecd6; }
+        .ev-clg { --paper: #fff2f8; --stone: #ffe3f0; --ink: #1c0612; --muted: #6e4057; --line: rgba(28, 6, 18, 0.18); --accent: #d80f6e; --on-accent: #ffffff;
+            --serif: 'Grenze Gotisch', 'Times New Roman', serif; --sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+            --cover: linear-gradient(135deg, #d90f6c, #ff3d9a, #ff7ab8, #c7148f, #ff3d9a, #d90f6c); --cover-fg: #ffffff; }
+        .ev-ember { --paper: #18131d; --stone: #231b29; --ink: #f8ecdc; --muted: #cbb9a7; --line: rgba(248, 236, 220, 0.16); --accent: #ff8a3d; --on-accent: #1d120c;
+            --serif: 'Fraunces', Georgia, serif; --sans: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+            --cover: linear-gradient(180deg, #120f22 0%, #241a3a 38%, #4a2541 62%, #9b4430 84%, #d9763b 100%); --cover-fg: #f8ecdc; }
+        .ev-mamma { --paper: #ffffff; --stone: #e9f3fc; --ink: #12306b; --muted: #4a5f8c; --line: rgba(18, 48, 107, 0.18); --accent: #1f4fa8; --on-accent: #ffffff;
+            --serif: 'Bodoni Moda', Didot, Georgia, serif; --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
+            --cover: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' fill='%23ffffff'/%3E%3Cg fill='%231f4fa8'%3E%3Ccircle r='11'/%3E%3Ccircle cx='48' r='11'/%3E%3Ccircle cy='48' r='11'/%3E%3Ccircle cx='48' cy='48' r='11'/%3E%3C/g%3E%3Cg fill='%23ffffff'%3E%3Ccircle r='5'/%3E%3Ccircle cx='48' r='5'/%3E%3Ccircle cy='48' r='5'/%3E%3Ccircle cx='48' cy='48' r='5'/%3E%3C/g%3E%3Cg fill='%237aa3e0'%3E%3Cpath d='M24 0l3 4-3 4-3-4zM24 48l3-4-3-4-3 4zM0 24l4-3 4 3-4 3zM48 24l-4-3-4 3 4 3z'/%3E%3Cpath d='M24 24C19 21 15 17 16 14C19 15 22 19 24 24ZM24 24C29 21 33 17 32 14C29 15 26 19 24 24ZM24 24C19 27 15 31 16 34C19 33 22 29 24 24ZM24 24C29 27 33 31 32 34C29 33 26 29 24 24Z'/%3E%3C/g%3E%3Cg fill='%231f4fa8'%3E%3Cpath d='M24 24C21 18 21 12 24 8C27 12 27 18 24 24ZM24 24C21 30 21 36 24 40C27 36 27 30 24 24ZM24 24C18 21 12 21 8 24C12 27 18 27 24 24ZM24 24C30 21 36 21 40 24C36 27 30 27 24 24Z'/%3E%3C/g%3E%3Ccircle cx='24' cy='24' r='3' fill='%23ffffff' stroke='%231f4fa8' stroke-width='1.2'/%3E%3Cpath d='M0 0h48v48H0z' fill='none' stroke='%23b9cfee' stroke-width='1'/%3E%3C/svg%3E") 0 0 / 48px 48px; --cover-fg: #12306b; }
+        .themed .evhead { background: var(--cover); color: var(--cover-fg); border-bottom: 3px solid var(--accent); }
+        .themed .evhead .eyebrow { color: inherit; opacity: 0.85; }
+        .themed .evhead .emblem { color: var(--accent); }
+        .themed .eyebrow, .themed .panel h2 em, .themed .evhead h1 em { color: var(--accent); }
+        .themed .btn-solid, .themed .chip.on, .themed .tag.yes, .themed .evtab.on, .themed ul.desk .send { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+        .themed ul.desk .send.again { background: var(--paper); color: var(--ink); }
+        .themed .stat b { color: var(--accent); }
+        .ev-clg .evhead .emblem, .ev-clg .evhead h1 em, .ev-clg .evhead .eyebrow { color: #ffffff; }
+        .ev-clg .evhead h1 { font-weight: 800; }
+        .ev-clg .unlock input { border-color: #ffffff; }
+        .ev-mamma .evhead { padding-left: 12px; padding-right: 12px; }
+        .ev-mamma .evhead .wrap { padding: 30px 22px 22px; background: rgba(255, 255, 255, 0.95); border: 2px solid var(--accent); border-radius: 200px 200px 12px 12px / 70px 70px 12px 12px; box-shadow: 0 0 0 5px #ffffff; }
+        .ev-mamma .evhead h1 { font-style: italic; font-weight: 700; color: var(--accent); }
+        .ev-major .evhead h1 { font-weight: 600; letter-spacing: 0.02em; color: var(--accent); }
+        .ev-ember .evhead .emblem { filter: drop-shadow(0 0 10px #ffb36b); }
+        .ev-clg .evhead .btn-solid { background: #ffffff; color: #d80f6e; border-color: #ffffff; }
+        @media print { .evbar, nav.jump, .links, .tools, .meta button { display: none !important; } section.panel { break-inside: avoid-page; } }
     </style>
 </head>
 <body>
@@ -189,9 +248,9 @@
             .then(function (d) {
                 if (!d.ok) return fail('This planning link doesn’t work. Please check it with Jarrod or Telicia.');
                 data = d;
-                render();
+                if (current === 'wedding') render();
             })
-            .catch(function () { if (!quiet) fail('Couldn’t load your planning page. Check your signal and refresh.'); });
+            .catch(function () { if (!quiet && current === 'wedding') fail('Couldn’t load your planning page. Check your signal and refresh.'); });
     }
 
     function time(t) { return t ? esc(t) : '<span class="tbc">TBC</span>'; }
@@ -286,7 +345,8 @@
             '</div></header>' + sections.join('') +
             '<footer><div class="wrap">This page is for ' + esc(v.name) + ' only. Please don’t share the link: it shows live details about our guests.</div></footer>';
         var y = window.scrollY;
-        app.innerHTML = html;
+        app.innerHTML = evBar() + html;
+        wireBar();
         window.scrollTo(0, y);
         document.getElementById('refresh').addEventListener('click', function () { load(); });
         if (data.guests) wireGuests();
@@ -722,9 +782,299 @@
         renderGuests();
     }
 
-    load();
+    // ---------- Pre-wedding events: a tab each, each locked by its own password ----------
+    // The password lives on that event's Details tab ("Planning Password"), so its organisers can see and change it.
+    // Jarrod and Telicia's link (?admin=) shows the wedding tab too; organisers get ?events=<slug> and never see the wedding.
+    var EM = {
+        midnight: '<path d="M27 5a19 19 0 1 0 16 29A16 16 0 0 1 27 5z" fill="currentColor"/><path d="M38 6l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z" fill="currentColor"/>',
+        blossom: '<path d="M24 24C18 10 6 8 5 15s8 11 19 9zM24 24C30 10 42 8 43 15s-8 11-19 9zM24 24C17 30 10 39 15 42s9-6 9-18zM24 24C31 30 38 39 33 42s-9-6-9-18z" fill="currentColor" opacity="0.85"/><path d="M24 14v22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+        major: '<path d="M16 42V6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M17 7l20 6-20 7z" fill="currentColor"/><ellipse cx="22" cy="42" rx="14" ry="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="32" cy="38" r="2.6" fill="currentColor"/>',
+        clg: '<path d="M24 42C8 31 4 23 4 16a10 10 0 0 1 20-3a10 10 0 0 1 20 3c0 7-4 15-20 26z" fill="currentColor"/>',
+        ember: '<path d="M24 4c3 9 13 14 13 25a13 13 0 0 1-26 0c0-6 3-10 6-13 0 5 2 8 5 9-1-8 0-14 2-21z" fill="currentColor"/>',
+        mamma: '<path d="M24 2v6" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="26" r="17" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 26h34M9 18h30M9 34h30M24 9v34M15 11c-4 9-4 21 0 30M33 11c4 9 4 21 0 30" fill="none" stroke="currentColor" stroke-width="1.2"/>'
+    };
+    var EVENT_TABS = [
+        { slug: 'bachelorette', tab: 'Bachelorette', theme: 'clg', kicker: 'Telicia’s bachelorette', title: 'Certified Lover <em>Girl</em>' },
+        { slug: 'bridal-shower', tab: 'Bridal Shower', theme: 'mamma', kicker: 'A bridal shower for Telicia', title: 'Mamma Mia!' },
+        { slug: 'braai', tab: 'Saturday Braai', theme: 'ember', kicker: 'Good food, good people, open fire', title: 'The Saturday <em>braai</em>' },
+        { slug: 'bachelor', tab: 'Bachelor', theme: 'major', kicker: 'The bachelor weekend', title: 'The Final Major' },
+        { slug: 'night-before-jarrod', tab: 'Jarrod’s Night Before', theme: 'midnight', kicker: 'Jarrod’s night-before celebration', title: 'The <em>night</em> before' },
+        { slug: 'night-before-telicia', tab: 'Telicia’s Thanksgiving', theme: 'blossom', kicker: 'Telicia’s night-before celebration', title: 'A <em>thanksgiving</em>' }
+    ];
+    var FONTS = {
+        midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
+        blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
+        major: 'family=Cinzel:wght@500;600;700&family=Barlow:wght@400;500;600',
+        clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
+        ember: 'family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Work+Sans:wght@400;500;600',
+        mamma: 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Lato:wght@400;700'
+    };
+    var BAR_COLOUR = { midnight: '#0e1726', blossom: '#fbf0f2', major: '#0e1b3a', clg: '#d90f6c', ember: '#18131d', mamma: '#1f4fa8' };
+    var LOCK = '<svg class="lock" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="2.5" y="7" width="11" height="8" rx="1.5" fill="currentColor"/></svg>';
+    var LOCK_MSG = {
+        wrong_password: 'That password doesn’t match. Check the Planning Password row on this event’s Details tab.',
+        no_password: 'This event doesn’t have a planning password yet. Ask Jarrod to set one.',
+        too_many_tries: 'Too many wrong tries. Wait 10 minutes, then try again.',
+        offline: 'Couldn’t reach the event’s sheet. Check your signal and try again.'
+    };
+    var organiser = !code && !adminKey && params.has('events');
+    var hasEvents = !!adminKey || organiser;
+    var tabOf = function (s) { return EVENT_TABS.filter(function (e) { return e.slug === s; })[0]; };
+    var current = (function () {
+        var want = String(params.get(organiser ? 'events' : 'event') || '').trim().toLowerCase();
+        if (hasEvents && tabOf(want)) return want;
+        return organiser ? '' : 'wedding';
+    })();
+    var passes = {}, evData = {};
+    var evFilter = 'all', evSearch = '', evInvites = 'waiting';
+    function savedPass(slug) {
+        if (passes[slug]) return passes[slug];
+        try { return sessionStorage.getItem('jtplan:' + slug) || ''; } catch (e) { return ''; }
+    }
+    function keepPass(slug, p) {
+        passes[slug] = p;
+        try { if (p) sessionStorage.setItem('jtplan:' + slug, p); else sessionStorage.removeItem('jtplan:' + slug); } catch (e) {}
+    }
+    var fontsLoaded = {};
+    function setTheme(theme) {
+        var root = document.documentElement;
+        root.className = root.className.split(' ').filter(function (c) { return c && c !== 'themed' && c.indexOf('ev-') !== 0; }).concat(theme ? ['themed', 'ev-' + theme] : []).join(' ');
+        if (theme && !fontsLoaded[theme]) {
+            fontsLoaded[theme] = true;
+            var l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = 'https://fonts.googleapis.com/css2?' + FONTS[theme] + '&display=swap';
+            document.head.appendChild(l);
+        }
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme ? BAR_COLOUR[theme] : '#ffffff');
+    }
+    function evBar() {
+        if (!hasEvents) return '';
+        var tabs = (adminKey ? [{ slug: 'wedding', tab: 'The Wedding' }] : []).concat(EVENT_TABS);
+        return '<nav class="evbar" aria-label="Events"><div class="wrap"><span class="evbar-label">Planning</span><div class="evtabs">' + tabs.map(function (t) {
+            var locked = t.slug !== 'wedding' && !savedPass(t.slug);
+            return '<button class="evtab' + (t.slug === current ? ' on' : '') + '" data-tab="' + t.slug + '"' + (t.slug === current ? ' aria-current="page"' : '') + '>' + esc(t.tab) + (locked ? LOCK : '') + '</button>';
+        }).join('') + '</div></div></nav>';
+    }
+    function wireBar() {
+        document.querySelectorAll('[data-tab]').forEach(function (b) {
+            b.addEventListener('click', function () { switchTo(b.getAttribute('data-tab')); });
+        });
+        var on = document.querySelector('.evtab.on');
+        if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'center' });
+    }
+    function switchTo(slug) {
+        if (slug === current) return;
+        current = slug;
+        evFilter = 'all'; evSearch = ''; evInvites = 'waiting';
+        try {
+            var u = new URL(location.href);
+            if (organiser) u.searchParams.set('events', slug);
+            else if (slug === 'wedding') u.searchParams.delete('event');
+            else u.searchParams.set('event', slug);
+            history.replaceState(null, '', u);
+        } catch (e) {}
+        window.scrollTo(0, 0);
+        show();
+    }
+    /** Shows whichever tab is chosen: the wedding, an event, or (organisers with no event picked) the chooser */
+    function show() {
+        if (current === 'wedding') {
+            setTheme(null);
+            if (data) render();
+            return load(!!data);
+        }
+        if (!current) { setTheme(null); return renderChooser(); }
+        setTheme(tabOf(current).theme);
+        if (!savedPass(current)) return renderLock();
+        if (evData[current]) renderEvent(); else renderEvHead('<p class="hello">Opening the guest list…</p>');
+        return loadEvent(current, !!evData[current]);
+    }
+    function evFooter(t) {
+        return '<footer><div class="wrap">' + (t ? 'Live from the ' + esc(t.tab) + ' RSVP sheet. Only people with this event’s password can open this tab.' : 'Each event’s tab opens with its own password.') + '</div></footer>';
+    }
+    function evHead(t, extra) {
+        return '<header class="top evhead"><div class="wrap"><svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">' + EM[t.theme] + '</svg><span class="eyebrow">' + esc(t.kicker) + '</span><h1>' + t.title + '</h1>' + (extra || '') + '</div></header>';
+    }
+    function renderEvHead(extra) {
+        var t = tabOf(current);
+        app.innerHTML = evBar() + evHead(t, extra) + evFooter(t);
+        wireBar();
+    }
+    function renderChooser() {
+        app.innerHTML = evBar() + '<header class="top"><div class="wrap"><span class="eyebrow">Jarrod &amp; Telicia · Pre-wedding events</span><h1>The <em>planning</em> room</h1>' +
+            '<p class="hello">Pick your event above, then type its planning password. You’ll find it on the Details tab of your event’s Google Sheet, in the Planning Password row.</p></div></header>' + evFooter(null);
+        wireBar();
+    }
+    function renderLock(msg) {
+        var t = tabOf(current);
+        renderEvHead('<form class="unlock" id="unlock"><label for="evPass">This tab is locked. Type the planning password for the ' + esc(t.tab) + '.</label>' +
+            '<div><input id="evPass" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Planning password"><button class="btn btn-solid" type="submit">Unlock</button></div>' +
+            (msg ? '<p class="err" role="alert">' + msg + '</p>' : '') +
+            '<p class="hint">It’s on the Details tab of this event’s Google Sheet, in the Planning Password row.</p></form>');
+        document.getElementById('unlock').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var p = document.getElementById('evPass').value.trim();
+            if (!p) return;
+            var btn = this.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Opening…';
+            keepPass(current, p);
+            loadEvent(current, false);
+        });
+        var input = document.getElementById('evPass');
+        if (!('ontouchstart' in window)) input.focus();
+    }
+    function loadEvent(slug, quiet) {
+        return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'eventPlan', event: slug, pass: savedPass(slug) }) })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (!d.ok) {
+                    if (LOCK_MSG[d.error]) {
+                        keepPass(slug, '');
+                        delete evData[slug];
+                        if (current === slug) renderLock(LOCK_MSG[d.error]);
+                        return;
+                    }
+                    throw d;
+                }
+                evData[slug] = d;
+                if (current === slug) renderEvent();
+            })
+            .catch(function () {
+                if (quiet || current !== slug || evData[slug]) return;
+                keepPass(slug, '');
+                renderLock(LOCK_MSG.offline);
+            });
+    }
+    function evGuests() {
+        var out = [];
+        evData[current].invites.forEach(function (i) {
+            i.guests.forEach(function (g) { out.push({ guest: g.guest, invite: i.name, attending: g.attending, dietary: g.dietary, stay: g.stay, chip: g.chip }); });
+        });
+        return out;
+    }
+    var said = function (v) { return /^yes/i.test(String(v || '')); };
+    function renderEvent() {
+        var t = tabOf(current), d = evData[current], e = d.event;
+        var guests = evGuests();
+        var n = function (f) { return guests.filter(f).length; };
+        var times = [e.start, e.end].filter(Boolean).join(' to ');
+        var facts = [
+            ['When', e.date ? e.date + (e.endDate ? ' to ' + e.endDate : '') + (times ? ' · ' + times : '') : 'Date still to be set'],
+            ['Where', e.venue ? e.venue + (e.address ? ', ' + e.address : '') : 'Venue still to be set'],
+            ['RSVPs', e.open ? 'Open' + (e.deadline ? ' until ' + e.deadline : '') : 'Closed']
+        ];
+        if (e.hosts) facts.push(['Hosted by', e.hosts]);
+        var updated = new Date(d.updated).toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+        var stats = [['Attending', n(function (g) { return g.attending === 'Yes'; })], ['Still to reply', n(function (g) { return g.attending === 'Waiting'; })],
+            ['Declined', n(function (g) { return g.attending === 'No'; })], ['Invited', guests.length]];
+        if (e.askStay) stats.push(['Staying over', n(function (g) { return g.attending === 'Yes' && said(g.stay); })]);
+        if (e.askChip) stats.push(['Chipping in', n(function (g) { return g.attending === 'Yes' && said(g.chip); })]);
+        stats.push(['Dietary needs', n(function (g) { return g.attending !== 'No' && g.dietary; })]);
+        var cols = '<th>Guest</th><th>Invite</th><th>Reply</th>' + (e.askStay ? '<th>Staying</th>' : '') + (e.askChip ? '<th>Chipping in</th>' : '') + '<th>Dietary</th>';
+        var html = evBar() + evHead(t,
+                '<dl class="facts">' + facts.map(function (f) { return '<div><span>' + f[0] + '</span><b>' + esc(f[1]) + '</b></div>'; }).join('') + '</dl>' +
+                '<div class="meta"><span>Updated ' + esc(updated) + ' · refreshes itself every minute</span><span><button id="evRefresh">Refresh now</button> · <button id="evLock">Lock this tab</button></span></div>' +
+                '<nav class="jump"><a href="#evGuests">Guest list</a><a href="#evInvites">Invitations</a></nav>') +
+            '<section class="panel" id="evGuests"><div class="wrap"><span class="eyebrow">Live from the RSVPs</span><h2>Guest <em>list</em></h2>' +
+                '<div class="stats">' + stats.map(function (x) { return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>'; }).join('') + '</div>' +
+                '<div class="tools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
+                    return '<button class="chip' + (evFilter === c[0] ? ' on' : '') + '" data-evf="' + c[0] + '">' + c[1] + '</button>';
+                }).join('') + '<input type="search" id="evSearch" placeholder="Find a guest" value="' + esc(evSearch) + '"><button class="chip" id="evCsv">Download CSV</button></div>' +
+                '<table class="list guests"><thead><tr>' + cols + '</tr></thead><tbody id="evRows"></tbody></table><p class="empty" id="evEmpty" hidden>No guests match.</p></div></section>' +
+            '<section class="panel" id="evInvites"><div class="wrap"><span class="eyebrow">' + d.invites.length + ' invitations</span><h2>Who’s <em>invited</em></h2>' +
+                '<p class="lede">Send someone their invite on WhatsApp, or copy their personal link. Replies land here by themselves.</p>' +
+                '<div class="tools" id="evInvTools"></div><ul class="desk" id="evInvList"></ul><p class="empty" id="evInvEmpty" hidden>Everyone has replied.</p></div></section>' +
+            evFooter(t);
+        var y = window.scrollY;
+        app.innerHTML = html;
+        window.scrollTo(0, y);
+        wireBar();
+        document.getElementById('evRefresh').addEventListener('click', function () { loadEvent(current, false); });
+        document.getElementById('evLock').addEventListener('click', function () { keepPass(current, ''); delete evData[current]; renderLock(); });
+        document.querySelectorAll('[data-evf]').forEach(function (b) {
+            b.addEventListener('click', function () { evFilter = b.getAttribute('data-evf'); document.querySelectorAll('[data-evf]').forEach(function (x) { x.classList.toggle('on', x === b); }); renderEvRows(); });
+        });
+        var search = document.getElementById('evSearch');
+        search.addEventListener('input', function () { evSearch = search.value; renderEvRows(); });
+        document.getElementById('evCsv').addEventListener('click', evCsv);
+        renderEvRows();
+        renderEvInvites();
+    }
+    function evMatches(g) {
+        if (evFilter === 'diet' && !g.dietary) return false;
+        if (evFilter !== 'all' && evFilter !== 'diet' && g.attending !== evFilter) return false;
+        var q = evSearch.trim().toLowerCase();
+        return !q || (g.guest + ' ' + g.invite + ' ' + g.dietary).toLowerCase().indexOf(q) !== -1;
+    }
+    function renderEvRows() {
+        var e = evData[current].event;
+        var rows = evGuests().filter(evMatches);
+        document.getElementById('evRows').innerHTML = rows.map(function (g) {
+            var cls = g.attending === 'Yes' ? 'yes' : g.attending === 'No' ? 'no' : 'waiting';
+            var label = g.attending === 'Yes' ? 'Attending' : g.attending === 'No' ? 'Declined' : 'Waiting';
+            return '<tr><td>' + esc(g.guest) + '<small>' + esc(g.invite) + '</small></td><td>' + esc(g.invite) + '</td><td><span class="tag ' + cls + '">' + label + '</span></td>' +
+                (e.askStay ? '<td>' + (g.attending === 'Yes' ? esc(g.stay) : '') + '</td>' : '') +
+                (e.askChip ? '<td>' + (g.attending === 'Yes' ? esc(g.chip) : '') + '</td>' : '') +
+                '<td>' + esc(g.dietary) + '</td></tr>';
+        }).join('');
+        document.getElementById('evEmpty').hidden = !!rows.length;
+    }
+    function evCsv() {
+        var t = tabOf(current), e = evData[current].event;
+        var cell = function (s) { return '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"'; };
+        var head = ['Guest', 'Invite', 'Reply'].concat(e.askStay ? ['Staying over'] : [], e.askChip ? ['Chipping in'] : [], ['Dietary']);
+        var lines = [head].concat(evGuests().filter(evMatches).map(function (g) {
+            return [g.guest, g.invite, g.attending === 'Waiting' ? 'Still to reply' : g.attending].concat(e.askStay ? [g.stay] : [], e.askChip ? [g.chip] : [], [g.dietary]);
+        })).map(function (r) { return r.map(cell).join(','); });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }));
+        a.download = t.tab.replace(/[^A-Za-z]+/g, '-') + '-guest-list.csv';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    var safeUrl = function (u) { return /^https:\/\//i.test(String(u || '')) ? String(u) : ''; };
+    function renderEvInvites() {
+        var all = evData[current].invites;
+        var waiting = all.filter(function (i) { return !i.respondedAt; });
+        var tools = document.getElementById('evInvTools');
+        tools.innerHTML = [['waiting', 'Still to reply · ' + waiting.length], ['all', 'All invitations · ' + all.length]].map(function (c) {
+            return '<button class="chip' + (evInvites === c[0] ? ' on' : '') + '" data-evi="' + c[0] + '">' + c[1] + '</button>';
+        }).join('');
+        tools.querySelectorAll('[data-evi]').forEach(function (b) { b.addEventListener('click', function () { evInvites = b.getAttribute('data-evi'); renderEvInvites(); }); });
+        var rows = (evInvites === 'waiting' ? waiting : all).slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
+        document.getElementById('evInvList').innerHTML = rows.map(function (i) {
+            var wa = safeUrl(i.whatsapp), link = safeUrl(i.link);
+            var going = i.guests.filter(function (g) { return g.attending === 'Yes'; }).length;
+            var status = i.respondedAt ? '<small class="ok">Replied ' + esc(i.respondedAt) + ' · ' + going + ' of ' + i.guests.length + ' coming</small>' : '<small>No reply yet</small>';
+            return '<li><div class="who"><b>' + esc(i.name) + '</b><small>' + esc(i.guests.map(function (g) { return g.guest; }).join(', ')) + '</small>' + status +
+                (!i.phone ? '<small class="warn">No number on the sheet</small>' : '') + '</div><div class="acts">' +
+                (wa ? '<a class="send' + (i.respondedAt ? ' again' : '') + '" href="' + esc(wa) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
+                (link ? '<button class="copy" data-link="' + esc(link) + '">Copy link</button>' : '') + '</div></li>';
+        }).join('');
+        document.getElementById('evInvEmpty').hidden = !!rows.length;
+        document.querySelectorAll('[data-link]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var text = b.getAttribute('data-link');
+                var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy link'; }, 1600); };
+                if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this link:', text); });
+                else window.prompt('Copy this link:', text);
+            });
+        });
+    }
+
+    show();
     // Live: quietly refresh every minute while the page is open
     setInterval(function () {
+        if (document.hidden) return;
+        if (current !== 'wedding') {
+            var busy = document.activeElement && (document.activeElement.id === 'evSearch' || document.activeElement.id === 'evPass');
+            if (current && savedPass(current) && evData[current] && !busy) loadEvent(current, true);
+            return;
+        }
         var typing = document.activeElement && document.activeElement.id === 'guestSearch';
         typing = typing || (document.activeElement && document.activeElement.id === 'poolSearch') || !!picked || !!drag;
         if (!document.hidden && !typing && !pending && !seatSaving) load(true);
