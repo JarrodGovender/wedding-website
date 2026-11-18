@@ -30,7 +30,7 @@
     <script>
         (function () {
             var STYLES = {
-                'night-before-jarrod': 'midnight',
+                'night-before-jarrod': 'table',
                 'night-before-telicia': 'blossom',
                 'bachelor': 'major',
                 'bachelorette': 'clg',
@@ -39,6 +39,7 @@
             };
             var FONTS = {
                 midnight: 'family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@400;700',
+                table: 'family=Marcellus&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Nunito+Sans:wght@400;600;700',
                 blossom: 'family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Lato:wght@400;700',
                 major: 'family=Cinzel:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700',
                 clg: 'family=Grenze+Gotisch:wght@600;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400',
@@ -70,6 +71,13 @@
             --accent: #d6b06c; --on-accent: #0e1726;
             --display: 'Cormorant Garamond', Georgia, serif; --text: 'Lato', 'Helvetica Neue', Arial, sans-serif;
             --cover: radial-gradient(circle at 50% 26%, #233455 0%, #121d31 42%, #0a111d 78%);
+        }
+        /* Jarrod's Thanksgiving: "The Long Table". Deep olive, linen, wine red and brass */
+        .theme-table {
+            --bg: #f6f0e3; --bg2: #ece3cf; --card: #fffbf2; --fg: #2a2a1e; --muted: #67624d; --line: rgba(42, 42, 30, 0.16);
+            --accent: #6e1f2b; --on-accent: #fff7ea; --olive: #4f5d2f; --brass: #b08d4c; --brass-text: #7d6128;
+            --display: 'Marcellus', 'Trajan Pro', Georgia, serif; --text: 'Nunito Sans', 'Helvetica Neue', Arial, sans-serif; --verse: 'Cormorant Garamond', Georgia, serif;
+            --cover: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 6px), radial-gradient(ellipse 85% 70% at 50% 38%, #56633a 0%, #3b4627 55%, #252d18 100%);
         }
         /* Telicia's Thanksgiving: soft blush, dark pink accents, gold linework, linen texture (her Pinterest direction) */
         .theme-blossom {
@@ -186,6 +194,46 @@
         .theme-midnight .rise, .theme-blossom .rise { animation-duration: 2s; animation-delay: calc(var(--d, 0s) * 1.6); }
         .theme-midnight .emblem svg { filter: drop-shadow(0 0 18px rgba(214, 176, 108, 0.55)); }
         .dot { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; opacity: calc(0.15 + var(--k) * 0.5); }
+
+        /* The Long Table: olive cover, brass frame, olive branches, a candlelit table along the bottom */
+        .theme-table .cover { color: #f6efe0; }
+        .theme-table .cover-frame { border: 1px solid rgba(176, 141, 76, 0.7); border-radius: 4px; box-shadow: inset 0 0 0 5px rgba(37, 45, 24, 0), inset 0 0 0 6px rgba(176, 141, 76, 0.35); }
+        .theme-table .cover-top { visibility: hidden; } /* the branches hang here; the date is under the title */
+        .theme-table .cover-frame { padding-bottom: calc(min(100vw, 760px, 55vh) * 0.3 - 6px); gap: 10px; } /* keeps the button above the table */
+        .theme-table .kicker { color: #d9c08a; letter-spacing: 0.3em; }
+        .theme-table .masthead { color: #fbf3e2; font-size: min(15vw, 6rem, 11vh); letter-spacing: 0.02em; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35); }
+        .theme-table .masthead .small { font-family: var(--verse); font-style: italic; font-size: 0.42em; color: #d9c08a; }
+        .theme-table .honour { font-family: var(--verse); font-style: italic; font-weight: 500; font-size: clamp(1.05rem, 3.6vw, 1.35rem); letter-spacing: 0; text-transform: none; color: #efe4c8; max-width: 22em; text-wrap: balance; }
+        .theme-table .honour::after { content: 'Psalm 107:1'; display: block; margin-top: 4px; font-family: var(--text); font-style: normal; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #c9ad6e; }
+        .theme-table .cover-date { color: #f6efe0; }
+        .theme-table .cover-date.tba { color: #d9cfb8; }
+        .theme-table .countdown { border-top-color: rgba(217, 192, 138, 0.35); }
+        .theme-table .countdown > div { border-left-color: rgba(217, 192, 138, 0.35); }
+        .theme-table .countdown small { color: #d9c08a; }
+        .theme-table .scroll-cue { background: rgba(246, 239, 224, 0.92); color: #2a2a1e; border-color: var(--brass); }
+        .theme-table .scroll-cue::after { color: var(--accent); }
+        .theme-table .cover-note { color: #e8dcc0; }
+        .theme-table .emblem svg { width: 52px; height: auto; filter: drop-shadow(0 0 14px rgba(217, 192, 138, 0.35)); }
+        .lt-branch { position: absolute; top: -6px; width: min(42vw, 260px); height: auto; }
+        .lt-branch.l { left: -6px; }
+        .lt-branch.r { right: -6px; transform: scaleX(-1); }
+        .lt-table { position: absolute; left: 50%; bottom: 0; width: min(100%, 760px, 55vh); height: auto; transform: translateX(-50%); overflow: visible; }
+        .lt-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: lt-flicker 1.1s ease-in-out infinite alternate; }
+        .lt-glow { animation: lt-glow 2.2s ease-in-out infinite alternate; }
+        @keyframes lt-flicker { 0% { transform: scale(1, 1) skewX(0deg); } 50% { transform: scale(0.9, 1.1) skewX(4deg); } 100% { transform: scale(1.05, 0.92) skewX(-3deg); } }
+        @keyframes lt-glow { to { opacity: 0.55; } }
+        .theme-table .sec-head .eyebrow { color: var(--brass-text); letter-spacing: 0.24em; }
+        .theme-table .sec-title em { color: var(--accent); font-family: var(--verse); font-style: italic; font-size: 1.12em; }
+        .theme-table .sec-title::after { content: ''; display: block; width: 150px; height: 20px; margin: 16px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 20'%3E%3Cpath d='M4 10h54M92 10h54' stroke='%23b08d4c' stroke-width='1'/%3E%3Cpath d='M75 10c-6-6-12-7-16-6c3 5 9 7 16 6zM75 10c6-6 12-7 16-6c-3 5-9 7-16 6z' fill='%234f5d2f'/%3E%3Ccircle cx='75' cy='10' r='2.4' fill='%236e1f2b'/%3E%3C/svg%3E") center / contain no-repeat; }
+        .theme-table .fact { border: 1px solid rgba(176, 141, 76, 0.45); border-top: 3px solid var(--olive); border-radius: 6px; }
+        .theme-table .fact h3 { color: var(--fg); }
+        .theme-table .notice { background: var(--accent); color: #fff7ea; border-bottom: 3px solid var(--brass); }
+        .theme-table .guest, .theme-table .note, .theme-table .album, .theme-table .registry, .theme-table .rsvp-summary { border-color: rgba(176, 141, 76, 0.45); }
+        .theme-table .note { border-left-color: var(--olive); }
+        .theme-table .btn { background: var(--olive); color: #fff7ea; }
+        .theme-table .btn:hover { box-shadow: 0 12px 30px -14px var(--olive); }
+        .theme-table .choice input:checked + span { background: var(--olive); border-color: var(--olive); color: #fff7ea; }
+        .theme-table .footer { background: #2c351c; color: #f6efe0; --muted: #d4c8a8; --line: rgba(246, 239, 224, 0.2); --accent: #d9c08a; border-top: 3px double var(--brass); }
 
         /* Blossom: gold arch, garlands, embroidered flowers, pearls, butterflies, peacocks */
         .theme-blossom body { background-image: var(--linen); }
@@ -644,7 +692,7 @@
                     <h2 class="sec-title">For Jarrod <em>&amp;</em> Telicia</h2>
                 </header>
                 <div id="giftsBody"></div>
-                <script type="text/plain" data-gifts data-iv="fYueObaZUIrTdvVF">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</script>
+                <script type="text/plain" data-gifts data-iv="Ta+8cXsAQW3Lv69o">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</script>
             </div>
         </section>
 
@@ -693,8 +741,8 @@
             // "label" is how the page names the event in plain language, e.g. on the RSVP button.
             var THEMES = {
                 'night-before-jarrod': {
-                    label: "Jarrod's Night Before", cal: "Jarrod's Night Before", ref: "Jarrod's Night Before", kicker: 'Before the big day', title: ['The', 'Night', 'Before'],
-                    honour: 'An evening with Jarrod', details: 'The <em>evening</em>', done: 'Tonight’s the night'
+                    label: "Jarrod's Thanksgiving", cal: "Jarrod's Thanksgiving", ref: "Jarrod's Thanksgiving", kicker: 'An evening with Jarrod', title: ['A', 'Thanksgiving'],
+                    honour: 'Oh give thanks unto the Lord, for He is good', details: 'Breaking <em>bread</em>', rsvpTitle: 'Pull up a <em>seat</em>', photosTitle: 'Around the <em>table</em>', done: 'Give thanks'
                 },
                 'night-before-telicia': {
                     label: "Telicia's Thanksgiving", cal: "Telicia's Thanksgiving", ref: "Telicia's Thanksgiving", kicker: 'With grateful hearts', title: ['A', 'Thanksgiving'],
@@ -1185,6 +1233,54 @@
                 newHole();
             }
 
+            /* ---------- The Long Table artwork (Jarrod's Thanksgiving), drawn from scratch ---------- */
+            var LT_BRASS = '#b08d4c';
+            // Brass wheat sheaf: the cover emblem
+            var LT_SHEAF = (function () {
+                var out = '<svg viewBox="0 0 60 70" aria-hidden="true"><g fill="none" stroke="' + LT_BRASS + '" stroke-width="1.6" stroke-linecap="round">';
+                [[-14, 30], [-7, 26], [0, 24], [7, 26], [14, 30]].forEach(function (s) {
+                    var x = 30 + s[0], top = 8 + Math.abs(s[0]) * 0.5;
+                    out += '<path d="M30 66 Q' + (30 + s[0] * 0.3) + ' 46 ' + x + ' ' + (top + 14) + '"/>';
+                    for (var k = 0; k < 4; k++) {
+                        var y = top + k * 4;
+                        out += '<path d="M' + x + ' ' + (y + 4) + ' q-3 -3 -1 -7 q3 2 1 7z" fill="' + LT_BRASS + '"/><path d="M' + x + ' ' + (y + 4) + ' q3 -3 1 -7 q-3 2 -1 7z" fill="' + LT_BRASS + '"/>';
+                    }
+                });
+                return out + '<path d="M20 50 Q30 44 40 50" stroke-width="2.6"/><path d="M22 53 Q30 47 38 53" stroke-width="1.2" opacity="0.7"/></g></svg>';
+            })();
+            // An olive branch hanging from a top corner
+            function ltBranch(seed) {
+                var rnd = seeded(seed), out = '<svg viewBox="0 0 260 170" aria-hidden="true"><path d="M0 14 C60 10 110 30 150 56 C180 76 200 104 214 150" stroke="#6b5a3a" stroke-width="2.2" fill="none"/>' +
+                    '<path d="M70 18 C86 34 92 52 92 74" stroke="#6b5a3a" stroke-width="1.4" fill="none"/>';
+                var pts = [[18, 12], [40, 13], [62, 17], [84, 23], [106, 33], [126, 44], [146, 55], [164, 70], [180, 88], [194, 108], [206, 130], [80, 34], [88, 52], [92, 68]];
+                pts.forEach(function (p, i) {
+                    var a = (i % 2 ? 1 : -1) * (35 + rnd() * 25);
+                    out += '<path d="M0 0 C6 -4 20 -4 28 0 C20 4 6 4 0 0Z" fill="' + (rnd() < 0.5 ? '#7d8a52' : '#a3ad84') + '" transform="translate(' + p[0] + ' ' + p[1] + ') rotate(' + (a + 30) + ')"/>';
+                });
+                [[120, 52], [170, 82], [96, 60], [198, 118]].forEach(function (o) { out += '<ellipse cx="' + o[0] + '" cy="' + o[1] + '" rx="4.5" ry="6" fill="#3b2f40"/><ellipse cx="' + (o[0] - 1.5) + '" cy="' + (o[1] - 2) + '" rx="1.2" ry="1.6" fill="#fff" opacity="0.35"/>'; });
+                return out + '</svg>';
+            }
+            // The long table: linen cloth, olive runner, candles, bread and a cup
+            var LT_TABLE = (function () {
+                var candle = function (x, h) {
+                    return '<ellipse class="lt-glow" cx="' + x + '" cy="' + (78 - h - 10) + '" rx="22" ry="22" fill="url(#ltGlow)"/>' +
+                        '<path d="M' + (x - 7) + ' 84 h14 l-3 -4 h-8z" fill="' + LT_BRASS + '"/><rect x="' + (x - 2) + '" y="' + (80 - 8) + '" width="4" height="8" fill="' + LT_BRASS + '"/>' +
+                        '<rect x="' + (x - 3.5) + '" y="' + (72 - h) + '" width="7" height="' + h + '" rx="1" fill="#f7f0de"/>' +
+                        '<path class="lt-flame" d="M' + x + ' ' + (60 - h) + ' c3 5 4 8 0 11 c-4 -3 -3 -6 0 -11z" fill="url(#ltFlame)"/>';
+                };
+                return '<svg class="lt-table" viewBox="0 0 400 120" aria-hidden="true"><defs>' +
+                    '<radialGradient id="ltGlow"><stop offset="0" stop-color="#ffd98a" stop-opacity="0.55"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient>' +
+                    '<linearGradient id="ltFlame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff8a2a"/><stop offset="1" stop-color="#ffe7a6"/></linearGradient></defs>' +
+                    '<path d="M-10 86 H410 V120 H-10Z" fill="#efe6d1"/><path d="M-10 86 H410 V91 H-10Z" fill="#e2d6bb"/>' +
+                    '<path d="M150 86 H250 V120 H150Z" fill="#5d6b38" opacity="0.9"/><path d="M150 86 H250" stroke="' + LT_BRASS + '" stroke-width="1"/>' +
+                    candle(110, 26) + candle(140, 34) + candle(260, 34) + candle(290, 26) +
+                    '<ellipse cx="200" cy="80" rx="26" ry="10" fill="#a9733f"/><path d="M176 80 q24 -20 48 0" fill="#c48a4d"/><path d="M186 74 l6 -4 m6 4 l6 -4 m6 4 l6 -4" stroke="#8a5a2c" stroke-width="1.6" stroke-linecap="round"/>' +
+                    '<path d="M228 84 h12 l-2 -3 h-8z M232 81 v-8 M226 62 h20 c0 9 -4 12 -10 12 s-10 -3 -10 -12z" fill="' + LT_BRASS + '" stroke="' + LT_BRASS + '" stroke-width="1"/>' +
+                    '<path d="M70 86 c10 -10 24 -8 30 -2 M330 86 c-10 -10 -24 -8 -30 -2" stroke="#7d8a52" stroke-width="2" fill="none"/>' +
+                    '<ellipse cx="60" cy="85" rx="20" ry="3" fill="#ffffff" opacity="0.7"/><ellipse cx="340" cy="85" rx="20" ry="3" fill="#ffffff" opacity="0.7"/>' +
+                    '</svg>';
+            })();
+
             /* ---------- Saturday braai artwork, drawn from scratch ---------- */
             var EM_FLAME = '<svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="emF" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff5a1f"/><stop offset="0.6" stop-color="#ff9a3d"/><stop offset="1" stop-color="#ffd27a"/></linearGradient></defs>' +
                 '<path class="em-flame" d="M20 3c6 8 11 13 11 21a11 11 0 0 1-22 0c0-5 3-8 5-11c1 4 3 6 5 6c-2-6-1-11 1-16z" fill="url(#emF)"/></svg>';
@@ -1235,6 +1331,9 @@
                             var left = k < 0.5 ? x * 0.32 : 68 + x * 0.32;
                             return '<i class="bl-pearl" style="left:' + left + '%;top:' + (4 + y * 0.26) + '%;--k:' + k.toFixed(2) + '"></i>';
                         });
+                } else if (style === 'table') {
+                    emblem = LT_SHEAF;
+                    decor = ltBranch(4).replace('<svg', '<svg class="lt-branch l"') + ltBranch(9).replace('<svg', '<svg class="lt-branch r"') + LT_TABLE;
                 } else if (style === 'midnight') {
                     emblem = MOON;
                     decor = scatter(46, 7, function (x, y, k) { return '<i class="dot" style="left:' + x + '%;top:' + y + '%;--k:' + k.toFixed(2) + '"></i>'; });
