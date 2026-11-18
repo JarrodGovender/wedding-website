@@ -64,6 +64,15 @@
         .requests li small { color: var(--muted); }
         .empty { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
         /* Table plan */
+        .room { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 22px; padding: 14px 16px; border: 1px solid var(--ink); background: var(--stone); }
+        .room .ctl { display: inline-flex; align-items: center; gap: 8px; }
+        .room .ctl span { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+        .room .ctl b { min-width: 26px; text-align: center; font-family: var(--serif); font-weight: 400; font-size: 1.5rem; }
+        .room button, .tcard .adj button { width: 30px; height: 30px; border: 1px solid var(--ink); background: var(--paper); font-size: 1rem; line-height: 1; }
+        .room .fit { flex-basis: 100%; font-size: 0.86rem; }
+        .room .fit.short { color: #8b1d1d; font-weight: 600; }
+        .tcard .adj { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
+        .tcard .adj button { width: 22px; height: 22px; font-size: 0.85rem; }
         .tablegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 22px; }
         .tcard { border: 1px solid var(--ink); padding: 12px 12px 10px; }
         .tcard.full { background: var(--stone); }
@@ -217,6 +226,7 @@
             jump.push(['tables', 'Table plan']);
             sections.push('<section class="panel" id="tables"><div class="wrap"><span class="eyebrow" id="tablesEyebrow">Who sits where</span><h2>Table <em>plan</em></h2>' +
                 (data.couple ? '<p class="lede">Pick a table for each guest below. Every change saves straight away, and your planner sees it live. Guests show up here as they reply yes.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
+                (data.couple ? '<div class="room" id="roomBar"></div>' : '') +
                 '<div class="tablegrid" id="tableGrid"></div>' +
                 (data.couple ? '<h3 class="sub">Seat your guests</h3><div class="tools" id="seatSides"></div><div class="tools" id="seatTools">' +
                     [['unseated', 'Attending, not seated'], ['attending', 'Everyone attending'], ['all', 'Everyone invited']].map(function (c) {
@@ -410,12 +420,76 @@
         document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
             var n = t.guests.length;
             var cls = n > t.seats ? ' over' : n === t.seats ? ' full' : '';
-            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' +
+            var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1" aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
+            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + adjust + '</span></div>' +
                 (n ? '<ul>' + t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); }).map(function (g) {
                     return '<li class="' + (g.attending === 'Yes' ? '' : g.attending === 'No' ? 'declined' : 'waiting') + '">' + esc(g.guest) + (g.dietary ? ' <i>· ' + esc(g.dietary) + '</i>' : '') + '</li>';
                 }).join('') + '</ul>' : '<p class="tempty">Empty</p>') + '</div>';
         }).join('');
-        if (data.couple) renderSeatList(groups);
+        if (data.couple) { renderRoom(groups); renderSeatList(groups); }
+    }
+    // ---------- The room: number of tables, usual seats, and any bigger or smaller table ----------
+    function renderRoom(groups) {
+        var t = data.tables;
+        var seats = groups.reduce(function (n, g) { return n + g.seats; }, 0);
+        var people = data.guests ? data.guests.list.length : t.people;
+        var gap = seats - people;
+        var step = function (what, d, label) { return '<button data-room="' + what + '" data-d="' + d + '" aria-label="' + label + '">' + (d < 0 ? '−' : '+') + '</button>'; };
+        document.getElementById('roomBar').innerHTML =
+            '<div class="ctl"><span>Tables</span>' + step('tables', -1, 'One table fewer') + '<b>' + t.count + '</b>' + step('tables', 1, 'One more table') + '</div>' +
+            '<div class="ctl"><span>Seats a table</span>' + step('seats', -1, 'One seat fewer at every table') + '<b>' + t.seats + '</b>' + step('seats', 1, 'One more seat at every table') + '</div>' +
+            '<p class="fit' + (gap < 0 ? ' short' : '') + '">' + seats + ' seats for ' + people + ' people · ' + (gap < 0 ? (-gap) + ' short' : gap === 0 ? 'exactly right' : gap + ' spare') + '</p>';
+        document.querySelectorAll('#roomBar [data-room]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var d = Number(b.getAttribute('data-d'));
+                if (b.getAttribute('data-room') === 'tables') changeRoom(t.count + d, t.seats, overridesOf());
+                else changeRoom(t.count, t.seats + d, overridesOf());
+            });
+        });
+        document.querySelectorAll('#tableGrid [data-tseat]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var name = b.getAttribute('data-tseat');
+                var o = overridesOf();
+                var now = o[name] || t.seats;
+                o[name] = Math.max(1, now + Number(b.getAttribute('data-d')));
+                changeRoom(t.count, t.seats, o);
+            });
+        });
+    }
+    function overridesOf() {
+        var o = {};
+        data.tables.tables.forEach(function (x) { if (x.table !== 'Main' && x.seats !== data.tables.seats) o[x.table] = x.seats; });
+        return o;
+    }
+    /** Changes the room on the page straight away, then saves it; puts it back if the save is refused */
+    var roomSaving = false;
+    function changeRoom(tables, seats, overrides) {
+        if (tables < 1 || seats < 1 || roomSaving) return;
+        // Never drop a table that still has guests at it
+        var highest = 0;
+        if (data.guests) data.guests.list.forEach(function (g) { var n = Number(g.table); if (n > highest) highest = n; });
+        if (tables < highest) { alert('Table ' + highest + ' still has guests. Move them first, then remove the table.'); return; }
+        roomSaving = true;
+        var before = JSON.parse(JSON.stringify(data.tables));
+        var list = [{ table: 'Main', seats: 2, guests: [] }];
+        for (var n = 1; n <= tables; n++) list.push({ table: String(n), seats: overrides[String(n)] || seats, guests: [] });
+        data.tables.count = tables;
+        data.tables.seats = seats;
+        data.tables.tables = list;
+        seatSaving++;
+        renderTables();
+        fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'roomSet', key: adminKey, tables: tables, seats: seats, overrides: overrides }) })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.ok) throw res;
+                data.tables.totalSeats = res.tables.totalSeats;
+            })
+            .catch(function (err) {
+                data.tables = before;
+                renderTables();
+                alert(err && err.error === 'tables_in_use' ? 'Table ' + err.table + ' still has guests. Move them first, then remove the table.' : 'Couldn’t save the room. Check your signal and try again.');
+            })
+            .then(function () { seatSaving--; roomSaving = false; });
     }
     function seatOptions(current, groups) {
         return '<option value="">No table</option>' + groups.map(function (t) {
