@@ -63,6 +63,28 @@
         .requests li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
         .requests li small { color: var(--muted); }
         .empty { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
+        /* Table plan */
+        .tablegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 22px; }
+        .tcard { border: 1px solid var(--ink); padding: 12px 12px 10px; }
+        .tcard.full { background: var(--stone); }
+        .tcard.over { border: 2px solid #8b1d1d; }
+        .tcard .thead { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+        .tcard .thead b { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; }
+        .tcard .thead span { font-size: 0.78rem; color: var(--muted); }
+        .tcard.over .thead span { color: #8b1d1d; font-weight: 600; }
+        .tcard ul { list-style: none; font-size: 0.84rem; line-height: 1.55; }
+        .tcard li i { font-style: normal; color: var(--muted); font-size: 0.74rem; }
+        .tcard li.waiting { color: var(--muted); font-style: italic; }
+        .tcard li.declined { color: var(--muted); text-decoration: line-through; }
+        .tempty { font-size: 0.8rem; color: var(--muted); }
+        h3.sub { margin-top: 34px; font-family: var(--serif); font-weight: 400; font-size: 1.4rem; }
+        #seatList .inv { border-bottom: 1px solid var(--line); padding: 12px 0; }
+        #seatList .inv-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+        #seatList .inv-head small { display: block; color: var(--muted); font-size: 0.78rem; }
+        #seatList .whole { font-size: 0.78rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
+        #seatList ul { list-style: none; margin-top: 6px; }
+        #seatList li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0 6px 12px; font-size: 0.9rem; }
+        #seatList select { font: inherit; font-size: 0.85rem; padding: 7px 8px; border: 1px solid var(--ink); background: var(--paper); max-width: 52vw; }
         /* Send desk */
         ul.desk { list-style: none; margin-top: 18px; border-top: 1px solid var(--ink); }
         ul.desk li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
@@ -191,6 +213,17 @@
                     return '<li><span>' + esc(t.text) + '</span><small>' + esc(t.invite) + '</small></li>';
                 }).join('') + '</ul>' : '') + '</div></section>');
         }
+        if (data.tables) {
+            jump.push(['tables', 'Table plan']);
+            sections.push('<section class="panel" id="tables"><div class="wrap"><span class="eyebrow" id="tablesEyebrow">Who sits where</span><h2>Table <em>plan</em></h2>' +
+                (data.couple ? '<p class="lede">Pick a table for each guest below. Every change saves straight away, and your planner sees it live. Guests show up here as they reply yes.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
+                '<div class="tablegrid" id="tableGrid"></div>' +
+                (data.couple ? '<h3 class="sub">Seat your guests</h3><div class="tools" id="seatSides"></div><div class="tools" id="seatTools">' +
+                    [['unseated', 'Attending, not seated'], ['attending', 'Everyone attending'], ['all', 'Everyone invited']].map(function (c) {
+                        return '<button class="chip" data-seat="' + c[0] + '">' + c[1] + '</button>';
+                    }).join('') + '<input type="search" id="seatSearch" placeholder="Find a guest" value="' + esc(seatSearch) + '"></div><div id="seatList"></div><p class="empty" id="seatEmpty" hidden></p>' : '') +
+                '</div></section>');
+        }
         if (data.guests) {
             jump.push(['guests', 'Guest list']);
             var g = data.guests;
@@ -202,7 +235,7 @@
                 (data.couple ? '<div class="tools" id="guestSides"></div>' : '') + '<div class="tools" id="guestTools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
                     return '<button class="chip" data-filter="' + c[0] + '">' + c[1] + '</button>';
                 }).join('') + '<input type="search" id="guestSearch" placeholder="Find a guest" value="' + esc(guestSearch) + '"><button class="chip" id="guestCsv">Download CSV</button></div>' +
-                '<table class="list guests"><thead><tr><th>Guest</th><th>Invite</th><th>Reply</th><th>Dietary</th></tr></thead><tbody id="guestRows"></tbody></table>' +
+                '<table class="list guests"><thead><tr><th>Guest</th><th>Invite</th><th>Reply</th><th>Table</th><th>Dietary</th></tr></thead><tbody id="guestRows"></tbody></table>' +
                 '<p class="empty" id="guestEmpty" hidden>No guests match.</p></div></section>');
         }
         var updated = new Date(data.updated).toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
@@ -216,6 +249,7 @@
         document.getElementById('refresh').addEventListener('click', function () { load(); });
         if (data.guests) wireGuests();
         if (data.desk) wireDesk();
+        if (data.tables) wireTables();
     }
 
     function guestMatches(x) {
@@ -247,7 +281,7 @@
             return '<button class="chip' + (sideFilter === c[0] ? ' on' : '') + '" data-side="' + c[0] + '">' + c[1] + ' · ' + count(c[0]) + '</button>';
         }).join('');
         document.getElementById(id).querySelectorAll('[data-side]').forEach(function (b) {
-            b.addEventListener('click', function () { sideFilter = b.getAttribute('data-side'); renderDesk(); if (data.guests) { sideChips('guestSides'); renderGuests(); } });
+            b.addEventListener('click', function () { sideFilter = b.getAttribute('data-side'); if (data.desk) renderDesk(); if (data.guests) { sideChips('guestSides'); renderGuests(); } if (data.tables && data.couple) renderTables(); });
         });
     }
     function deskRows() {
@@ -356,6 +390,108 @@
     });
     document.getElementById('confirmNo').addEventListener('click', function () { pending = null; bar.hidden = true; });
 
+    // ---------- The table plan ----------
+    var seatFilter = 'unseated', seatSearch = '', seatSaving = 0;
+    var tableLabel = function (t) { return t === 'Main' ? 'Main table' : 'Table ' + t; };
+    /** Tables with their guests: worked out from the guest list for the couple, so a change shows at once */
+    function tableGroups() {
+        if (!data.guests || !data.couple) return data.tables.tables;
+        var base = data.tables.tables.map(function (t) { return { table: t.table, seats: t.seats, guests: [] }; });
+        var by = {};
+        base.forEach(function (t) { by[t.table] = t; });
+        data.guests.list.forEach(function (g) { if (g.table && by[g.table]) by[g.table].guests.push(g); });
+        return base;
+    }
+    function renderTables() {
+        var groups = tableGroups();
+        var seated = groups.reduce(function (n, t) { return n + t.guests.length; }, 0);
+        var unseated = data.guests && data.couple ? data.guests.list.filter(function (g) { return g.attending === 'Yes' && !g.table; }).length : data.tables.attendingUnseated;
+        document.getElementById('tablesEyebrow').textContent = 'Who sits where · ' + seated + ' seated' + (unseated ? ' · ' + unseated + ' attending still to seat' : '');
+        document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
+            var n = t.guests.length;
+            var cls = n > t.seats ? ' over' : n === t.seats ? ' full' : '';
+            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' +
+                (n ? '<ul>' + t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); }).map(function (g) {
+                    return '<li class="' + (g.attending === 'Yes' ? '' : g.attending === 'No' ? 'declined' : 'waiting') + '">' + esc(g.guest) + (g.dietary ? ' <i>· ' + esc(g.dietary) + '</i>' : '') + '</li>';
+                }).join('') + '</ul>' : '<p class="tempty">Empty</p>') + '</div>';
+        }).join('');
+        if (data.couple) renderSeatList(groups);
+    }
+    function seatOptions(current, groups) {
+        return '<option value="">No table</option>' + groups.map(function (t) {
+            var n = t.guests.length;
+            return '<option value="' + t.table + '"' + (current === t.table ? ' selected' : '') + '>' + tableLabel(t.table) + ' (' + n + '/' + t.seats + ')' + (n >= t.seats && current !== t.table ? ' · full' : '') + '</option>';
+        }).join('');
+    }
+    function seatMatches(g) {
+        if (sideFilter !== 'all' && g.side !== sideFilter) return false;
+        if (seatFilter === 'unseated' && !(g.attending === 'Yes' && !g.table)) return false;
+        if (seatFilter === 'attending' && g.attending !== 'Yes') return false;
+        var q = seatSearch.trim().toLowerCase();
+        return !q || (g.guest + ' ' + g.invite).toLowerCase().indexOf(q) !== -1;
+    }
+    function renderSeatList(groups) {
+        sideChips('seatSides');
+        document.querySelectorAll('[data-seat]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-seat') === seatFilter); });
+        var invites = {};
+        var order = [];
+        data.guests.list.filter(seatMatches).forEach(function (g) {
+            var k = g.code + '|' + g.invite;
+            if (!invites[k]) { invites[k] = { code: g.code, name: g.invite, side: g.side, guests: [] }; order.push(k); }
+            invites[k].guests.push(g);
+        });
+        document.getElementById('seatList').innerHTML = order.map(function (k) {
+            var inv = invites[k];
+            var tables = inv.guests.map(function (g) { return g.table; });
+            var same = tables.every(function (t) { return t === tables[0]; }) ? tables[0] : '';
+            return '<div class="inv"><div class="inv-head"><div><b>' + esc(inv.name) + '</b><small>' + esc(inv.side ? inv.side + '’s' : '') + '</small></div>' +
+                (inv.guests.length > 1 ? '<label class="whole">Whole invite <select data-inv="' + esc(k) + '">' + seatOptions(same, groups) + '</select></label>' : '') + '</div><ul>' +
+                inv.guests.map(function (g) {
+                    var tag = g.attending === 'Yes' ? '<span class="tag yes">Attending</span>' : g.attending === 'No' ? '<span class="tag no">Declined</span>' : '<span class="tag waiting">Waiting</span>';
+                    return '<li><span>' + esc(g.guest) + ' ' + tag + '</span><select data-guest="' + esc(g.guest) + '" data-code="' + g.code + '">' + seatOptions(g.table, groups) + '</select></li>';
+                }).join('') + '</ul></div>';
+        }).join('');
+        var empty = document.getElementById('seatEmpty');
+        empty.hidden = !!order.length;
+        empty.textContent = seatFilter === 'unseated' ? 'Everyone who has said yes has a seat.' : 'No guests match.';
+        document.querySelectorAll('#seatList select[data-guest]').forEach(function (sel) {
+            sel.addEventListener('change', function () {
+                var g = data.guests.list.filter(function (x) { return x.code === sel.getAttribute('data-code') && x.guest === sel.getAttribute('data-guest'); })[0];
+                seat([g], sel.value);
+            });
+        });
+        document.querySelectorAll('#seatList select[data-inv]').forEach(function (sel) {
+            sel.addEventListener('change', function () { seat(invites[sel.getAttribute('data-inv')].guests, sel.value); });
+        });
+    }
+    /** Saves each guest's table; the page updates straight away and puts it back if a save fails */
+    function seat(guests, table) {
+        guests.forEach(function (g) {
+            var before = g.table;
+            g.table = table;
+            seatSaving++;
+            fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'seatSet', key: adminKey, code: g.code, guest: g.guest, table: table }) })
+                .then(function (r) { return r.json(); })
+                .then(function (res) { if (!res.ok) throw res; })
+                .catch(function () { g.table = before; renderTables(); alert('Couldn’t save ' + g.guest + '’s table. Check your signal and try again.'); })
+                .then(function () { seatSaving--; });
+        });
+        var y = window.scrollY;
+        renderTables();
+        if (data.guests) renderGuests();
+        window.scrollTo(0, y);
+    }
+    function wireTables() {
+        if (data.couple) {
+            document.querySelectorAll('[data-seat]').forEach(function (b) {
+                b.addEventListener('click', function () { seatFilter = b.getAttribute('data-seat'); renderTables(); });
+            });
+            var search = document.getElementById('seatSearch');
+            search.addEventListener('input', function () { seatSearch = search.value; renderTables(); });
+        }
+        renderTables();
+    }
+
     function renderGuests() {
         if (data.couple && document.getElementById('guestSides')) sideChips('guestSides');
         var rows = data.guests.list.filter(guestMatches);
@@ -363,7 +499,7 @@
         document.getElementById('guestRows').innerHTML = rows.map(function (x) {
             var cls = x.attending === 'Yes' ? 'yes' : x.attending === 'No' ? 'no' : 'waiting';
             var label = x.attending === 'Yes' ? 'Attending' : x.attending === 'No' ? 'Declined' : 'Waiting';
-            return '<tr><td>' + esc(x.guest) + '<small>' + esc(x.invite) + '</small></td><td>' + esc(x.invite) + '</td><td><span class="tag ' + cls + '">' + label + '</span></td><td>' + (x.dietary ? esc(x.dietary) : '') + '</td></tr>';
+            return '<tr><td>' + esc(x.guest) + '<small>' + esc(x.invite) + '</small></td><td>' + esc(x.invite) + '</td><td><span class="tag ' + cls + '">' + label + '</span></td><td>' + (x.table ? esc(x.table === 'Main' ? 'Main' : x.table) : '') + '</td><td>' + (x.dietary ? esc(x.dietary) : '') + '</td></tr>';
         }).join('');
         document.getElementById('guestEmpty').hidden = !!rows.length;
     }
@@ -375,8 +511,8 @@
         search.addEventListener('input', function () { guestSearch = search.value; renderGuests(); });
         document.getElementById('guestCsv').addEventListener('click', function () {
             var cell = function (s) { return '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"'; };
-            var lines = [['Guest', 'Invite', 'Reply', 'Dietary']].concat(data.guests.list.filter(guestMatches).map(function (x) {
-                return [x.guest, x.invite, x.attending === 'Waiting' ? 'Still to reply' : x.attending, x.dietary];
+            var lines = [['Guest', 'Invite', 'Reply', 'Table', 'Dietary']].concat(data.guests.list.filter(guestMatches).map(function (x) {
+                return [x.guest, x.invite, x.attending === 'Waiting' ? 'Still to reply' : x.attending, x.table || '', x.dietary];
             })).map(function (r) { return r.map(cell).join(','); });
             var a = document.createElement('a');
             a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }));
@@ -392,7 +528,8 @@
     // Live: quietly refresh every minute while the page is open
     setInterval(function () {
         var typing = document.activeElement && document.activeElement.id === 'guestSearch';
-        if (!document.hidden && !typing && !pending) load(true);
+        typing = typing || (document.activeElement && document.activeElement.id === 'seatSearch');
+        if (!document.hidden && !typing && !pending && !seatSaving) load(true);
     }, 60000);
 })();
 </script>
