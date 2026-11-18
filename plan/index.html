@@ -173,6 +173,25 @@
         ul.desk .who small.ok { color: var(--ink); }
 
         /* The six looks, taken from each event's own page */
+        .pots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 22px; }
+        .pot { border: 1px solid var(--ink); padding: 16px; background: var(--paper); }
+        .pot h3 { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; }
+        .pot .big { margin-top: 8px; font-family: var(--serif); font-size: 2.2rem; line-height: 1; }
+        .pot .big span { margin-left: 8px; font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+        .pot dl, .moneylist { margin-top: 12px; font-size: 0.86rem; }
+        .pot dl div, .moneylist div { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+        .pot dt, .moneylist dt { color: var(--muted); }
+        .moneylist { max-width: 560px; border-top: 1px solid var(--ink); }
+        .scrollx { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.money { min-width: 520px; }
+        .list td.num { white-space: nowrap; }
+        .list td.owes { font-weight: 600; }
+        .small-note { margin-top: 8px; font-size: 0.8rem; color: var(--muted); }
+        .lede a { color: var(--ink); }
+        ul.desk a.send { text-decoration: none; }
+        .linkish { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+        #evInvHelp:empty { display: none; }
+        #evInvHelp .sample { display: block; margin-top: 8px; padding: 10px 12px; border-left: 2px solid var(--accent, var(--ink)); background: var(--stone); color: var(--ink); font-size: 0.86rem; }
         .ev-midnight { --paper: #0e1726; --stone: #19273e; --ink: #f4eee2; --muted: #a9b3c5; --line: rgba(244, 238, 226, 0.16); --accent: #d6b06c; --on-accent: #0e1726;
             --serif: 'Cormorant Garamond', Georgia, serif; --sans: 'Lato', 'Helvetica Neue', Arial, sans-serif;
             --cover: radial-gradient(circle at 50% 26%, #233455 0%, #121d31 42%, #0a111d 78%); --cover-fg: #f4eee2; }
@@ -826,7 +845,7 @@
         return organiser ? '' : 'wedding';
     })();
     var passes = {}, evData = {};
-    var evFilter = 'all', evSearch = '', evInvites = 'waiting';
+    var evFilter = 'all', evSearch = '', evInvites = 'reminder';
     function savedPass(slug) {
         if (passes[slug]) return passes[slug];
         try { return sessionStorage.getItem('jtplan:' + slug) || ''; } catch (e) { return ''; }
@@ -867,7 +886,7 @@
     function switchTo(slug) {
         if (slug === current) return;
         current = slug;
-        evFilter = 'all'; evSearch = ''; evInvites = 'waiting';
+        evFilter = 'all'; evSearch = ''; evInvites = 'reminder';
         try {
             var u = new URL(location.href);
             if (organiser) u.searchParams.set('events', slug);
@@ -977,16 +996,17 @@
         var html = evBar() + evHead(t,
                 '<dl class="facts">' + facts.map(function (f) { return '<div><span>' + f[0] + '</span><b>' + esc(f[1]) + '</b></div>'; }).join('') + '</dl>' +
                 '<div class="meta"><span>Updated ' + esc(updated) + ' · refreshes itself every minute</span><span><button id="evRefresh">Refresh now</button> · <button id="evLock">Lock this tab</button></span></div>' +
-                '<nav class="jump"><a href="#evGuests">Guest list</a><a href="#evInvites">Invitations</a></nav>') +
+                '<nav class="jump"><a href="#evGuests">Guest list</a><a href="#evInvites">Send desk</a>' + (d.costs ? '<a href="#evMoney">Money</a>' : '') + '</nav>') +
             '<section class="panel" id="evGuests"><div class="wrap"><span class="eyebrow">Live from the RSVPs</span><h2>Guest <em>list</em></h2>' +
                 '<div class="stats">' + stats.map(function (x) { return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>'; }).join('') + '</div>' +
                 '<div class="tools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
                     return '<button class="chip' + (evFilter === c[0] ? ' on' : '') + '" data-evf="' + c[0] + '">' + c[1] + '</button>';
                 }).join('') + '<input type="search" id="evSearch" placeholder="Find a guest" value="' + esc(evSearch) + '"><button class="chip" id="evCsv">Download CSV</button></div>' +
                 '<table class="list guests"><thead><tr>' + cols + '</tr></thead><tbody id="evRows"></tbody></table><p class="empty" id="evEmpty" hidden>No guests match.</p></div></section>' +
-            '<section class="panel" id="evInvites"><div class="wrap"><span class="eyebrow">' + d.invites.length + ' invitations</span><h2>Who’s <em>invited</em></h2>' +
-                '<p class="lede">Send someone their invite on WhatsApp, or copy their personal link. Replies land here by themselves.</p>' +
-                '<div class="tools" id="evInvTools"></div><ul class="desk" id="evInvList"></ul><p class="empty" id="evInvEmpty" hidden>Everyone has replied.</p></div></section>' +
+            '<section class="panel" id="evInvites"><div class="wrap"><span class="eyebrow">' + d.invites.length + ' invitations</span><h2>The send <em>desk</em></h2>' +
+                '<p class="lede">Send invites and reminders on WhatsApp. Each one is ticked off on the event’s own sheet, so your co-organisers see it too.</p>' +
+                '<div class="tools" id="evInvTools"></div><p class="lede" id="evInvHelp"></p><ul class="desk" id="evInvList"></ul><p class="empty" id="evInvEmpty" hidden></p></div></section>' +
+            evMoneyHtml(d.costs) +
             evFooter(t);
         var y = window.scrollY;
         app.innerHTML = html;
@@ -1037,33 +1057,158 @@
         setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
     }
     var safeUrl = function (u) { return /^https:\/\//i.test(String(u || '')) ? String(u) : ''; };
+    // ---------- An event's send desk: invites and reminders, ticked off on the event's own sheet ----------
+    var EV_STAGES = [['invite', 'Invites'], ['reminder', 'Reminders'], ['all', 'All invitations']];
+    var EV_WORD = { invite: 'invite', reminder: 'reminder' };
+    var evPending = null; // { code, kind } waiting for "yes, sent"
+    var evConfirm = document.createElement('div');
+    evConfirm.className = 'confirm';
+    evConfirm.hidden = true;
+    evConfirm.innerHTML = '<p></p><div><button class="btn btn-solid" id="evYes">Yes, sent</button><button class="btn" id="evNo">Not yet</button></div>';
+    document.body.appendChild(evConfirm);
+    document.getElementById('evYes').addEventListener('click', function () {
+        var p = evPending;
+        evPending = null;
+        evConfirm.hidden = true;
+        if (p) evMark([p.code], p.kind, false);
+    });
+    document.getElementById('evNo').addEventListener('click', function () { evPending = null; evConfirm.hidden = true; });
+    function evNeeds(i, kind) {
+        if (kind === 'invite') return !i.replied && !i.sent.invite;
+        if (kind === 'reminder') return !i.replied && !i.sent.reminder;
+        return true;
+    }
+    function evText(i) {
+        var e = evData[current].event;
+        var t = String(e.reminder || '{link}');
+        if (!e.deadline) t = t.replace(/ by \{deadline\}/g, '').replace(/\{deadline\}/g, '');
+        return t.replace(/\{name\}/g, i.name).replace(/\{event\}/g, e.name || tabOf(current).tab).replace(/\{link\}/g, i.link).replace(/\{deadline\}/g, e.deadline);
+    }
+    function evWhatsApp(i, kind) {
+        if (kind === 'invite') return safeUrl(i.whatsapp);
+        return i.wa ? 'https://api.whatsapp.com/send?phone=' + encodeURIComponent(i.wa) + '&text=' + encodeURIComponent(evText(i)) : '';
+    }
+    function evMark(codes, kind, undo, onlyEmpty) {
+        var slug = current;
+        return fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'eventMark', event: slug, pass: savedPass(slug), kind: kind, codes: codes, undo: !!undo, onlyEmpty: !!onlyEmpty }) })
+            .then(function (r) { return r.json(); })
+            .then(function (res) {
+                if (!res.ok) throw res;
+                var when = undo ? '' : new Date().toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' });
+                (evData[slug] ? evData[slug].invites : []).forEach(function (i) {
+                    if (codes.indexOf(i.code) === -1) return;
+                    if (undo || !onlyEmpty || !i.sent[kind]) i.sent[kind] = when;
+                });
+                if (current === slug && evData[slug]) renderEvInvites();
+            })
+            .catch(function (err) {
+                if (err && LOCK_MSG[err.error]) { keepPass(slug, ''); delete evData[slug]; if (current === slug) renderLock(LOCK_MSG[err.error]); return; }
+                alert('Couldn’t save that. Check your signal and try again.');
+            });
+    }
     function renderEvInvites() {
         var all = evData[current].invites;
-        var waiting = all.filter(function (i) { return !i.respondedAt; });
+        var e = evData[current].event;
         var tools = document.getElementById('evInvTools');
-        tools.innerHTML = [['waiting', 'Still to reply · ' + waiting.length], ['all', 'All invitations · ' + all.length]].map(function (c) {
-            return '<button class="chip' + (evInvites === c[0] ? ' on' : '') + '" data-evi="' + c[0] + '">' + c[1] + '</button>';
+        tools.innerHTML = EV_STAGES.map(function (st) {
+            var count = st[0] === 'all' ? all.length + '' : all.filter(function (i) { return evNeeds(i, st[0]); }).length + ' to send';
+            return '<button class="chip' + (evInvites === st[0] ? ' on' : '') + '" data-evi="' + st[0] + '">' + st[1] + ' · ' + count + '</button>';
         }).join('');
         tools.querySelectorAll('[data-evi]').forEach(function (b) { b.addEventListener('click', function () { evInvites = b.getAttribute('data-evi'); renderEvInvites(); }); });
-        var rows = (evInvites === 'waiting' ? waiting : all).slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
+        var rows = (evInvites === 'all' ? all : all.filter(function (i) { return evNeeds(i, evInvites); })).slice().sort(function (a, b) { return a.name.localeCompare(b.name); });
+        var help = document.getElementById('evInvHelp');
+        if (evInvites === 'invite') {
+            help.innerHTML = rows.length ? 'Each button opens WhatsApp with the invite from the sheet. Invites already sent another way? <button class="linkish" id="evMarkAll">' + (rows.length === 1 ? 'Mark this one as invited' : 'Mark all ' + rows.length + ' as invited') + '</button>' : '';
+        } else if (evInvites === 'reminder') {
+            var sample = rows[0] || all[0] ? evText(rows[0] || all[0]) : '';
+            help.innerHTML = 'Goes to everyone who hasn’t replied yet. Change the wording in the Reminder Message row on the Details tab.' + (sample ? '<span class="sample">“' + esc(sample) + '”</span>' : '');
+        } else help.innerHTML = '';
+        var markAll = document.getElementById('evMarkAll');
+        if (markAll) markAll.addEventListener('click', function () {
+            if (confirm('Mark all ' + rows.length + ' as already invited? Use this only if the invites went out another way.')) evMark(rows.map(function (i) { return i.code; }), 'invite', false, true);
+        });
         document.getElementById('evInvList').innerHTML = rows.map(function (i) {
-            var wa = safeUrl(i.whatsapp), link = safeUrl(i.link);
             var going = i.guests.filter(function (g) { return g.attending === 'Yes'; }).length;
-            var status = i.respondedAt ? '<small class="ok">Replied ' + esc(i.respondedAt) + ' · ' + going + ' of ' + i.guests.length + ' coming</small>' : '<small>No reply yet</small>';
+            var bits = [];
+            if (i.sent.invite) bits.push('Invited ' + esc(i.sent.invite) + ' <button class="undo" data-evundo="invite" data-code="' + esc(i.code) + '">undo</button>');
+            if (i.sent.reminder) bits.push('Reminded ' + esc(i.sent.reminder) + ' <button class="undo" data-evundo="reminder" data-code="' + esc(i.code) + '">undo</button>');
+            var status = i.replied ? '<small class="ok">Replied' + (i.respondedAt ? ' ' + esc(i.respondedAt) : '') + ' · ' + going + ' of ' + i.guests.length + ' coming</small>' : '<small>No reply yet</small>';
+            var kinds = evInvites === 'all' ? (i.replied ? [] : ['invite', 'reminder']) : [evInvites];
+            var buttons = kinds.map(function (k) {
+                var wa = evWhatsApp(i, k);
+                return wa ? '<a class="send' + (i.sent[k] ? ' again' : '') + '" href="' + esc(wa) + '" target="_blank" rel="noopener" data-evsend="' + k + '" data-code="' + esc(i.code) + '">' + (i.sent[k] ? 'Send ' + EV_WORD[k] + ' again' : 'Send ' + EV_WORD[k]) + '</a>' : '';
+            }).join('');
+            var copyWhat = evInvites === 'reminder' ? 'reminder' : 'link';
             return '<li><div class="who"><b>' + esc(i.name) + '</b><small>' + esc(i.guests.map(function (g) { return g.guest; }).join(', ')) + '</small>' + status +
-                (!i.phone ? '<small class="warn">No number on the sheet</small>' : '') + '</div><div class="acts">' +
-                (wa ? '<a class="send' + (i.respondedAt ? ' again' : '') + '" href="' + esc(wa) + '" target="_blank" rel="noopener">WhatsApp</a>' : '') +
-                (link ? '<button class="copy" data-link="' + esc(link) + '">Copy link</button>' : '') + '</div></li>';
+                (bits.length ? '<small class="status">' + bits.join(' · ') + '</small>' : '') +
+                (!i.wa ? '<small class="warn">No number on the sheet</small>' : '') + '</div><div class="acts">' + buttons +
+                (i.link ? '<button class="copy" data-evcopy="' + copyWhat + '" data-code="' + esc(i.code) + '">' + (copyWhat === 'reminder' ? 'Copy message' : 'Copy link') + '</button>' : '') + '</div></li>';
         }).join('');
         document.getElementById('evInvEmpty').hidden = !!rows.length;
-        document.querySelectorAll('[data-link]').forEach(function (b) {
-            b.addEventListener('click', function () {
-                var text = b.getAttribute('data-link');
-                var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy link'; }, 1600); };
-                if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this link:', text); });
-                else window.prompt('Copy this link:', text);
+        document.getElementById('evInvEmpty').textContent = evInvites === 'invite' ? 'Every invitation has gone out.' : evInvites === 'reminder' ? 'No one is waiting for a reminder.' : 'No invitations yet.';
+        var byCode = function (c) { return all.filter(function (i) { return i.code === c; })[0]; };
+        document.querySelectorAll('[data-evsend]').forEach(function (a) {
+            a.addEventListener('click', function () {
+                var i = byCode(a.getAttribute('data-code')), kind = a.getAttribute('data-evsend');
+                evPending = { code: i.code, kind: kind };
+                evConfirm.querySelector('p').textContent = 'Did you send ' + i.name + ' the ' + EV_WORD[kind] + '?';
+                evConfirm.hidden = false;
             });
         });
+        document.querySelectorAll('[data-evundo]').forEach(function (b) {
+            b.addEventListener('click', function () { evMark([b.getAttribute('data-code')], b.getAttribute('data-evundo'), true); });
+        });
+        document.querySelectorAll('[data-evcopy]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var i = byCode(b.getAttribute('data-code'));
+                var text = b.getAttribute('data-evcopy') === 'reminder' ? evText(i) : i.link;
+                var label = b.textContent;
+                var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = label; }, 1600); };
+                if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Copy this:', text); });
+                else window.prompt('Copy this:', text);
+            });
+        });
+    }
+    // ---------- An event's money: its night of the Weekend Costs sheet (read-only; edits happen on the sheet) ----------
+    var noR = function (s) { return String(s || '').replace(/\s*\(R\)\s*$/, ''); };
+    var owesMoney = function (v) { return /[1-9]/.test(String(v || '')); };
+    function evMoneyHtml(c) {
+        if (!c) return '';
+        var head = '<section class="panel" id="evMoney"><div class="wrap"><span class="eyebrow">From the Weekend Costs sheet' + (c.night ? ' · ' + esc(c.night) : '') + '</span><h2>The <em>money</em></h2>';
+        if (c.error) return head + '<p class="empty">Couldn’t read the Weekend Costs sheet just now. It refreshes every minute.</p></div></section>';
+        var table = function (cols, rows) {
+            return '<div class="scrollx"><table class="list money"><thead><tr>' + cols.map(function (h) { return '<th>' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+                rows.map(function (r) { return '<tr>' + r.join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+        };
+        var td = function (v, cls) { return '<td' + (cls ? ' class="' + cls + '"' : '') + '>' + esc(v || '') + '</td>'; };
+        var html = head + '<p class="lede">Live from the costs sheet. Make changes there; this page catches up within a minute. <a href="' + esc(c.url) + '" target="_blank" rel="noopener">Open the costs sheet ↗</a></p>';
+        if (c.pots.length) {
+            html += '<div class="pots">' + c.pots.map(function (p) {
+                var share = p.lines.filter(function (l) { return /share/i.test(l[0]); })[0];
+                return '<div class="pot"><h3>' + esc(p.name) + '</h3>' + (share ? '<p class="big">' + esc(share[1]) + '<span>each</span></p>' : '') +
+                    '<dl>' + p.lines.filter(function (l) { return l !== share; }).map(function (l) { return '<div><dt>' + esc(noR(l[0])) + '</dt><dd>' + esc(l[1]) + '</dd></div>'; }).join('') + '</dl></div>';
+            }).join('') + '</div>';
+        }
+        if (c.budget.length) {
+            html += '<h3 class="sub">Budget</h3>' + table(['Category', 'Who', 'Budget', 'Spent', 'Left', 'Plans'], c.budget.map(function (b) {
+                return [td(b.category), td(b.who), td(b.budget, 'num'), td(b.spent, 'num'), td(b.left, 'num'), td(b.plans)];
+            }));
+        }
+        if (c.people.length) {
+            var shareCols = c.people[0].shares.map(function (s) { return s[0]; });
+            html += '<h3 class="sub">Who pays what</h3>' + table(['Name', 'Side'].concat(shareCols, ['Due, whole weekend', 'Paid', 'Still owes']), c.people.map(function (p) {
+                return [td(p.name), td(p.side)].concat(p.shares.map(function (s) { return td(s[1], 'num'); }), [td(p.due, 'num'), td(p.paid, 'num'), td(p.owes, 'num' + (owesMoney(p.owes) ? ' owes' : ''))]);
+            })) + '<p class="small-note">Payments aren’t split by night, so Paid and Still owes cover the whole weekend.</p>';
+        }
+        if (c.guests.length) {
+            html += '<h3 class="sub">Guest contributions</h3>' + table(['Name', 'Promised', 'Paid', 'Date'], c.guests.map(function (g) {
+                return [td(g.name), td(g.promised, 'num'), td(g.paid, 'num'), td(g.date)];
+            }));
+        }
+        if (c.money.length) {
+            html += '<h3 class="sub">The whole weekend</h3><dl class="moneylist">' + c.money.map(function (m) { return '<div><dt>' + esc(noR(m[0])) + '</dt><dd>' + esc(m[1]) + '</dd></div>'; }).join('') + '</dl>';
+        }
+        return html + '</div></section>';
     }
 
     show();
@@ -1072,7 +1217,7 @@
         if (document.hidden) return;
         if (current !== 'wedding') {
             var busy = document.activeElement && (document.activeElement.id === 'evSearch' || document.activeElement.id === 'evPass');
-            if (current && savedPass(current) && evData[current] && !busy) loadEvent(current, true);
+            if (current && savedPass(current) && evData[current] && !busy && !evPending) loadEvent(current, true);
             return;
         }
         var typing = document.activeElement && document.activeElement.id === 'guestSearch';
