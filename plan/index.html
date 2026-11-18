@@ -71,6 +71,8 @@
         .room button, .tcard .adj button { width: 30px; height: 30px; border: 1px solid var(--ink); background: var(--paper); font-size: 1rem; line-height: 1; }
         .room .fit { flex-basis: 100%; font-size: 0.86rem; }
         .room .fit.short { color: #8b1d1d; font-weight: 600; }
+        .room button:disabled, .tcard .adj button:disabled { opacity: 0.3; cursor: not-allowed; }
+        .fit.limits { color: var(--muted); font-size: 0.8rem; }
         .tcard .adj { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
         .tcard .adj button { width: 22px; height: 22px; font-size: 0.85rem; }
         .tablegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 22px; }
@@ -450,7 +452,7 @@
         document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
             var n = t.guests.length;
             var cls = n > t.seats ? ' over' : n === t.seats ? ' full' : '';
-            var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1" aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
+            var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1"' + (t.seats >= maxSeats() ? ' disabled' : '') + ' aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
             var sorted = t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); });
             if (data.couple) {
                 return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + adjust + '</span></div>' +
@@ -469,11 +471,23 @@
         var seats = groups.reduce(function (n, g) { return n + g.seats; }, 0);
         var people = data.guests ? data.guests.list.length : t.people;
         var gap = seats - people;
-        var step = function (what, d, label) { return '<button data-room="' + what + '" data-d="' + d + '" aria-label="' + label + '">' + (d < 0 ? '−' : '+') + '</button>'; };
+        var step = function (what, d, label) {
+            var off = d > 0 && (what === 'tables' ? t.count >= maxTables() : t.seats >= maxSeats());
+            return '<button data-room="' + what + '" data-d="' + d + '"' + (off ? ' disabled' : '') + ' aria-label="' + label + '">' + (d < 0 ? '−' : '+') + '</button>';
+        };
+        var fix = '';
+        if (gap < 0) {
+            var most = 2 + maxTables() * maxSeats();
+            var stretch = groups.reduce(function (n, g) { return n + (g.table === 'Main' ? 0 : Math.max(0, maxSeats() - g.seats)); }, 0);
+            if (people > most) fix = ' Even ' + maxTables() + ' tables of ' + maxSeats() + ' only seat ' + most + '.';
+            else if (t.count < maxTables()) fix = ' Add a table (the venue allows up to ' + maxTables() + ').';
+            else if (stretch >= -gap) fix = ' Give ' + (-gap) + ' table' + (gap === -1 ? '' : 's') + ' a ' + ordinal(maxSeats()) + ' seat with the + on the table.';
+        }
         document.getElementById('roomBar').innerHTML =
             '<div class="ctl"><span>Tables</span>' + step('tables', -1, 'One table fewer') + '<b>' + t.count + '</b>' + step('tables', 1, 'One more table') + '</div>' +
             '<div class="ctl"><span>Seats a table</span>' + step('seats', -1, 'One seat fewer at every table') + '<b>' + t.seats + '</b>' + step('seats', 1, 'One more seat at every table') + '</div>' +
-            '<p class="fit' + (gap < 0 ? ' short' : '') + '">' + seats + ' seats for ' + people + ' people · ' + (gap < 0 ? (-gap) + ' short' : gap === 0 ? 'exactly right' : gap + ' spare') + '</p>';
+            '<p class="fit' + (gap < 0 ? ' short' : '') + '">' + seats + ' seats for ' + people + ' people · ' + (gap < 0 ? (-gap) + ' short.' + fix : gap === 0 ? 'exactly right' : gap + ' spare') + '</p>' +
+            '<p class="fit limits">Venue limits: up to ' + maxTables() + ' tables, ' + maxSeats() + ' at a table.</p>';
         document.querySelectorAll('#roomBar [data-room]').forEach(function (b) {
             b.addEventListener('click', function () {
                 var d = Number(b.getAttribute('data-d'));
@@ -486,11 +500,15 @@
                 var name = b.getAttribute('data-tseat');
                 var o = overridesOf();
                 var now = o[name] || t.seats;
-                o[name] = Math.max(1, now + Number(b.getAttribute('data-d')));
+                o[name] = Math.min(maxSeats(), Math.max(1, now + Number(b.getAttribute('data-d'))));
                 changeRoom(t.count, t.seats, o);
             });
         });
     }
+    // The venue's limits come from the sheet (Max Tables, Max Seats Per Table); 16 and 9 if it says nothing
+    function maxTables() { return (data.tables && data.tables.maxTables) || 16; }
+    function maxSeats() { return (data.tables && data.tables.maxSeats) || 9; }
+    function ordinal(n) { return n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th'); }
     function overridesOf() {
         var o = {};
         data.tables.tables.forEach(function (x) { if (x.table !== 'Main' && x.seats !== data.tables.seats) o[x.table] = x.seats; });
@@ -500,6 +518,8 @@
     var roomSaving = false;
     function changeRoom(tables, seats, overrides) {
         if (tables < 1 || seats < 1 || roomSaving) return;
+        if (tables > maxTables()) { alert('The venue allows up to ' + maxTables() + ' tables.'); return; }
+        if (seats > maxSeats()) { alert('The venue allows up to ' + maxSeats() + ' at a table.'); return; }
         // Never drop a table that still has guests at it
         var highest = 0;
         if (data.guests) data.guests.list.forEach(function (g) { var n = Number(g.table); if (n > highest) highest = n; });
@@ -522,7 +542,7 @@
             .catch(function (err) {
                 data.tables = before;
                 renderTables();
-                alert(err && err.error === 'tables_in_use' ? 'Table ' + err.table + ' still has guests. Move them first, then remove the table.' : 'Couldn’t save the room. Check your signal and try again.');
+                alert(err && err.error === 'tables_in_use' ? 'Table ' + err.table + ' still has guests. Move them first, then remove the table.' : err && err.error === 'too_many_tables' ? 'The venue allows up to ' + err.max + ' tables.' : err && err.error === 'too_many_seats' ? 'The venue allows up to ' + err.max + ' at a table.' : 'Couldn’t save the room. Check your signal and try again.');
             })
             .then(function () { seatSaving--; roomSaving = false; });
     }
