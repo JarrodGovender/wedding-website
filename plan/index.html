@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#ffffff">
+    <title>Planning | Jarrod & Telicia</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='24' fill='%23ffffff' text-anchor='middle'%3EJ%26amp;T%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* The vendors' planning page: the wedding site's black and white, built for reading at a glance */
+        :root { --ink: #0a0a0a; --paper: #ffffff; --stone: #f4f4f4; --muted: #5a5a5a; --line: rgba(0, 0, 0, 0.12); --serif: 'Playfair Display', Didot, Georgia, serif; --sans: 'Inter', 'Helvetica Neue', Arial, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+        [hidden] { display: none !important; }
+        a { color: inherit; }
+        button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+        .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        .eyebrow { display: block; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
+
+        header.top { padding: calc(40px + env(safe-area-inset-top, 0px)) 0 28px; border-bottom: 1px solid var(--ink); }
+        header.top h1 { margin-top: 12px; font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 9vw, 4rem); line-height: 0.95; letter-spacing: -0.02em; }
+        header.top h1 em { font-style: italic; }
+        .hello { margin-top: 18px; font-family: var(--serif); font-size: 1.15rem; line-height: 1.5; }
+        .note { margin-top: 14px; padding: 14px 16px; border-left: 2px solid var(--ink); background: var(--stone); font-size: 0.95rem; line-height: 1.55; }
+        .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 18px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; border: 1px solid var(--ink); }
+        .btn-solid { background: var(--ink); color: var(--paper); }
+        .meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-top: 22px; font-size: 0.78rem; color: var(--muted); }
+        .meta button { text-decoration: underline; text-underline-offset: 3px; }
+        nav.jump { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 16px; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+        nav.jump a { text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 2px; }
+
+        section.panel { padding: 44px 0 8px; }
+        .panel h2 { margin-top: 8px; font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 5vw, 2.4rem); }
+        .panel h2 em { font-style: italic; }
+        .panel .lede { margin-top: 8px; font-size: 0.92rem; line-height: 1.55; color: var(--muted); max-width: 640px; }
+
+        table.list { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 0.92rem; }
+        .list th { text-align: left; padding: 0 10px 10px 0; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--ink); }
+        .list td { padding: 12px 10px 12px 0; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.45; }
+        .list td.time { width: 76px; font-family: var(--serif); font-size: 1.05rem; white-space: nowrap; }
+        .list td small { display: block; color: var(--muted); font-size: 0.8rem; }
+        .tbc { color: var(--muted); font-style: italic; }
+        .song b { font-weight: 600; }
+
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); margin-top: 22px; border-top: 1px solid var(--ink); border-left: 1px solid var(--ink); }
+        .stat { background: var(--paper); padding: 16px 14px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+        .stat b { display: block; font-family: var(--serif); font-weight: 400; font-size: 2.2rem; line-height: 1; }
+        .stat span { display: block; margin-top: 6px; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+        .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 20px; }
+        .chip { padding: 8px 13px; border: 1px solid var(--ink); font-size: 0.78rem; }
+        .chip.on { background: var(--ink); color: var(--paper); }
+        .tools input { flex: 1; min-width: 180px; padding: 10px 12px; border: 1px solid var(--ink); font: inherit; font-size: 0.9rem; }
+        .tag { display: inline-block; padding: 2px 8px; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--ink); }
+        .tag.yes { background: var(--ink); color: var(--paper); }
+        .tag.no { color: var(--muted); border-color: var(--line); text-decoration: line-through; }
+        .tag.waiting { border-style: dashed; }
+        .requests { list-style: none; margin-top: 18px; border-top: 1px solid var(--ink); }
+        .requests li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+        .requests li small { color: var(--muted); }
+        .empty { margin-top: 18px; font-size: 0.92rem; color: var(--muted); }
+        footer { padding: 48px 0 calc(40px + env(safe-area-inset-bottom, 0px)); font-size: 0.75rem; color: var(--muted); }
+        .center { min-height: 80vh; display: grid; place-items: center; text-align: center; padding: 24px; }
+        .center p { margin-top: 12px; font-family: var(--serif); font-size: 1.15rem; }
+        @media (max-width: 560px) {
+            .list.guests td:nth-child(2), .list.guests th:nth-child(2) { display: none; } /* phones: the invite name moves under the guest */
+        }
+        @media print { nav.jump, .links, .tools, .meta button { display: none !important; } section.panel { break-inside: avoid-page; } }
+    </style>
+</head>
+<body>
+<main id="app">
+    <div class="center" id="loading"><div><span class="eyebrow">Jarrod &amp; Telicia · 25 · 04 · 2027</span><p>Opening your planning page…</p></div></div>
+</main>
+
+<script>
+(function () {
+    'use strict';
+    // The same Google script as the wedding RSVP. Only a vendor's code opens this page, and it only
+    // sends the panels ticked for that vendor. A local test can point it elsewhere with ?api= (localhost only).
+    var RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyinQ-3JaQqG4m9UJAm3d2eN2lzKSMWaDeW3NUkEY9FM4oy3LbTDbwJpCfqszZfyY4whw/exec';
+    var params = new URLSearchParams(location.search);
+    var isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    var api = (isLocal && params.get('api')) || RSVP_ENDPOINT;
+    var code = (params.get('vendor') || '').trim().toUpperCase();
+    var TZ = 'Africa/Johannesburg';
+    var app = document.getElementById('app');
+    var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+    var data = null;
+    var guestFilter = 'all', guestSearch = '';
+
+    function fail(msg) {
+        app.innerHTML = '<div class="center"><div><span class="eyebrow">Jarrod &amp; Telicia · 25 · 04 · 2027</span><p>' + msg + '</p></div></div>';
+    }
+
+    function load(quiet) {
+        if (!code) return fail('This page needs your personal planning link. Please check it with Jarrod or Telicia.');
+        return fetch(api + '?action=plan&vendor=' + encodeURIComponent(code))
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (!d.ok) return fail('This planning link doesn’t work. Please check it with Jarrod or Telicia.');
+                data = d;
+                render();
+            })
+            .catch(function () { if (!quiet) fail('Couldn’t load your planning page. Check your signal and refresh.'); });
+    }
+
+    function time(t) { return t ? esc(t) : '<span class="tbc">TBC</span>'; }
+
+    function render() {
+        var v = data.vendor;
+        var first = v.name.split(' ')[0];
+        var sections = [];
+        var jump = [];
+        var html = '<header class="top"><div class="wrap">' +
+            '<span class="eyebrow">Jarrod &amp; Telicia · 25 · 04 · 2027</span>' +
+            '<h1>The <em>planning</em> room</h1>' +
+            '<p class="hello">Hi ' + esc(first) + (v.role ? ', our ' + esc(v.role.toLowerCase()) : '') + '. Everything you need for the day, live from our own planning sheet.</p>' +
+            (v.note ? '<p class="note">' + esc(v.note) + '</p>' : '') +
+            '<div class="links"><a class="btn btn-solid" href="../?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">Wedding website →</a>' +
+            (v.access.indexOf('camera') !== -1 ? '<a class="btn" href="../camera/?invite=' + encodeURIComponent(v.code) + (isLocal && params.get('api') ? '&api=' + encodeURIComponent(params.get('api')) : '') + '">The Darkroom →</a>' : '') + '</div>';
+
+        if (data.day) {
+            jump.push(['day', 'The day']);
+            sections.push('<section class="panel" id="day"><div class="wrap"><span class="eyebrow">Running order</span><h2>The <em>day</em></h2>' +
+                (data.day.length ? '<table class="list"><thead><tr><th>Time</th><th>Moment</th></tr></thead><tbody>' + data.day.map(function (r) {
+                    return '<tr><td class="time">' + time(r.time) + '</td><td>' + esc(r.moment) + (r.notes ? '<small>' + esc(r.notes) + '</small>' : '') + '</td></tr>';
+                }).join('') + '</tbody></table>' : '<p class="empty">The running order is still being finalised.</p>') + '</div></section>');
+        }
+        if (data.music) {
+            jump.push(['music', 'Music cues']);
+            var chosen = data.music.filter(function (r) { return r.song; }).length;
+            sections.push('<section class="panel" id="music"><div class="wrap"><span class="eyebrow">For the DJ · ' + chosen + ' of ' + data.music.length + ' chosen</span><h2>Music <em>cues</em></h2>' +
+                '<p class="lede">One song for each moment of the day. Anything still marked “to be chosen” is ours to decide; we’ll fill it in here.</p>' +
+                '<table class="list"><thead><tr><th>Time</th><th>Moment</th><th>Song</th></tr></thead><tbody>' + data.music.map(function (r) {
+                    return '<tr><td class="time">' + time(r.time) + '</td><td>' + esc(r.moment) + (r.notes ? '<small>' + esc(r.notes) + '</small>' : '') + '</td><td class="song">' +
+                        (r.song ? '<b>' + esc(r.song) + '</b>' + (r.artist ? '<small>' + esc(r.artist) + '</small>' : '') : '<span class="tbc">To be chosen</span>') + '</td></tr>';
+                }).join('') + '</tbody></table></div></section>');
+        }
+        if (data.songs) {
+            jump.push(['songs', 'Song requests']);
+            var s = data.songs;
+            sections.push('<section class="panel" id="songs"><div class="wrap"><span class="eyebrow">From our guests · ' + s.requests.length + ' songs</span><h2>Song <em>requests</em></h2>' +
+                '<p class="lede">Songs guests added from the wedding website, live. They’re all on our Spotify playlist too.</p>' +
+                (s.playlist ? '<div class="links"><a class="btn" href="' + esc(s.playlist) + '" target="_blank" rel="noopener">Open the playlist on Spotify ↗</a></div>' : '') +
+                (s.requests.length ? '<ul class="requests">' + s.requests.map(function (r) {
+                    var title = '<b>' + esc(r.song) + '</b> <small>· ' + esc(r.artist) + '</small>';
+                    return '<li><span>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + title + '</a>' : title) + '</span><small>' + esc(r.by) + '</small></li>';
+                }).join('') + '</ul>' : '<p class="empty">No song requests yet.</p>') +
+                (s.typed.length ? '<span class="eyebrow" style="margin-top:28px">Also asked for on RSVPs</span><ul class="requests">' + s.typed.map(function (t) {
+                    return '<li><span>' + esc(t.text) + '</span><small>' + esc(t.invite) + '</small></li>';
+                }).join('') + '</ul>' : '') + '</div></section>');
+        }
+        if (data.guests) {
+            jump.push(['guests', 'Guest list']);
+            var g = data.guests;
+            sections.push('<section class="panel" id="guests"><div class="wrap"><span class="eyebrow">Live from the RSVPs</span><h2>Guest <em>list</em></h2>' +
+                '<div class="stats">' +
+                [['Attending', g.yes], ['Still to reply', g.waiting], ['Declined', g.no], ['Invited', g.total], ['Dietary needs', g.dietary]].map(function (x) {
+                    return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>';
+                }).join('') + '</div>' +
+                '<div class="tools" id="guestTools">' + [['all', 'Everyone'], ['Yes', 'Attending'], ['Waiting', 'Still to reply'], ['No', 'Declined'], ['diet', 'Dietary needs']].map(function (c) {
+                    return '<button class="chip" data-filter="' + c[0] + '">' + c[1] + '</button>';
+                }).join('') + '<input type="search" id="guestSearch" placeholder="Find a guest" value="' + esc(guestSearch) + '"><button class="chip" id="guestCsv">Download CSV</button></div>' +
+                '<table class="list guests"><thead><tr><th>Guest</th><th>Invite</th><th>Reply</th><th>Dietary</th></tr></thead><tbody id="guestRows"></tbody></table>' +
+                '<p class="empty" id="guestEmpty" hidden>No guests match.</p></div></section>');
+        }
+        var updated = new Date(data.updated).toLocaleTimeString('en-ZA', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false });
+        html += '<div class="meta"><span>Updated ' + esc(updated) + ' · refreshes itself every minute</span><button id="refresh">Refresh now</button></div>' +
+            (jump.length > 1 ? '<nav class="jump">' + jump.map(function (j) { return '<a href="#' + j[0] + '">' + j[1] + '</a>'; }).join('') + '</nav>' : '') +
+            '</div></header>' + sections.join('') +
+            '<footer><div class="wrap">This page is for ' + esc(v.name) + ' only. Please don’t share the link: it shows live details about our guests.</div></footer>';
+        var y = window.scrollY;
+        app.innerHTML = html;
+        window.scrollTo(0, y);
+        document.getElementById('refresh').addEventListener('click', function () { load(); });
+        if (data.guests) wireGuests();
+    }
+
+    function guestMatches(x) {
+        if (guestFilter === 'diet' && !x.dietary) return false;
+        if (guestFilter !== 'all' && guestFilter !== 'diet' && x.attending !== guestFilter) return false;
+        var q = guestSearch.trim().toLowerCase();
+        return !q || (x.guest + ' ' + x.invite + ' ' + x.dietary).toLowerCase().indexOf(q) !== -1;
+    }
+    function renderGuests() {
+        var rows = data.guests.list.filter(guestMatches);
+        document.querySelectorAll('[data-filter]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-filter') === guestFilter); });
+        document.getElementById('guestRows').innerHTML = rows.map(function (x) {
+            var cls = x.attending === 'Yes' ? 'yes' : x.attending === 'No' ? 'no' : 'waiting';
+            var label = x.attending === 'Yes' ? 'Attending' : x.attending === 'No' ? 'Declined' : 'Waiting';
+            return '<tr><td>' + esc(x.guest) + '<small>' + esc(x.invite) + '</small></td><td>' + esc(x.invite) + '</td><td><span class="tag ' + cls + '">' + label + '</span></td><td>' + (x.dietary ? esc(x.dietary) : '') + '</td></tr>';
+        }).join('');
+        document.getElementById('guestEmpty').hidden = !!rows.length;
+    }
+    function wireGuests() {
+        document.querySelectorAll('[data-filter]').forEach(function (b) {
+            b.addEventListener('click', function () { guestFilter = b.getAttribute('data-filter'); renderGuests(); });
+        });
+        var search = document.getElementById('guestSearch');
+        search.addEventListener('input', function () { guestSearch = search.value; renderGuests(); });
+        document.getElementById('guestCsv').addEventListener('click', function () {
+            var cell = function (s) { return '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"'; };
+            var lines = [['Guest', 'Invite', 'Reply', 'Dietary']].concat(data.guests.list.filter(guestMatches).map(function (x) {
+                return [x.guest, x.invite, x.attending === 'Waiting' ? 'Still to reply' : x.attending, x.dietary];
+            })).map(function (r) { return r.map(cell).join(','); });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' }));
+            a.download = 'Jarrod-Telicia-guest-list.csv';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        });
+        renderGuests();
+    }
+
+    load();
+    // Live: quietly refresh every minute while the page is open
+    setInterval(function () {
+        var typing = document.activeElement && document.activeElement.id === 'guestSearch';
+        if (!document.hidden && !typing) load(true);
+    }, 60000);
+})();
+</script>
+</body>
+</html>
