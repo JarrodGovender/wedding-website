@@ -87,13 +87,41 @@
         .tcard li.declined { color: var(--muted); text-decoration: line-through; }
         .tempty { font-size: 0.8rem; color: var(--muted); }
         h3.sub { margin-top: 34px; font-family: var(--serif); font-weight: 400; font-size: 1.4rem; }
-        #seatList .inv { border-bottom: 1px solid var(--line); padding: 12px 0; }
-        #seatList .inv-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
-        #seatList .inv-head small { display: block; color: var(--muted); font-size: 0.78rem; }
-        #seatList .whole { font-size: 0.78rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; }
-        #seatList ul { list-style: none; margin-top: 6px; }
-        #seatList li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 6px 0 6px 12px; font-size: 0.9rem; }
-        #seatList select { font: inherit; font-size: 0.85rem; padding: 7px 8px; border: 1px solid var(--ink); background: var(--paper); max-width: 52vw; }
+        /* The board: "Not seated" on the left, tables on the right */
+        .board { display: grid; grid-template-columns: 290px 1fr; gap: 16px; align-items: start; margin-top: 18px; }
+        .board .tablegrid { margin-top: 0; }
+        .pool { position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow: auto; border: 1px solid var(--ink); padding: 12px; background: var(--paper); }
+        .pool-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+        .pool-head b { font-family: var(--serif); font-weight: 400; font-size: 1.2rem; }
+        .pool-head span { font-size: 0.8rem; color: var(--muted); }
+        .tools.tight { margin-top: 10px; gap: 6px; }
+        .tools.tight .chip { padding: 6px 9px; font-size: 0.74rem; }
+        .pool input[type=search] { width: 100%; margin-top: 10px; padding: 8px 10px; border: 1px solid var(--ink); font: inherit; font-size: 0.86rem; }
+        .pinv { padding: 10px 0 8px; border-bottom: 1px solid var(--line); }
+        .pihead { font-size: 0.78rem; font-weight: 600; cursor: grab; user-select: none; margin-bottom: 6px; }
+        .pihead small { font-weight: 400; color: var(--muted); }
+        .pguests, .tguests { display: flex; flex-wrap: wrap; gap: 5px; }
+        .gchip { display: inline-flex; align-items: center; gap: 3px; padding: 5px 9px; border: 1px dashed var(--ink); font-size: 0.82rem; line-height: 1.2; background: var(--paper); cursor: grab; user-select: none; }
+        .gchip.yes { border-style: solid; }
+        .gchip.no { color: var(--muted); text-decoration: line-through; border-color: var(--line); }
+        .gchip i { font-style: normal; color: var(--muted); }
+        .gchip.picked { background: var(--ink); color: var(--paper); border-style: solid; }
+        .tcard[data-drop] { min-height: 92px; transition: background 0.15s, box-shadow 0.15s; }
+        .tguests .tempty { width: 100%; }
+        .over-drop { background: var(--stone) !important; box-shadow: 0 0 0 2px var(--ink) inset; }
+        .tablegrid.picking .tcard, .board:has(.tablegrid.picking) .pool { cursor: pointer; box-shadow: 0 0 0 1px var(--ink) inset; }
+        body.dragging, body.dragging * { cursor: grabbing !important; }
+        .ghost { position: fixed; z-index: 60; pointer-events: none; padding: 6px 10px; background: var(--ink); color: var(--paper); font-size: 0.82rem; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); }
+        .pickbar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 25; max-width: 560px; margin: 0 auto; display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--paper); border: 1px solid var(--ink); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+        .pickbar p { flex: 1; font-size: 0.9rem; line-height: 1.4; }
+        @media (max-width: 760px) {
+            /* Phones: the "Not seated" list sits on top (scrolls inside itself), tables below; tap a name, then a table */
+            .board { grid-template-columns: 1fr; }
+            .pool { position: sticky; top: 0; z-index: 5; max-height: 42vh; }
+            .tablegrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .tcard .thead { flex-wrap: wrap; gap: 4px; }
+            .tcard .adj { margin-left: 4px; }
+        }
         /* Send desk */
         ul.desk { list-style: none; margin-top: 18px; border-top: 1px solid var(--ink); }
         ul.desk li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
@@ -225,13 +253,15 @@
         if (data.tables) {
             jump.push(['tables', 'Table plan']);
             sections.push('<section class="panel" id="tables"><div class="wrap"><span class="eyebrow" id="tablesEyebrow">Who sits where</span><h2>Table <em>plan</em></h2>' +
-                (data.couple ? '<p class="lede">Pick a table for each guest below. Every change saves straight away, and your planner sees it live. Guests show up here as they reply yes.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
-                (data.couple ? '<div class="room" id="roomBar"></div>' : '') +
-                '<div class="tablegrid" id="tableGrid"></div>' +
-                (data.couple ? '<h3 class="sub">Seat your guests</h3><div class="tools" id="seatSides"></div><div class="tools" id="seatTools">' +
-                    [['unseated', 'Attending, not seated'], ['attending', 'Everyone attending'], ['all', 'Everyone invited']].map(function (c) {
-                        return '<button class="chip" data-seat="' + c[0] + '">' + c[1] + '</button>';
-                    }).join('') + '<input type="search" id="seatSearch" placeholder="Find a guest" value="' + esc(seatSearch) + '"></div><div id="seatList"></div><p class="empty" id="seatEmpty" hidden></p>' : '') +
+                (data.couple ? '<p class="lede">Drag a name onto a table (or tap a name, then a table). Drag an invitation’s name to seat the whole household. Everything saves straight away, and your planner sees it live.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
+                (data.couple ? '<div class="room" id="roomBar"></div>' +
+                    '<div class="board" id="board"><aside class="pool" data-drop=""><div class="pool-head"><b>Not seated</b><span id="poolCount"></span></div>' +
+                    '<div class="tools tight" id="poolSides"></div><div class="tools tight">' + [['open', 'Everyone'], ['yes', 'Attending'], ['waiting', 'Waiting']].map(function (c) {
+                        return '<button class="chip" data-pool="' + c[0] + '">' + c[1] + '</button>';
+                    }).join('') + '</div><input type="search" id="poolSearch" placeholder="Find a guest" value="' + esc(poolSearch) + '"><div id="poolList"></div></aside>' +
+                    '<div class="tablegrid" id="tableGrid"></div></div>' +
+                    '<div class="pickbar" id="pickBar" hidden><p></p><button class="btn" id="pickCancel">Cancel</button></div>'
+                    : '<div class="tablegrid" id="tableGrid"></div>') +
                 '</div></section>');
         }
         if (data.guests) {
@@ -415,18 +445,23 @@
     function renderTables() {
         var groups = tableGroups();
         var seated = groups.reduce(function (n, t) { return n + t.guests.length; }, 0);
-        var unseated = data.guests && data.couple ? data.guests.list.filter(function (g) { return g.attending === 'Yes' && !g.table; }).length : data.tables.attendingUnseated;
-        document.getElementById('tablesEyebrow').textContent = 'Who sits where · ' + seated + ' seated' + (unseated ? ' · ' + unseated + ' attending still to seat' : '');
+        var unseated = data.guests && data.couple ? data.guests.list.filter(function (g) { return g.attending !== 'No' && !g.table; }).length : data.tables.attendingUnseated;
+        document.getElementById('tablesEyebrow').textContent = 'Who sits where · ' + seated + ' seated' + (unseated ? ' · ' + unseated + (data.couple ? ' still to seat' : ' attending still to seat') : '');
         document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
             var n = t.guests.length;
             var cls = n > t.seats ? ' over' : n === t.seats ? ' full' : '';
             var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1" aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
-            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + adjust + '</span></div>' +
-                (n ? '<ul>' + t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); }).map(function (g) {
+            var sorted = t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); });
+            if (data.couple) {
+                return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + adjust + '</span></div>' +
+                    '<div class="tguests">' + (n ? sorted.map(chip).join('') : '<p class="tempty">Drop guests here</p>') + '</div></div>';
+            }
+            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' +
+                (n ? '<ul>' + sorted.map(function (g) {
                     return '<li class="' + (g.attending === 'Yes' ? '' : g.attending === 'No' ? 'declined' : 'waiting') + '">' + esc(g.guest) + (g.dietary ? ' <i>· ' + esc(g.dietary) + '</i>' : '') + '</li>';
                 }).join('') + '</ul>' : '<p class="tempty">Empty</p>') + '</div>';
         }).join('');
-        if (data.couple) { renderRoom(groups); renderSeatList(groups); }
+        if (data.couple) { renderRoom(groups); renderPool(); }
     }
     // ---------- The room: number of tables, usual seats, and any bigger or smaller table ----------
     function renderRoom(groups) {
@@ -491,51 +526,118 @@
             })
             .then(function () { seatSaving--; roomSaving = false; });
     }
-    function seatOptions(current, groups) {
-        return '<option value="">No table</option>' + groups.map(function (t) {
-            var n = t.guests.length;
-            return '<option value="' + t.table + '"' + (current === t.table ? ' selected' : '') + '>' + tableLabel(t.table) + ' (' + n + '/' + t.seats + ')' + (n >= t.seats && current !== t.table ? ' · full' : '') + '</option>';
-        }).join('');
-    }
-    function seatMatches(g) {
+    // ---------- The board: a "Not seated" column, tables as drop zones ----------
+    // Laptop: drag a name (or an invitation's header) onto a table, between tables, or back to "Not seated".
+    // Phone: tap a name (or an invitation), then tap a table. Dragging inside a scrolling page isn't reliable on phones.
+    var picked = null;   // { guests: [...], label } chosen by a tap, waiting for a table
+    var poolFilter = 'open', poolSearch = '';
+    var gKey = function (g) { return g.code + '|' + g.guest; };
+    var byKey = function (k) { return data.guests.list.filter(function (g) { return gKey(g) === k; })[0]; };
+    function poolMatches(g) {
+        if (g.table) return false;
         if (sideFilter !== 'all' && g.side !== sideFilter) return false;
-        if (seatFilter === 'unseated' && !(g.attending === 'Yes' && !g.table)) return false;
-        if (seatFilter === 'attending' && g.attending !== 'Yes') return false;
-        var q = seatSearch.trim().toLowerCase();
+        if (poolFilter === 'open' && g.attending === 'No') return false;
+        if (poolFilter === 'yes' && g.attending !== 'Yes') return false;
+        if (poolFilter === 'waiting' && g.attending !== 'Waiting') return false;
+        var q = poolSearch.trim().toLowerCase();
         return !q || (g.guest + ' ' + g.invite).toLowerCase().indexOf(q) !== -1;
     }
-    function renderSeatList(groups) {
-        sideChips('seatSides');
-        document.querySelectorAll('[data-seat]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-seat') === seatFilter); });
+    function chip(g) {
+        var cls = 'gchip' + (g.attending === 'Yes' ? ' yes' : g.attending === 'No' ? ' no' : '') + (picked && picked.keys.indexOf(gKey(g)) !== -1 ? ' picked' : '');
+        return '<span class="' + cls + '" data-g="' + esc(gKey(g)) + '" title="' + esc(g.invite) + (g.dietary ? ' · ' + esc(g.dietary) : '') + '">' + esc(g.guest) + (g.dietary ? ' <i>·</i>' : '') + '</span>';
+    }
+    function renderPool() {
+        sideChips('poolSides');
+        document.querySelectorAll('[data-pool]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-pool') === poolFilter); });
         var invites = {};
         var order = [];
-        data.guests.list.filter(seatMatches).forEach(function (g) {
+        data.guests.list.filter(poolMatches).forEach(function (g) {
             var k = g.code + '|' + g.invite;
-            if (!invites[k]) { invites[k] = { code: g.code, name: g.invite, side: g.side, guests: [] }; order.push(k); }
+            if (!invites[k]) { invites[k] = { key: k, name: g.invite, guests: [] }; order.push(k); }
             invites[k].guests.push(g);
         });
-        document.getElementById('seatList').innerHTML = order.map(function (k) {
+        var total = data.guests.list.filter(function (g) { return !g.table && g.attending !== 'No'; }).length;
+        document.getElementById('poolCount').textContent = total;
+        document.getElementById('poolList').innerHTML = order.map(function (k) {
             var inv = invites[k];
-            var tables = inv.guests.map(function (g) { return g.table; });
-            var same = tables.every(function (t) { return t === tables[0]; }) ? tables[0] : '';
-            return '<div class="inv"><div class="inv-head"><div><b>' + esc(inv.name) + '</b><small>' + esc(inv.side ? inv.side + '’s' : '') + '</small></div>' +
-                (inv.guests.length > 1 ? '<label class="whole">Whole invite <select data-inv="' + esc(k) + '">' + seatOptions(same, groups) + '</select></label>' : '') + '</div><ul>' +
-                inv.guests.map(function (g) {
-                    var tag = g.attending === 'Yes' ? '<span class="tag yes">Attending</span>' : g.attending === 'No' ? '<span class="tag no">Declined</span>' : '<span class="tag waiting">Waiting</span>';
-                    return '<li><span>' + esc(g.guest) + ' ' + tag + '</span><select data-guest="' + esc(g.guest) + '" data-code="' + g.code + '">' + seatOptions(g.table, groups) + '</select></li>';
-                }).join('') + '</ul></div>';
-        }).join('');
-        var empty = document.getElementById('seatEmpty');
-        empty.hidden = !!order.length;
-        empty.textContent = seatFilter === 'unseated' ? 'Everyone who has said yes has a seat.' : 'No guests match.';
-        document.querySelectorAll('#seatList select[data-guest]').forEach(function (sel) {
-            sel.addEventListener('change', function () {
-                var g = data.guests.list.filter(function (x) { return x.code === sel.getAttribute('data-code') && x.guest === sel.getAttribute('data-guest'); })[0];
-                seat([g], sel.value);
-            });
+            return '<div class="pinv"><div class="pihead" data-inv="' + esc(k) + '" title="' + (inv.guests.length > 1 ? 'Move the whole invitation' : '') + '">' + esc(inv.name) + (inv.guests.length > 1 ? ' <small>' + inv.guests.length + '</small>' : '') + '</div>' +
+                '<div class="pguests">' + inv.guests.map(chip).join('') + '</div></div>';
+        }).join('') || '<p class="tempty">' + (poolSearch ? 'No one matches.' : 'Everyone here has a seat.') + '</p>';
+        renderPickBar();
+    }
+    function guestsOfInvite(k) {
+        return data.guests.list.filter(function (g) { return (g.code + '|' + g.invite) === k && poolMatches(g); });
+    }
+    function pick(guests, label) {
+        var keys = guests.map(gKey);
+        if (picked && picked.keys.join() === keys.join()) picked = null;
+        else picked = { keys: keys, label: label };
+        renderTables();
+    }
+    function renderPickBar() {
+        var bar = document.getElementById('pickBar');
+        if (!bar) return;
+        bar.hidden = !picked;
+        if (picked) bar.querySelector('p').textContent = 'Now tap a table for ' + picked.label + ', or “Not seated” to take them off.';
+        document.getElementById('tableGrid').classList.toggle('picking', !!picked);
+    }
+    function dropOn(target, keys) {
+        var table = target.getAttribute('data-drop');
+        var guests = keys.map(byKey).filter(function (g) { return g && g.table !== table; });
+        picked = null;
+        if (guests.length) seat(guests, table); else renderTables();
+    }
+    // Mouse dragging: a light copy of the name follows the pointer; the table under it lights up
+    var drag = null;
+    function startDrag(e, keys, label) {
+        drag = { keys: keys, x: e.clientX, y: e.clientY, live: false, label: label, over: null };
+    }
+    document.addEventListener('mousemove', function (e) {
+        if (!drag) return;
+        if (!drag.live) {
+            if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) < 6) return;
+            drag.live = true;
+            drag.ghost = document.createElement('div');
+            drag.ghost.className = 'ghost';
+            drag.ghost.textContent = drag.label;
+            document.body.appendChild(drag.ghost);
+            document.body.classList.add('dragging');
+        }
+        drag.ghost.style.left = (e.clientX + 12) + 'px';
+        drag.ghost.style.top = (e.clientY + 12) + 'px';
+        var el = document.elementFromPoint(e.clientX, e.clientY);
+        var over = el && el.closest('[data-drop]');
+        if (drag.over && drag.over !== over) drag.over.classList.remove('over-drop');
+        if (over) over.classList.add('over-drop');
+        drag.over = over;
+        // Scroll the page when dragging near the top or bottom edge
+        if (e.clientY < 70) window.scrollBy(0, -18); else if (e.clientY > window.innerHeight - 70) window.scrollBy(0, 18);
+    });
+    document.addEventListener('mouseup', function () {
+        if (!drag) return;
+        var d = drag;
+        drag = null;
+        if (!d.live) return; // a click, handled as a pick
+        d.ghost.remove();
+        document.body.classList.remove('dragging');
+        if (d.over) { d.over.classList.remove('over-drop'); dropOn(d.over, d.keys); }
+    });
+    function wireBoard() {
+        var board = document.getElementById('board');
+        if (!board || board.wired) return;
+        board.wired = true;
+        board.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) return;
+            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]');
+            if (c) { e.preventDefault(); startDrag(e, [c.getAttribute('data-g')], byKey(c.getAttribute('data-g')).guest); }
+            else if (h) { e.preventDefault(); var gs = guestsOfInvite(h.getAttribute('data-inv')); if (gs.length) startDrag(e, gs.map(gKey), h.textContent.trim()); }
         });
-        document.querySelectorAll('#seatList select[data-inv]').forEach(function (sel) {
-            sel.addEventListener('change', function () { seat(invites[sel.getAttribute('data-inv')].guests, sel.value); });
+        board.addEventListener('click', function (e) {
+            if (e.target.closest('.adj')) return;
+            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]'), zone = e.target.closest('[data-drop]');
+            if (c) { var g = byKey(c.getAttribute('data-g')); pick([g], g.guest); return; }
+            if (h) { var gs = guestsOfInvite(h.getAttribute('data-inv')); if (gs.length) pick(gs, h.firstChild.textContent.trim()); return; }
+            if (zone && picked) dropOn(zone, picked.keys);
         });
     }
     /** Saves each guest's table; the page updates straight away and puts it back if a save fails */
@@ -557,11 +659,13 @@
     }
     function wireTables() {
         if (data.couple) {
-            document.querySelectorAll('[data-seat]').forEach(function (b) {
-                b.addEventListener('click', function () { seatFilter = b.getAttribute('data-seat'); renderTables(); });
+            document.querySelectorAll('[data-pool]').forEach(function (b) {
+                b.addEventListener('click', function () { poolFilter = b.getAttribute('data-pool'); renderPool(); });
             });
-            var search = document.getElementById('seatSearch');
-            search.addEventListener('input', function () { seatSearch = search.value; renderTables(); });
+            var search = document.getElementById('poolSearch');
+            search.addEventListener('input', function () { poolSearch = search.value; renderPool(); });
+            document.getElementById('pickCancel').addEventListener('click', function () { picked = null; renderTables(); });
+            wireBoard();
         }
         renderTables();
     }
@@ -602,7 +706,7 @@
     // Live: quietly refresh every minute while the page is open
     setInterval(function () {
         var typing = document.activeElement && document.activeElement.id === 'guestSearch';
-        typing = typing || (document.activeElement && document.activeElement.id === 'seatSearch');
+        typing = typing || (document.activeElement && document.activeElement.id === 'poolSearch') || !!picked || !!drag;
         if (!document.hidden && !typing && !pending && !seatSaving) load(true);
     }, 60000);
 })();
