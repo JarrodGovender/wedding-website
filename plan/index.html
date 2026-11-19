@@ -111,14 +111,19 @@
         .tgrip { cursor: grab; user-select: none; }
         .tgrip span { color: var(--muted); font-size: 0.9em; letter-spacing: -0.1em; }
         .tcard.moving { outline: 2px dashed var(--ink); outline-offset: 2px; }
-        /* Search: matching tables and names light up in gold */
-        .tcard.found { background: #fff6d6; border: 2px solid #b8860b; box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18); }
-        .gchip.hit { background: #ffd84d; border: 1px solid #8a6200; color: #0a0a0a; font-weight: 600; text-decoration: none; }
+        /* Search: matching tables and names light up in bright pink glitter (Telicia's choice) */
+        :root { --glitter: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.95) 0 1px, transparent 1.6px), radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.85) 0 1px, transparent 1.5px), radial-gradient(circle at 45% 85%, rgba(255, 255, 255, 0.9) 0 0.8px, transparent 1.4px), radial-gradient(circle at 85% 15%, rgba(255, 230, 245, 0.95) 0 1.2px, transparent 1.8px); }
+        .tcard.found { background: var(--glitter) 0 0 / 22px 22px, linear-gradient(135deg, #ffe0f0, #ffc2e2 50%, #ffe0f0); border: 2px solid #ff1493; box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.25), 0 0 18px rgba(255, 20, 147, 0.35); }
+        .gchip.hit { background: radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.9) 0 1px, transparent 1.6px), radial-gradient(circle at 80% 75%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.6px), linear-gradient(110deg, #e0007a 0%, #ff2d9b 35%, #ff6cc0 50%, #ff2d9b 65%, #e0007a 100%); background-size: 30px 18px, 30px 18px, 250% 100%; border: 1px solid #a8005c; color: #ffffff; font-weight: 700; text-decoration: none; text-shadow: 0 1px 2px rgba(90, 0, 45, 0.7); box-shadow: 0 0 10px rgba(255, 20, 147, 0.55); animation: glitz 2.4s linear infinite; }
+        .gchip.hit i { color: #ffe3f3; }
+        @keyframes glitz { from { background-position: 0 0, 0 0, 100% 0; } to { background-position: 30px 0, -30px 0, -150% 0; } }
         .tcard.flash { animation: tflash 1.4s ease-out; }
-        @keyframes tflash { 0%, 40% { box-shadow: 0 0 0 8px rgba(184, 134, 11, 0.45); } 100% { box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18); } }
+        @keyframes tflash { 0%, 40% { box-shadow: 0 0 0 8px rgba(255, 20, 147, 0.5), 0 0 28px rgba(255, 20, 147, 0.6); } 100% { box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.25), 0 0 18px rgba(255, 20, 147, 0.35); } }
+        @media (prefers-reduced-motion: reduce) { .gchip.hit, .tcard.flash { animation: none; } }
         .found-list { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--line); }
         .found-list b { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-        .found-list button { display: flex; justify-content: space-between; gap: 8px; padding: 7px 9px; background: #fff6d6; border: 1px solid #b8860b; font-size: 0.84rem; text-align: left; }
+        .found-list button { display: flex; justify-content: space-between; gap: 8px; padding: 7px 9px; background: var(--glitter) 0 0 / 18px 18px, linear-gradient(135deg, #ffe0f0, #ffc2e2); border: 1px solid #ff1493; font-size: 0.84rem; text-align: left; }
+        .found-list button span { color: #c2006e; }
         .found-list button span { font-weight: 600; white-space: nowrap; }
         .found-list small { font-size: 0.76rem; color: var(--muted); }
         .gchip.picked { background: var(--ink); color: var(--paper); border-style: solid; }
