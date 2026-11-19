@@ -107,6 +107,10 @@
         .gchip.yes { border-style: solid; }
         .gchip.no { color: var(--muted); text-decoration: line-through; border-color: var(--line); }
         .gchip i { font-style: normal; color: var(--muted); }
+        /* Moving a whole table: grab it by its name */
+        .tgrip { cursor: grab; user-select: none; }
+        .tgrip span { color: var(--muted); font-size: 0.9em; letter-spacing: -0.1em; }
+        .tcard.moving { outline: 2px dashed var(--ink); outline-offset: 2px; }
         /* Search: matching tables and names light up in gold */
         .tcard.found { background: #fff6d6; border: 2px solid #b8860b; box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18); }
         .gchip.hit { background: #ffd84d; border: 1px solid #8a6200; color: #0a0a0a; font-weight: 600; text-decoration: none; }
@@ -575,7 +579,10 @@
             var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1"' + (t.seats >= maxSeats() ? ' disabled' : '') + ' aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
             var sorted = t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); });
             if (data.couple) {
-                return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + adjust + '</span></div>' +
+                var head = t.table === 'Main' ? '<b>' + tableLabel(t.table) + '</b>'
+                    : '<b class="tgrip" data-tmove="' + t.table + '" title="Drag to move this table (or tap it, then tap where it should go)"><span aria-hidden="true">⠿</span> ' + tableLabel(t.table) + '</b>';
+                if (picked && picked.table === t.table) cls += ' moving';
+                return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead">' + head + '<span>' + n + '/' + t.seats + adjust + '</span></div>' +
                     '<div class="tguests">' + (n ? sorted.map(chip).join('') : '<p class="tempty">Drop guests here</p>') + '</div></div>';
             }
             return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' +
@@ -738,7 +745,9 @@
         var bar = document.getElementById('pickBar');
         if (!bar) return;
         bar.hidden = !picked;
-        if (picked) bar.querySelector('p').textContent = 'Now tap a table for ' + picked.label + ', or “Not seated” to take them off.';
+        if (picked) bar.querySelector('p').textContent = picked.table
+            ? 'Now tap the table whose place ' + picked.label + ' should take. The tables in between move along one.'
+            : 'Now tap a table for ' + picked.label + ', or “Not seated” to take them off.';
         document.getElementById('tableGrid').classList.toggle('picking', !!picked);
     }
     function dropOn(target, keys) {
@@ -749,8 +758,42 @@
     }
     // Mouse dragging: a light copy of the name follows the pointer; the table under it lights up
     var drag = null;
-    function startDrag(e, keys, label) {
-        drag = { keys: keys, x: e.clientX, y: e.clientY, live: false, label: label, over: null };
+    function startDrag(e, keys, label, table) {
+        drag = { keys: keys, x: e.clientX, y: e.clientY, live: false, label: label, over: null, table: table || null };
+    }
+    // A numbered table card (not the main table, not "Not seated"): where a moved table can go
+    var tableSpot = function (el) { var c = el && el.closest('.tcard[data-drop]'); return c && /^\d+$/.test(c.getAttribute('data-drop')) ? c : null; };
+    /** Moves a whole table to another number; the tables in between shift one place. Guests and sizes go with their table. */
+    function moveTable(from, to) {
+        picked = null;
+        from = Number(from); to = Number(to);
+        if (!from || !to || from === to) { renderTables(); return; }
+        var renumber = function (n) {
+            if (n === from) return to;
+            if (from > to && n >= to && n < from) return n + 1;
+            if (from < to && n > from && n <= to) return n - 1;
+            return n;
+        };
+        var before = { tables: JSON.parse(JSON.stringify(data.tables)), seats: data.guests.list.map(function (g) { return g.table; }) };
+        data.guests.list.forEach(function (g) { if (/^\d+$/.test(String(g.table || ''))) g.table = String(renumber(Number(g.table))); });
+        var sizes = {};
+        data.tables.tables.forEach(function (t) { if (t.table !== 'Main') sizes[renumber(Number(t.table))] = t.seats; });
+        data.tables.tables.forEach(function (t) { if (t.table !== 'Main') t.seats = sizes[Number(t.table)]; });
+        seatSaving++;
+        renderTables();
+        if (data.guests) renderGuests();
+        goToTable(String(to));
+        fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'tableMove', key: adminKey, from: from, to: to }) })
+            .then(function (r) { return r.json(); })
+            .then(function (res) { if (!res.ok) throw res; data.tables.totalSeats = res.tables.totalSeats; })
+            .catch(function () {
+                data.tables = before.tables;
+                data.guests.list.forEach(function (g, i) { g.table = before.seats[i]; });
+                renderTables();
+                if (data.guests) renderGuests();
+                alert('Couldn’t move the table. Check your signal and try again.');
+            })
+            .then(function () { seatSaving--; });
     }
     document.addEventListener('mousemove', function (e) {
         if (!drag) return;
@@ -766,7 +809,7 @@
         drag.ghost.style.left = (e.clientX + 12) + 'px';
         drag.ghost.style.top = (e.clientY + 12) + 'px';
         var el = document.elementFromPoint(e.clientX, e.clientY);
-        var over = el && el.closest('[data-drop]');
+        var over = drag.table ? tableSpot(el) : el && el.closest('[data-drop]');
         if (drag.over && drag.over !== over) drag.over.classList.remove('over-drop');
         if (over) over.classList.add('over-drop');
         drag.over = over;
@@ -780,7 +823,10 @@
         if (!d.live) return; // a click, handled as a pick
         d.ghost.remove();
         document.body.classList.remove('dragging');
-        if (d.over) { d.over.classList.remove('over-drop'); dropOn(d.over, d.keys); }
+        if (d.over) {
+            d.over.classList.remove('over-drop');
+            if (d.table) moveTable(d.table, d.over.getAttribute('data-drop')); else dropOn(d.over, d.keys);
+        }
     });
     function wireBoard() {
         var board = document.getElementById('board');
@@ -788,13 +834,22 @@
         board.wired = true;
         board.addEventListener('mousedown', function (e) {
             if (e.button !== 0) return;
-            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]');
-            if (c) { e.preventDefault(); startDrag(e, [c.getAttribute('data-g')], byKey(c.getAttribute('data-g')).guest); }
+            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]'), tm = e.target.closest('[data-tmove]');
+            if (tm) { e.preventDefault(); startDrag(e, [], tableLabel(tm.getAttribute('data-tmove')), tm.getAttribute('data-tmove')); }
+            else if (c) { e.preventDefault(); startDrag(e, [c.getAttribute('data-g')], byKey(c.getAttribute('data-g')).guest); }
             else if (h) { e.preventDefault(); var gs = guestsOfInvite(h.getAttribute('data-inv')); if (gs.length) startDrag(e, gs.map(gKey), h.textContent.trim()); }
         });
         board.addEventListener('click', function (e) {
             if (e.target.closest('.adj')) return;
-            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]'), zone = e.target.closest('[data-drop]');
+            var c = e.target.closest('[data-g]'), h = e.target.closest('[data-inv]'), zone = e.target.closest('[data-drop]'), tm = e.target.closest('[data-tmove]');
+            // Tap a table's name to pick the whole table, then tap the table whose place it should take
+            if (picked && picked.table) {
+                var spot = tableSpot(e.target);
+                if (spot && spot.getAttribute('data-drop') !== picked.table) moveTable(picked.table, spot.getAttribute('data-drop'));
+                else { picked = null; renderTables(); }
+                return;
+            }
+            if (tm) { picked = { table: tm.getAttribute('data-tmove'), keys: [], label: tableLabel(tm.getAttribute('data-tmove')) }; renderTables(); return; }
             if (c) { var g = byKey(c.getAttribute('data-g')); pick([g], g.guest); return; }
             if (h) { var gs = guestsOfInvite(h.getAttribute('data-inv')); if (gs.length) pick(gs, h.firstChild.textContent.trim()); return; }
             if (zone && picked) dropOn(zone, picked.keys);
