@@ -107,6 +107,16 @@
         .gchip.yes { border-style: solid; }
         .gchip.no { color: var(--muted); text-decoration: line-through; border-color: var(--line); }
         .gchip i { font-style: normal; color: var(--muted); }
+        /* Search: matching tables and names light up in gold */
+        .tcard.found { background: #fff6d6; border: 2px solid #b8860b; box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18); }
+        .gchip.hit { background: #ffd84d; border: 1px solid #8a6200; color: #0a0a0a; font-weight: 600; text-decoration: none; }
+        .tcard.flash { animation: tflash 1.4s ease-out; }
+        @keyframes tflash { 0%, 40% { box-shadow: 0 0 0 8px rgba(184, 134, 11, 0.45); } 100% { box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.18); } }
+        .found-list { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+        .found-list b { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+        .found-list button { display: flex; justify-content: space-between; gap: 8px; padding: 7px 9px; background: #fff6d6; border: 1px solid #b8860b; font-size: 0.84rem; text-align: left; }
+        .found-list button span { font-weight: 600; white-space: nowrap; }
+        .found-list small { font-size: 0.76rem; color: var(--muted); }
         .gchip.picked { background: var(--ink); color: var(--paper); border-style: solid; }
         .tcard[data-drop] { min-height: 92px; transition: background 0.15s, box-shadow 0.15s; }
         .tguests .tempty { width: 100%; }
@@ -561,7 +571,7 @@
         document.getElementById('tablesEyebrow').textContent = 'Who sits where · ' + seated + ' seated' + (unseated ? ' · ' + unseated + (data.couple ? ' still to seat' : ' attending still to seat') : '');
         document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
             var n = t.guests.length;
-            var cls = n > t.seats ? ' over' : n === t.seats ? ' full' : '';
+            var cls = (n > t.seats ? ' over' : n === t.seats ? ' full' : '') + (data.couple && t.guests.some(searchHit) ? ' found' : '');
             var adjust = data.couple && t.table !== 'Main' ? '<span class="adj"><button data-tseat="' + t.table + '" data-d="-1" aria-label="One seat fewer at ' + tableLabel(t.table) + '">−</button><button data-tseat="' + t.table + '" data-d="1"' + (t.seats >= maxSeats() ? ' disabled' : '') + ' aria-label="One more seat at ' + tableLabel(t.table) + '">+</button></span>' : '';
             var sorted = t.guests.slice().sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); });
             if (data.couple) {
@@ -672,9 +682,22 @@
         var q = poolSearch.trim().toLowerCase();
         return !q || (g.guest + ' ' + g.invite).toLowerCase().indexOf(q) !== -1;
     }
+    // The search box also finds guests who already have a seat: their table and name light up
+    function searchHit(g) {
+        var q = poolSearch.trim().toLowerCase();
+        return !!q && !!g.table && (g.guest + ' ' + g.invite).toLowerCase().indexOf(q) !== -1;
+    }
     function chip(g) {
-        var cls = 'gchip' + (g.attending === 'Yes' ? ' yes' : g.attending === 'No' ? ' no' : '') + (picked && picked.keys.indexOf(gKey(g)) !== -1 ? ' picked' : '');
+        var cls = 'gchip' + (g.attending === 'Yes' ? ' yes' : g.attending === 'No' ? ' no' : '') + (picked && picked.keys.indexOf(gKey(g)) !== -1 ? ' picked' : '') + (searchHit(g) ? ' hit' : '');
         return '<span class="' + cls + '" data-g="' + esc(gKey(g)) + '" title="' + esc(g.invite) + (g.dietary ? ' · ' + esc(g.dietary) : '') + '">' + esc(g.guest) + (g.dietary ? ' <i>·</i>' : '') + '</span>';
+    }
+    function goToTable(table) {
+        var card = document.querySelector('#tableGrid [data-drop="' + table + '"]');
+        if (!card) return;
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.remove('flash');
+        void card.offsetWidth;
+        card.classList.add('flash');
     }
     function renderPool() {
         sideChips('poolSides');
@@ -688,11 +711,18 @@
         });
         var total = data.guests.list.filter(function (g) { return !g.table && g.attending !== 'No'; }).length;
         document.getElementById('poolCount').textContent = total;
-        document.getElementById('poolList').innerHTML = order.map(function (k) {
+        var seatedHits = data.guests.list.filter(searchHit);
+        var found = seatedHits.length ? '<div class="found-list"><b>Already seated</b>' + seatedHits.slice(0, 12).map(function (g) {
+            return '<button data-goto="' + esc(g.table) + '">' + esc(g.guest) + ' <span>→ ' + esc(tableLabel(g.table)) + '</span></button>';
+        }).join('') + (seatedHits.length > 12 ? '<small>and ' + (seatedHits.length - 12) + ' more, lit up on the tables</small>' : '') + '</div>' : '';
+        document.getElementById('poolList').innerHTML = found + order.map(function (k) {
             var inv = invites[k];
             return '<div class="pinv"><div class="pihead" data-inv="' + esc(k) + '" title="' + (inv.guests.length > 1 ? 'Move the whole invitation' : '') + '">' + esc(inv.name) + (inv.guests.length > 1 ? ' <small>' + inv.guests.length + '</small>' : '') + '</div>' +
                 '<div class="pguests">' + inv.guests.map(chip).join('') + '</div></div>';
-        }).join('') || '<p class="tempty">' + (poolSearch ? 'No one matches.' : 'Everyone here has a seat.') + '</p>';
+        }).join('') || (found ? '' : '<p class="tempty">' + (poolSearch ? 'No one matches.' : 'Everyone here has a seat.') + '</p>');
+        document.querySelectorAll('#poolList [data-goto]').forEach(function (b) {
+            b.addEventListener('click', function () { goToTable(b.getAttribute('data-goto')); });
+        });
         renderPickBar();
     }
     function guestsOfInvite(k) {
@@ -793,7 +823,14 @@
                 b.addEventListener('click', function () { poolFilter = b.getAttribute('data-pool'); renderPool(); });
             });
             var search = document.getElementById('poolSearch');
-            search.addEventListener('input', function () { poolSearch = search.value; renderPool(); });
+            search.addEventListener('input', function () { poolSearch = search.value; renderTables(); });
+            // Enter jumps to the first table with a match
+            search.addEventListener('keydown', function (e) {
+                if (e.key !== 'Enter') return;
+                e.preventDefault();
+                var hit = data.guests.list.filter(searchHit)[0];
+                if (hit) goToTable(hit.table);
+            });
             document.getElementById('pickCancel').addEventListener('click', function () { picked = null; renderTables(); });
             wireBoard();
         }
