@@ -107,6 +107,28 @@
         .gchip.yes { border-style: solid; }
         .gchip.no { color: var(--muted); text-decoration: line-through; border-color: var(--line); }
         .gchip i { font-style: normal; color: var(--muted); }
+        /* Seats: a rectangular table, guests along both long sides */
+        .tablegrid.seats { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+        .rtable { display: grid; gap: 4px; margin: 8px 0 4px; }
+        .srow { display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 4px; }
+        .tboard { display: flex; align-items: center; justify-content: center; height: 28px; border: 1px solid var(--ink); background: var(--stone); font-family: var(--serif); font-size: 0.82rem; color: var(--muted); }
+        .rtable.main .tboard { height: 22px; }
+        .seat { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 34px; padding: 2px; border: 1px dashed var(--line); }
+        .seat.taken { border: 1px solid var(--ink); }
+        .seat .snum { font-size: 0.66rem; color: var(--muted); }
+        .seat { min-height: 40px; }
+        .seat .gchip { display: block; width: 100%; padding: 3px 2px; border: 0; font-size: 0.7rem; line-height: 1.15; text-align: center; white-space: normal; overflow-wrap: anywhere; }
+        .seat .gchip:not(.yes):not(.hit) { color: var(--muted); font-style: italic; }
+        .seat .sname { font-size: 0.7rem; line-height: 1.15; text-align: center; overflow-wrap: anywhere; }
+        .seat .sname.waiting { color: var(--muted); font-style: italic; }
+        .seat .sname.declined { color: var(--muted); text-decoration: line-through; }
+        .seat.over-seat { background: var(--stone); box-shadow: inset 0 0 0 2px var(--ink); }
+        .tablegrid.picking .seat { cursor: pointer; }
+        .tguests.unplaced { margin-top: 8px; }
+        .tguests.unplaced small, .unplaced-list { width: 100%; }
+        .tguests.unplaced small { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+        .unplaced-list { list-style: none; margin-top: 6px; font-size: 0.8rem; }
+        @media (max-width: 760px) { .tablegrid.seats { grid-template-columns: 1fr; } }
         /* Moving a whole table: grab it by its name */
         .tgrip { cursor: grab; user-select: none; }
         .tgrip span { color: var(--muted); font-size: 0.9em; letter-spacing: -0.1em; }
@@ -297,7 +319,7 @@
     // Jarrod and Telicia's own link (?admin=KEY): every panel plus the send desk
     var adminKey = (params.get('admin') || '').trim().toUpperCase();
     var sideFilter = 'all';          // Everyone / Jarrod's / Telicia's, for the send desk and the guest list
-    var deskStage = 'invite';        // which message is being sent
+    var deskStage = 'thanks';        // which message is being sent (the invites are out, so thank-yous first)
     var deskShowDone = false;
     var pending = null;              // a WhatsApp just opened, waiting for "yes, sent"
     var TZ = 'Africa/Johannesburg';
@@ -383,7 +405,7 @@
         if (data.tables) {
             jump.push(['tables', 'Table plan']);
             sections.push('<section class="panel" id="tables"><div class="wrap"><span class="eyebrow" id="tablesEyebrow">Who sits where</span><h2>Table <em>plan</em></h2>' +
-                (data.couple ? '<p class="lede">Drag a name onto a table (or tap a name, then a table). Drag an invitation’s name to seat the whole household. Everything saves straight away, and your planner sees it live.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
+                (data.couple ? '<p class="lede">Drag a name onto a seat (or tap a name, then a seat). Drop it anywhere else on a table to seat them there without a set place, or on a taken seat to swap. Drag an invitation’s name to seat the whole household. Everything saves straight away, and your planner sees it live.</p>' : '<p class="lede">Who sits where, live from our plan. Guests in grey haven’t replied yet.</p>') +
                 (data.couple ? '<div class="room" id="roomBar"></div>' +
                     '<div class="board" id="board"><aside class="pool" data-drop=""><div class="pool-head"><b>Not seated</b><span id="poolCount"></span></div>' +
                     '<div class="tools tight" id="poolSides"></div><div class="tools tight">' + [['open', 'Everyone'], ['yes', 'Attending'], ['waiting', 'Waiting']].map(function (c) {
@@ -431,8 +453,8 @@
         return !q || (x.guest + ' ' + x.invite + ' ' + x.dietary).toLowerCase().indexOf(q) !== -1;
     }
     // ---------- The send desk (couple only) ----------
-    var STAGES = [['invite', 'Invites'], ['reminder', 'January reminder'], ['followup', 'March follow-up'], ['all', 'Everything']];
-    var STAGE_WORD = { invite: 'invite', reminder: 'reminder', followup: 'follow-up' };
+    var STAGES = [['invite', 'Invites'], ['thanks', 'Thank-yous'], ['reminder', 'January reminder'], ['followup', 'March follow-up'], ['all', 'Everything']];
+    var STAGE_WORD = { invite: 'invite', reminder: 'reminder', followup: 'follow-up', thanks: 'thank-you' };
     var shortDate = function (iso) { return iso ? new Date(iso).toLocaleDateString('en-ZA', { timeZone: TZ, day: 'numeric', month: 'short' }) : ''; };
     var sideOf = function (i) { return sideFilter === 'all' || i.side === sideFilter; };
     /** Does this invitation still need this stage's message? */
@@ -440,10 +462,12 @@
         if (stage === 'invite') return !i.sent.invite && !i.replied; // replied = they already have the link
         if (stage === 'reminder') return !!i.sent.invite && !i.replied && !i.sent.reminder;
         if (stage === 'followup') return !!i.sent.invite && !i.replied && !i.sent.followup;
+        if (stage === 'thanks') return i.replied && !i.sent.thanks; // one thank-you per reply: "coming" or "not coming", picked from their answer
         return true;
     }
     function messageFor(i, kind) {
-        return String(data.desk.messages[kind] || '{link}').replace(/\{name\}/g, i.name).replace(/\{link\}/g, i.link).replace(/\{deadline\}/g, data.desk.deadline || '');
+        var key = kind === 'thanks' ? (i.answer === 'yes' ? 'thanksYes' : 'thanksNo') : kind;
+        return String(data.desk.messages[key] || '{link}').replace(/\{name\}/g, i.name).replace(/\{link\}/g, i.link).replace(/\{deadline\}/g, data.desk.deadline || '');
     }
     function sideChips(id) {
         var all = data.desk ? data.desk.invites : [];
@@ -476,19 +500,22 @@
             ['Replied', n(function (i) { return i.replied; })],
             ['Reminders sent', n(function (i) { return i.sent.reminder; })],
             ['Follow-ups sent', n(function (i) { return i.sent.followup; })],
+            ['Thank-yous sent', n(function (i) { return i.sent.thanks; }) + '/' + n(function (i) { return i.replied; })],
             ['No number', n(function (i) { return !i.phone; })]
         ].map(function (x) { return '<div class="stat"><b>' + x[1] + '</b><span>' + x[0] + '</span></div>'; }).join('');
 
         var rows = deskRows();
         var kinds = deskStage === 'all' ? ['invite', 'reminder', 'followup'] : [deskStage];
+        var thanksLabel = function (i) { return i.answer === 'yes' ? 'thank-you (coming)' : 'thank-you (not coming)'; };
         document.getElementById('deskList').innerHTML = rows.map(function (i) {
-            var status = ['invite', 'reminder', 'followup'].filter(function (k) { return i.sent[k]; }).map(function (k) {
+            var status = ['invite', 'reminder', 'followup', 'thanks'].filter(function (k) { return i.sent[k]; }).map(function (k) {
                 return STAGE_WORD[k].charAt(0).toUpperCase() + STAGE_WORD[k].slice(1) + ' sent ' + shortDate(i.sent[k]) + ' <button class="undo" data-undo="' + k + '" data-code="' + i.code + '">undo</button>';
             });
-            if (i.replied) status.push('<b>Replied</b>');
-            var buttons = kinds.map(function (k) {
+            if (i.replied) status.push('<b>' + (i.answer === 'yes' ? 'Coming' : 'Not coming') + '</b>');
+            var buttons = kinds.concat(deskStage === 'all' && i.replied ? ['thanks'] : []).map(function (k) {
                 var done = !!i.sent[k];
-                return (i.phone ? '<button class="send' + (done ? ' again' : '') + '" data-send="' + k + '" data-code="' + i.code + '">' + (done ? 'Send ' + STAGE_WORD[k] + ' again' : 'Send ' + STAGE_WORD[k]) + '</button>' : '') +
+                var word = k === 'thanks' ? thanksLabel(i) : STAGE_WORD[k];
+                return (i.phone ? '<button class="send' + (done ? ' again' : '') + '" data-send="' + k + '" data-code="' + i.code + '">' + (done ? 'Send ' + word + ' again' : 'Send ' + word) + '</button>' : '') +
                     '<button class="copy" data-copy="' + k + '" data-code="' + i.code + '">Copy ' + STAGE_WORD[k] + '</button>';
             }).join('');
             return '<li><div class="who"><b>' + esc(i.name) + '</b><small>' + i.guests + ' guest' + (i.guests === 1 ? '' : 's') + ' · ' + esc(i.side ? i.side + '’s' : '') + (i.phone ? '' : ' · <span class="warn">no number</span>') + '</small>' +
@@ -496,7 +523,7 @@
         }).join('');
         var empty = document.getElementById('deskEmpty');
         empty.hidden = !!rows.length;
-        empty.textContent = deskStage === 'invite' ? 'Every invitation here has been sent.' : 'Nobody here needs this message right now.';
+        empty.textContent = deskStage === 'invite' ? 'Every invitation here has been sent.' : deskStage === 'thanks' ? 'Everyone who has replied has been thanked.' : 'Nobody here needs this message right now.';
         document.getElementById('deskNext').disabled = !rows.some(function (i) { return i.phone && needs(i, deskStage === 'all' ? 'invite' : deskStage); });
 
         var byCode = function (c) { return data.desk.invites.filter(function (i) { return i.code === c; })[0]; };
@@ -578,6 +605,7 @@
         var seated = groups.reduce(function (n, t) { return n + t.guests.length; }, 0);
         var unseated = data.guests && data.couple ? data.guests.list.filter(function (g) { return g.attending !== 'No' && !g.table; }).length : data.tables.attendingUnseated;
         document.getElementById('tablesEyebrow').textContent = 'Who sits where · ' + seated + ' seated' + (unseated ? ' · ' + unseated + (data.couple ? ' still to seat' : ' attending still to seat') : '');
+        document.getElementById('tableGrid').classList.add('seats');
         document.getElementById('tableGrid').innerHTML = groups.map(function (t) {
             var n = t.guests.length;
             var cls = (n > t.seats ? ' over' : n === t.seats ? ' full' : '') + (data.couple && t.guests.some(searchHit) ? ' found' : '');
@@ -587,15 +615,45 @@
                 var head = t.table === 'Main' ? '<b>' + tableLabel(t.table) + '</b>'
                     : '<b class="tgrip" data-tmove="' + t.table + '" title="Drag to move this table (or tap it, then tap where it should go)"><span aria-hidden="true">⠿</span> ' + tableLabel(t.table) + '</b>';
                 if (picked && picked.table === t.table) cls += ' moving';
-                return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead">' + head + '<span>' + n + '/' + t.seats + adjust + '</span></div>' +
-                    '<div class="tguests">' + (n ? sorted.map(chip).join('') : '<p class="tempty">Drop guests here</p>') + '</div></div>';
+                var lay = seatLayout(t);
+                return '<div class="tcard' + cls + '" data-drop="' + t.table + '"><div class="thead">' + head + '<span>' + n + '/' + t.seats + adjust + '</span></div>' + lay.html +
+                    (lay.unplaced.length ? '<div class="tguests unplaced"><small>At this table, no seat yet</small>' + lay.unplaced.map(function (g) { return chip(g); }).join('') + '</div>' : '') + '</div>';
             }
-            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' +
-                (n ? '<ul>' + sorted.map(function (g) {
+            var vlay = seatLayout(t);
+            return '<div class="tcard' + cls + '"><div class="thead"><b>' + tableLabel(t.table) + '</b><span>' + n + '/' + t.seats + '</span></div>' + vlay.html +
+                (vlay.unplaced.length ? '<ul class="unplaced-list">' + vlay.unplaced.map(function (g) {
                     return '<li class="' + (g.attending === 'Yes' ? '' : g.attending === 'No' ? 'declined' : 'waiting') + '">' + esc(g.guest) + (g.dietary ? ' <i>· ' + esc(g.dietary) + '</i>' : '') + '</li>';
-                }).join('') + '</ul>' : '<p class="tempty">Empty</p>') + '</div>';
+                }).join('') + '</ul>' : '') + '</div>';
         }).join('');
         if (data.couple) { renderRoom(groups); renderPool(); }
+    }
+    // ---------- Seats: rectangular tables, guests along the two long sides, nobody at the ends ----------
+    // Seat 1 is top left. The top side is numbered left to right, then the bottom side left to right, so a table of
+    // 8 has 4 a side, 9 has 5 on top and 4 below, 10 has 5 a side. The main table seats two, side by side, facing the room.
+    var shortName = function (name) { var p = String(name).trim().split(/\s+/); return p[0] + (p.length > 1 ? ' ' + p[p.length - 1].charAt(0) + '.' : ''); };
+    function seatLayout(t) {
+        var n = t.seats, top = t.table === 'Main' ? n : Math.ceil(n / 2);
+        var bySeat = {};
+        t.guests.forEach(function (g) { var k = Number(g.seat); if (k >= 1 && k <= n && !bySeat[k]) bySeat[k] = g; });
+        var placed = Object.keys(bySeat).map(function (k) { return bySeat[k]; });
+        var unplaced = t.guests.filter(function (g) { return placed.indexOf(g) === -1; })
+            .sort(function (a, b) { return a.invite.localeCompare(b.invite) || a.guest.localeCompare(b.guest); });
+        var cell = function (k) {
+            var g = bySeat[k];
+            var inner = !g ? '<span class="snum">' + k + '</span>'
+                : data.couple ? chip(g, true)
+                : '<span class="sname' + (g.attending === 'Yes' ? '' : g.attending === 'No' ? ' declined' : ' waiting') + '">' + esc(shortName(g.guest)) + (g.dietary ? ' <i>·</i>' : '') + '</span>';
+            return '<div class="seat' + (g ? ' taken' : '') + '" data-seat="' + k + '" title="Seat ' + k + (g ? ': ' + esc(g.guest) + (g.dietary ? ' · ' + esc(g.dietary) : '') : '') + '">' + inner + '</div>';
+        };
+        var row = function (from, to) {
+            var out = [];
+            for (var k = from; k <= to; k++) out.push(cell(k));
+            return '<div class="srow" style="--n:' + Math.max(1, top) + '">' + out.join('') + '</div>';
+        };
+        return {
+            html: '<div class="rtable' + (t.table === 'Main' ? ' main' : '') + '">' + row(1, top) + '<div class="tboard"><span>' + esc(t.table === 'Main' ? 'Main table' : 'Table ' + t.table) + '</span></div>' + (n > top ? row(top + 1, n) : '') + '</div>',
+            unplaced: unplaced
+        };
     }
     // ---------- The room: number of tables, usual seats, and any bigger or smaller table ----------
     function renderRoom(groups) {
@@ -699,9 +757,9 @@
         var q = poolSearch.trim().toLowerCase();
         return !!q && !!g.table && (g.guest + ' ' + g.invite).toLowerCase().indexOf(q) !== -1;
     }
-    function chip(g) {
+    function chip(g, short) {
         var cls = 'gchip' + (g.attending === 'Yes' ? ' yes' : g.attending === 'No' ? ' no' : '') + (picked && picked.keys.indexOf(gKey(g)) !== -1 ? ' picked' : '') + (searchHit(g) ? ' hit' : '');
-        return '<span class="' + cls + '" data-g="' + esc(gKey(g)) + '" title="' + esc(g.invite) + (g.dietary ? ' · ' + esc(g.dietary) : '') + '">' + esc(g.guest) + (g.dietary ? ' <i>·</i>' : '') + '</span>';
+        return '<span class="' + cls + '" data-g="' + esc(gKey(g)) + '" title="' + esc(g.invite) + (g.dietary ? ' · ' + esc(g.dietary) : '') + '">' + esc(short ? shortName(g.guest) : g.guest) + (g.dietary ? ' <i>·</i>' : '') + '</span>';
     }
     function goToTable(table) {
         var card = document.querySelector('#tableGrid [data-drop="' + table + '"]');
@@ -752,14 +810,16 @@
         bar.hidden = !picked;
         if (picked) bar.querySelector('p').textContent = picked.table
             ? 'Now tap the table whose place ' + picked.label + ' should take. The tables in between move along one.'
-            : 'Now tap a table for ' + picked.label + ', or “Not seated” to take them off.';
+            : 'Now tap a seat (or a table) for ' + picked.label + ', or “Not seated” to take them off.';
         document.getElementById('tableGrid').classList.toggle('picking', !!picked);
     }
-    function dropOn(target, keys) {
+    function dropOn(target, keys, seatNo) {
         var table = target.getAttribute('data-drop');
-        var guests = keys.map(byKey).filter(function (g) { return g && g.table !== table; });
+        seatNo = table ? Number(seatNo) || '' : '';
+        // A seat takes the first person; anyone else on a dragged invitation goes to the same table without a seat
+        var guests = keys.map(byKey).filter(function (g, i) { return g && (g.table !== table || (seatNo && i === 0 && Number(g.seat) !== seatNo)); });
         picked = null;
-        if (guests.length) seat(guests, table); else renderTables();
+        if (guests.length) seat(guests, table, seatNo); else renderTables();
     }
     // Mouse dragging: a light copy of the name follows the pointer; the table under it lights up
     var drag = null;
@@ -818,6 +878,10 @@
         if (drag.over && drag.over !== over) drag.over.classList.remove('over-drop');
         if (over) over.classList.add('over-drop');
         drag.over = over;
+        var seatEl = !drag.table && over && el.closest('[data-seat]');
+        if (drag.seatEl && drag.seatEl !== seatEl) drag.seatEl.classList.remove('over-seat');
+        if (seatEl) seatEl.classList.add('over-seat');
+        drag.seatEl = seatEl || null;
         // Scroll the page when dragging near the top or bottom edge
         if (e.clientY < 70) window.scrollBy(0, -18); else if (e.clientY > window.innerHeight - 70) window.scrollBy(0, 18);
     });
@@ -830,7 +894,8 @@
         document.body.classList.remove('dragging');
         if (d.over) {
             d.over.classList.remove('over-drop');
-            if (d.table) moveTable(d.table, d.over.getAttribute('data-drop')); else dropOn(d.over, d.keys);
+            if (d.seatEl) d.seatEl.classList.remove('over-seat');
+            if (d.table) moveTable(d.table, d.over.getAttribute('data-drop')); else dropOn(d.over, d.keys, d.seatEl ? d.seatEl.getAttribute('data-seat') : '');
         }
     });
     function wireBoard() {
@@ -855,21 +920,35 @@
                 return;
             }
             if (tm) { picked = { table: tm.getAttribute('data-tmove'), keys: [], label: tableLabel(tm.getAttribute('data-tmove')) }; renderTables(); return; }
+            var seatTap = picked && zone && e.target.closest('[data-seat]');
+            if (seatTap) { dropOn(zone, picked.keys, seatTap.getAttribute('data-seat')); return; }
             if (c) { var g = byKey(c.getAttribute('data-g')); pick([g], g.guest); return; }
             if (h) { var gs = guestsOfInvite(h.getAttribute('data-inv')); if (gs.length) pick(gs, h.firstChild.textContent.trim()); return; }
             if (zone && picked) dropOn(zone, picked.keys);
         });
     }
     /** Saves each guest's table; the page updates straight away and puts it back if a save fails */
-    function seat(guests, table) {
-        guests.forEach(function (g) {
-            var before = g.table;
+    function seat(guests, table, seatNo) {
+        guests.forEach(function (g, i) {
+            var mySeat = i === 0 && seatNo && table ? seatNo : '';
+            var before = { table: g.table, seat: g.seat };
+            var bumped = null;
+            if (mySeat) {
+                var there = data.guests.list.filter(function (x) { return x !== g && x.table === table && Number(x.seat) === mySeat; })[0];
+                if (there) { bumped = { g: there, seat: there.seat }; there.seat = before.table === table && before.seat ? before.seat : ''; }
+            }
             g.table = table;
+            g.seat = mySeat;
             seatSaving++;
-            fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'seatSet', key: adminKey, code: g.code, guest: g.guest, table: table }) })
+            fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'seatSet', key: adminKey, code: g.code, guest: g.guest, table: table, seat: mySeat }) })
                 .then(function (r) { return r.json(); })
                 .then(function (res) { if (!res.ok) throw res; })
-                .catch(function () { g.table = before; renderTables(); alert('Couldn’t save ' + g.guest + '’s table. Check your signal and try again.'); })
+                .catch(function () {
+                    g.table = before.table; g.seat = before.seat;
+                    if (bumped) bumped.g.seat = bumped.seat;
+                    renderTables();
+                    alert('Couldn’t save ' + g.guest + '’s seat. Check your signal and try again.');
+                })
                 .then(function () { seatSaving--; });
         });
         var y = window.scrollY;
