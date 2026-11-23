@@ -77,8 +77,12 @@
         .tcard .adj button { width: 22px; height: 22px; font-size: 0.85rem; }
         .tablegrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-top: 22px; }
         .tcard { border: 1px solid var(--ink); padding: 12px 12px 10px; }
-        .tcard.full { background: var(--stone); }
-        .tcard.over { border: 2px solid #8b1d1d; }
+        /* A full table lights up green; one with more people than seats lights up red */
+        .tcard.full { background: #e3f6e8; border: 2px solid #1f8a3b; box-shadow: 0 0 0 3px rgba(31, 138, 59, 0.15); }
+        .tcard.full .thead span { color: #1f6b30; font-weight: 600; }
+        .tcard.full .tboard { background: #c9ecd3; border-color: #1f8a3b; color: #1f6b30; }
+        .tcard.over { background: #fde4e4; border: 2px solid #c62828; box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.18); }
+        .tcard.over .tboard { background: #f8c9c9; border-color: #c62828; color: #8b1d1d; }
         .tcard .thead { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
         .tcard .thead b { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; }
         .tcard .thead span { font-size: 0.78rem; color: var(--muted); }
