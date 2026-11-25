@@ -1088,7 +1088,7 @@
         }).join('') + '</div></div></nav>';
     }
     function wireBar() {
-        document.querySelectorAll('[data-tab]').forEach(function (b) {
+        document.querySelectorAll('.evtab[data-tab]').forEach(function (b) { // only the event tabs (the money ledgers use data-ledger)
             b.addEventListener('click', function () { switchTo(b.getAttribute('data-tab')); });
         });
         var on = document.querySelector('.evtab.on');
@@ -1457,7 +1457,7 @@
                 : '<span class="pill warn">Owed to ' + esc(first(s.spentBy)) + '</span>' + (c.ready ? ' <button class="chip" data-cost-act="payback" data-id="' + esc(s.id) + '">Mark paid back</button>' : '');
             return '<li><div><b>' + rands(s.amount) + '</b> · ' + esc(s.category) + (s.what ? ' · ' + esc(s.what) : '') +
                 '<small>' + esc(s.spentBy) + ' · ' + esc(s.date) + (s.by && s.by !== s.spentBy ? ' · added by ' + esc(s.by) : '') + '</small></div>' +
-                '<div class="acts">' + state + (c.ready ? ' <button class="undo" data-cost-act="remove" data-tab="spend" data-id="' + esc(s.id) + '" aria-label="Remove">remove</button>' : '') + '</div></li>';
+                '<div class="acts">' + state + (c.ready ? ' <button class="undo" data-cost-act="remove" data-ledger="spend" data-id="' + esc(s.id) + '" aria-label="Remove">remove</button>' : '') + '</div></li>';
         }).join('') + '</ul>' : '<p class="empty">Nothing spent yet.</p>';
 
         // Payments in (the whole weekend: shares aren't split by night)
@@ -1466,7 +1466,7 @@
         html += pays.length ? '<ul class="ledger">' + pays.map(function (p) {
             return '<li><div><b>' + rands(p.amount) + '</b> from ' + esc(p.name) + ' · ' + esc(p.kind === 'Other costs' ? 'Friday costs' : p.kind) + ' · to ' + esc(first(p.to)) +
                 '<small>' + esc(p.date) + (p.note ? ' · ' + esc(p.note) : '') + (p.by ? ' · recorded by ' + esc(p.by) : '') + '</small></div>' +
-                (c.ready ? '<div class="acts"><button class="undo" data-cost-act="remove" data-tab="payments" data-id="' + esc(p.id) + '">remove</button></div>' : '') + '</li>';
+                (c.ready ? '<div class="acts"><button class="undo" data-cost-act="remove" data-ledger="payments" data-id="' + esc(p.id) + '">remove</button></div>' : '') + '</li>';
         }).join('') + '</ul>' : '<p class="empty">No payments recorded yet.</p>';
 
         // Guests chipping in on this night
@@ -1555,7 +1555,7 @@
         document.querySelectorAll('#evMoney [data-cost-act]').forEach(function (b) {
             b.addEventListener('click', function () {
                 var act = b.getAttribute('data-cost-act'), id = b.getAttribute('data-id'), name = b.getAttribute('data-name');
-                if (act === 'remove') { if (confirm('Remove this entry? It stays on the sheet, marked as removed.')) costPost({ action: 'costUpdate', kind: 'remove', tab: b.getAttribute('data-tab'), id: id }, b); }
+                if (act === 'remove') { if (confirm('Remove this entry? It stays on the sheet, marked as removed.')) costPost({ action: 'costUpdate', kind: 'remove', tab: b.getAttribute('data-ledger'), id: id }, b); }
                 else if (act === 'payback') costPost({ action: 'costUpdate', kind: 'payback', id: id }, b);
                 else if (act === 'payback-undo') costPost({ action: 'costUpdate', kind: 'payback', id: id, undo: true }, b);
                 else if (act === 'guest') {
